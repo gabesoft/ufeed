@@ -1,0 +1,11 @@
+.DS_Store
+.#*
+*.hi
+*.o
+*.tix
+dist
+TAGS
+.cabal-sandbox
+.hpc
+bin
+.stack-work

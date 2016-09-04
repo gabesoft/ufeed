@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+  <id>urn:emacsrocks-com:feed</id>
+  <updated>2014-11-17T00:00:00+02:00</updated>
+  <title type="text">Emacs Rocks!</title>
+  <link href="http://emacsrocks.com/atom.xml" rel="self"/>
+  <entry>
+    <title>15: restclient-mode</title>
+    <updated>2014-11-17T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e15.html"/>
+    <id>urn:emacsrocks-com:feed:episode:15</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e15.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>14: Paredit</title>
+    <updated>2013-03-21T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e14.html"/>
+    <id>urn:emacsrocks-com:feed:episode:14</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e14.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>13: multiple-cursors</title>
+    <updated>2012-09-24T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e13.html"/>
+    <id>urn:emacsrocks-com:feed:episode:13</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e13.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>12: Working with HTML</title>
+    <updated>2012-09-20T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e12.html"/>
+    <id>urn:emacsrocks-com:feed:episode:12</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e12.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>11: swank-js</title>
+    <updated>2012-07-04T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e11.html"/>
+    <id>urn:emacsrocks-com:feed:episode:11</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e11.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>10: Jumping around</title>
+    <updated>2012-04-10T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e10.html"/>
+    <id>urn:emacsrocks-com:feed:episode:10</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e10.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>09: expand-region</title>
+    <updated>2012-01-25T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e09.html"/>
+    <id>urn:emacsrocks-com:feed:episode:09</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e09.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>08: mark-multiple</title>
+    <updated>2011-11-22T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e08.html"/>
+    <id>urn:emacsrocks-com:feed:episode:08</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e08.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>07: Mind. Exploded.</title>
+    <updated>2011-11-09T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e07.html"/>
+    <id>urn:emacsrocks-com:feed:episode:07</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e07.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>06: Yeah! Snippets!</title>
+    <updated>2011-11-02T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e06.html"/>
+    <id>urn:emacsrocks-com:feed:episode:06</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e06.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>05: Macros in style</title>
+    <updated>2011-10-26T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e05.html"/>
+    <id>urn:emacsrocks-com:feed:episode:05</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e05.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>04: A rebind controversy</title>
+    <updated>2011-10-24T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e04.html"/>
+    <id>urn:emacsrocks-com:feed:episode:04</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e04.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>03: A vimgolf albatross</title>
+    <updated>2011-10-22T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e03.html"/>
+    <id>urn:emacsrocks-com:feed:episode:03</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e03.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>02: A vimgolf eagle</title>
+    <updated>2011-10-21T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e02.html"/>
+    <id>urn:emacsrocks-com:feed:episode:02</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e02.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+  <entry>
+    <title>01: From var to this</title>
+    <updated>2011-10-21T00:00:00+02:00</updated>
+    <author>
+      <name>Magnar Sveen</name>
+    </author>
+    <link href="http://emacsrocks.com/e01.html"/>
+    <id>urn:emacsrocks-com:feed:episode:01</id>
+    <content type="html">&lt;a href="http://emacsrocks.com/e01.html"&gt;See the video&lt;/a&gt;</content>
+  </entry>
+</feed>

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed version="0.3"
+      xmlns="http://purl.org/atom/ns#"
+      xmlns:dc="http://purl.org/dc/elements/1.1/" xml:lang="en">
+  <title>QuirksBlog</title>
+  <link rel="alternate" type="text/html" href="http://www.quirksmode.org/blog/" />
+  <modified>2016-07-18T10:54:38Z</modified>
+  <tagline></tagline>
+  <id>tag:www.quirksmode.org,2016:/blog//1</id>
+  <generator url="http://www.movabletype.org/" version="3.14">Movable Type</generator>
+  <copyright>Copyright (c) 2016, ppk</copyright>
+  <entry>
+    <title>Q2 Android WebView statistics</title>
+    <link rel="alternate" type="text/html" href="http://www.quirksmode.org/blog/archives/2016/07/q2_android_webv.html" />
+    <modified>2016-07-18T10:54:38Z</modified>
+    <issued>2016-07-18T10:54:15Z</issued>
+    <id>tag:www.quirksmode.org,2016:/blog//1.2496</id>
+    <created>2016-07-18T10:54:15Z</created>
+    <summary type="text/plain">
+      <p>Once more Scientia Mobile sent me their Android WebView stats over the first quarter. I edited them slightly and put them online....</p>
+    </summary>
+    <author>
+      <name>ppk</name>
+      <url>http://www.quirksmode.org/</url>
+      <email>ppk@xs4all.nl</email>
+    </author>
+    <dc:subject>Market share</dc:subject>
+    <content type="text/html" mode="escaped" xml:lang="en" xml:base="http://www.quirksmode.org/blog/">
+      <![CDATA[<p>Once more <a href="http://scientiamobile.com/" class="external">Scientia Mobile</a> sent me their Android WebView stats over the first quarter. I edited them slightly and <a href="/webviews">put them online</a>.</p>
+      ]]>
+      <![CDATA[<p>All in all Google&#8217;s promise that they&#8217;d make sure the WebViews are up-to-date is being kept; well over 60% of the phones run the latest Chromium WebView (which went from 49 in April to 51 in June).</p><p>11% of users are still on Android WebKit; the rest is on vendor-created WebViews ranging from Chromium 18 to well into the forties. (To be honest, I&#8217;m not quite sure if the users of 40-48 are on an old Google-approved WebView or a new vendor-created one. It doesn&#8217;t matter a lot; they&#8217;re below 10% combined.)</p><p>Samsung&#8217;s market share is fluctuating around 55-57%; the rest of the Top Five is LG, Sony, Motorola, and HTC. This is partly due to Scientia Mobile&#8217;s focus on the western developed world; no doubt the stats for China or India look quite different.</p><p>Xiaomi and Kyocera devices are least likely to have a Google WebView; both have 38% Chromium 51 in June, with the rest spread out over older versions. Xiaomi even has 17% 42 and 14% 46.</p><p>Still, no surprises in this batch of data. Let&#8217;s continue to monitor the market.</p>
+      ]]>
+    </content>
+  </entry>
+  <entry>
+    <title>The limits of @supports</title>
+    <link rel="alternate" type="text/html" href="http://www.quirksmode.org/blog/archives/2016/07/the_limits_of_s.html" />
+    <modified>2016-07-13T13:33:39Z</modified>
+    <issued>2016-07-13T13:33:04Z</issued>
+    <id>tag:www.quirksmode.org,2016:/blog//1.2495</id>
+    <created>2016-07-13T13:33:04Z</created>
+    <summary type="text/plain">
+      <p>Yesterday I talked about background-attachment and its confusing mobile compatibility patterns. Today I&amp;#8217;ll talk about the ulterior motive I had for this retest: Conditional Rules support, which basically amounts to @supports....</p>
+    </summary>
+    <author>
+      <name>ppk</name>
+      <url>http://www.quirksmode.org/</url>
+      <email>ppk@xs4all.nl</email>
+    </author>
+    <dc:subject>Content</dc:subject>
+    <content type="text/html" mode="escaped" xml:lang="en" xml:base="http://www.quirksmode.org/blog/">
+      <![CDATA[<p>Yesterday I talked about <a href="/blog/archives/2016/07/the_backgrounda.html">background-attachment</a> and its confusing mobile compatibility patterns. Today I&#8217;ll talk about the ulterior motive I had for this retest: <a href="/css/conditional/">Conditional Rules</a> support, which basically amounts to <code>@supports</code>.</p>
+      ]]>
+      <![CDATA[<p>I&#8217;m working on an automated issue-raising system for <a href="https://www.sevenval.com/" class="external">Sevenval</a>, and part of the purpose is figuring out if CSS is going to work in all, most, some, or no browsers by collating data from <a href="http://caniuse.com" class="external">caniuse</a>, <a href="http://gs.statcounter.com/" class="external">StatCounter</a>, and recommendations from me. This requires me to do quite a few tests and retests in order to come to decent recommendations (yay!).</p><p>I decided to start with <a href="/css/backgrounds-borders/">Backgrounds and Borders</a> because it&#8217;s on Sevenval&#8217;s list, and because I thought it would be a good test case for <code>@supports</code>, which is also on the list.
+
+<p>I already knew that <code>background-attachment</code> works pretty badly on mobile browsers, and wondered if that fact is reflected in <code>@supports</code>. Before determining that I needed to retest <code>background-attachment</code> itself.</p><p>Now that I&#8217;ve done that I can draw my conclusions: no, <code>background-attachment</code> issues are not reflected in <code>@supports</code>. That&#8217;s understandable, but it still limits the usefulness of <code>@supports</code>. I suspect that this won&#8217;t come as a huge surprise to most of my readers, but now we have solid evidence to base this opinion on.</p><h3>background-attachment</h3><p>If a mobile browser doesn&#8217;t support <code>background-attachment: fixed</code> in practice, what happens when you do this?</p><pre>
+@supports(background-attachment: fixed) {
+// CSS
+}
+</pre><p>Does it return false because the mobile browser doesn&#8217;t support it? Or does it return true because its desktop version supports it? With my <code>background-attachment</code> test data in hand I could now answer this question.</p><p>All mobile browsers return true for both <code>fixed</code> and <code>local</code>. Only 3 out of 23 browsers speak the truth here. See the <a href="/css/conditional/supportsOddities.html">test case</a> and the inevitable <a href="/css/conditional/mobile.html">table</a> for more details.</p><p>We need to make some distinctions. If Chrome 51, with its <a href="/blog/archives/2016/07/the_backgrounda.html">bug</a>, says it supports <code>background-attachment: local</code> I tend to agree with it. It&#8217;s clear that the engineers intended Chrome to support <code>local</code>. Sure, it has a bug, and it would be great if <code>@supports</code> also keeps track of bugs, but that&#8217;s too much to ask.</p><p>It becomes trickier when we take a look at <code>fixed</code>. Chrome on Android just doesn&#8217;t support it (with one partial exception: the Ubuntu 35. Don&#8217;t ask me why.) Still, <code>@supports</code> claims that it does. A case can be made that this is a bug.</p><p>Also, Chrome 34 and below do not support <code>fixed</code> or <code>local</code>, but <code>@supports</code> claims support for both. This is a very similar case.</p><p>Still, the crucial bit of information is that <code>@supports</code> returns true if the browser&#8217;s CSS parser accepts the value as valid and legal. Apparently Chrome on Android&#8217;s CSS parser does that for <code>background-attachment: fixed</code>, since the Chrome on Android engineers copied the desktop CSS parser and did not change it to reject values they decided not to support.</p><p>I can see why they did so. Still, it raises questions about the usefulness of <code>@supports</code> for detailed queries such as this one.</p><h3>transition-property: nonsense</h3><p>But wait, we&#8217;re not done yet. I also tested the <code>transition-property</code> declaration and found that some browsers claim to support <code>transition-property: nonsense</code>. Try the <a href="/css/conditional/supportsOddities.html">test case</a> if you don&#8217;t believe me.</p><p>Now at first sight this seems weird. Why would a browser claim to support this? I was confused.</p><p>Then Tab Atkins provided an <a href="https://twitter.com/tabatkins/status/750476931376648192" class="external">explanation</a>. It turns out that CSS parsers allow any value in the specific case of <code>transition-property</code> in order to keep the door open for future CSS declarations.</p><p>Suppose a future browser would actually support the <code>nonsense</code> declaration, and you&#8217;d use something like <code>transition-property: width,nonsense</code>. Older browsers, who don&#8217;t support <code>nonsense</code>, should still be able to transition <code>width</code>. That&#8217;s why they accept (and ignore) the <code>nonsense</code> &#8212; and since the CSS parser does so, <code>@supports</code> also does so.</p><p>So this is weird but understandable.</p><h3>The limits of @support</h3><p>Still, although these two oddities can be explained, I&#8217;m forced to wonder about the limits of <code>@supports</code>. What&#8217;s clear from these tests is that <code>@supports</code> is only useful when you&#8217;re detecting entire CSS modules such as flexbox. So the check below makes sense.</p><pre>
+@supports (display: flex) {
+// flexbox layout
+}
+
+@supports not(display: flex) {
+// float layout
+}
+</pre><p>This example is <strong>likely safe</strong>. If a browser decides to support flexbox, <code>display: flex</code> is the first item on the agenda, so detecting it makes perfect sense. (It&#8217;s theoretically possible, though, that a browser fakes <code>display: flex</code> support in order to end up on the right side of some support detects. But as far as I know this is not the case today.)</p><p>On the other hand, if a browser has flaky support for, I don&#8217;t know, <code>justify-content</code>, a more precise check like this may or may not work, depending on how the CSS parser is written:</p><pre>
+@supports (justify-content: space-around) {
+// may or may not fire correctly in case
+// of a browser bug
+}
+</pre><p>So this example is <strong>unsafe</strong>. Don&#8217;t use <code>@supports</code> for such detailed compatibility questions.</p><h4>What to do?</h4><p>Although we now understand why <code>@supports</code> is only useful on a high level, the question remains whether we should do anything about it, and, if so, what.</p><p>The only possibly useful idea I&#8217;ve had so far is adding a quick test page to all browsers that is executed when that browser starts up. For instance, in the case of <code>background-attachment: local</code> it could contain a test to see if it&#8217;s actually supported right here right now in this particular browser, and store the results in some sort of internal table that informs <code>@supports</code> (or its successor).</p><p>This thought comes naturally to me right now because I&#8217;ve written a script for Sevenval that runs a few detections like this, although they&#8217;re performed when a user enters a site, and not when she starts up the browser. The principle is pretty much the same, though.</p><p>I have no clue how much work it would be to produce them and keep them up to date. Still, Tab Atkins <a href="https://twitter.com/tabatkins/status/748639777612697601" class="external">thought</a> it was an interesting idea, so I&#8217;m assuming it&#8217;s not technically impossible.</p><p>Also, these pages would have to have some ways of emulating user behaviour that should not find their way into regular web pages. I&#8217;m especially thinking of automatic zooming. Some tests need zoom, but we should definitely not add script-based zooming to real web pages or advertisers will use it on their content within about 30 seconds.</p><p>Even if the initial test pages turn out not to be a good idea it could be we find better ways of measuring more detailed support levels. But should we? Or is <code>@supports</code> as it works now good enough?</p>
+      ]]>
+</content>
+</entry>
+<entry>
+  <title>The background-attachment saga</title>
+  <link rel="alternate" type="text/html" href="http://www.quirksmode.org/blog/archives/2016/07/the_backgrounda.html" />
+  <modified>2016-07-13T16:09:08Z</modified>
+  <issued>2016-07-12T11:01:57Z</issued>
+  <id>tag:www.quirksmode.org,2016:/blog//1.2494</id>
+  <created>2016-07-12T11:01:57Z</created>
+  <summary type="text/plain">
+    <p>Recently I spent WAY too much time on background-attachment. Even though it&amp;#8217;s not a tremendously important CSS declaration, I don&amp;#8217;t see any reason not to inflict my pain on you as well. Besides, I retested the CSS Backgrounds and Borders...</p>
+  </summary>
+  <author>
+    <name>ppk</name>
+    <url>http://www.quirksmode.org/</url>
+    <email>ppk@xs4all.nl</email>
+  </author>
+  <dc:subject>Content</dc:subject>
+  <content type="text/html" mode="escaped" xml:lang="en" xml:base="http://www.quirksmode.org/blog/">
+    <![CDATA[<p>Recently I spent WAY too much time on <code>background-attachment</code>. Even though it&#8217;s not a tremendously important CSS declaration, I don&#8217;t see any reason not to inflict my pain on you as well. Besides, I retested the CSS <a href="/css/backgrounds-borders/">Backgrounds and Borders</a> module in all browsers, and that should count for something.</p>
+    ]]>
+    <![CDATA[<p>If you need to refresh your memory, take a look at the <a href="/css/backgrounds-borders/attachment.html">background-attachment</a> test page <strong>in a desktop browser</strong> that is not Chrome 51 on Windows 10. For God&#8217;s sake don&#8217;t use a mobile browser &#8212; or Chrome 51 on Windows 10.</p><p>Is <code>background-attachment</code> used a lot? <a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/usage/css/background-attachment/" class="external">No, not really</a>. And the <code>local</code> value, especially, is hardly ever used. Still, I have an ulterior motive for studying exactly this declaration.</p><h3>Backgrounds and borders retest</h3><p>Leaving aside the tricky parts, all browsers support most of Backgrounds and Borders. Some notable exceptions:</p><ul><li>Firefox doesn&#8217;t support <code>background-position-x</code> and <code>-y</code>, though support is supposed to land pretty soon.</li><li>Opera Mini doesn&#8217;t support <code>background-origin</code> (and an old note suggests this is specifcally an Android problem). Also, <code>background-size: contain and cover</code> are buggy.</li></ul><p>All in all not an overwhelming set of problems. Still, we haven&#8217;t looked at the tricky bit yet: <code>background-attachment</code>.</p><h4>background-attachment on mobile</h4><p>From my previous round of testing I already knew that many mobile browsers support either <code>fixed</code> or <code>local</code> but not both. I wanted to verify that that is still the case.</p><p>It is. But with added wrinkles. See the <a href="/css/backgrounds-borders/mobile.html">inevitable table</a> for more details.</p><ul><li>Safari supports <code>local</code> only, but only if you do not use <code>-webkit-overflow-scrolling: touch</code>. In addition, it correctly positions the background when you use <code>fixed</code>, but doesn&#8217;t ever change it.</li><li>Android WebKit, UC, and Dolphin support <code>fixed</code> only, and they have various bugs.</li><li>The Chromia support <code>local</code> only from version 35 on. BUT ... oh boy! See below.</li><li>BlackBerry 10 supports <code>local</code> only, but with the same problem as Safari.</li><li>Opera Mini kind-of supports <code>fixed</code>. Supporting <code>local</code> is pointless, since you can&#8217;t scroll individual elements in Opera Mini.<//li><li>IE/Edge and Firefox support both, but IE and Edge have separate issues with <code>fixed</code>.</li></ul><p>That leaves Firefox on Android the single mobile browser to perfectly support <code>background-attachment</code>.
+
+<h3>background-attachment: local on Chromium</h3><p>Contrary to my expectations, in my first test run the Chromia on Android did not support either <code>fixed</code> or <code>local</code>. Odd, but I made the necessary notes.</p><p>Later I happened to look at <a href="http://caniuse.com/#feat=background-attachment" class="external">the caniuse entry</a> and found that it gave full support to Safari iOS and Chrome on Android. With my new research in hand I <a href="https://github.com/Fyrd/caniuse/issues/2620" class="external">raised</a><a href="https://github.com/Fyrd/caniuse/issues/2621" class="external">issues</a> and asked Alexis to change the compatibility data.</p><p>He replied pretty soon. He changed his Safari/iOS information, but for the Chrome problem pointed me to <a href="http://people.opera.com/pepelsbey/experiments/bga/" class="external">this test case</a> by Vadim Makeev. Lo and behold: <code>background-attachment: local</code> works absolutely fine!</p><p>Whut? It&#8217;s a long time ago that one of my test cases was contested. Besides, I hadn&#8217;t made an actual mistake: the code I wrote was supposed to work, and in fact worked in quite a few other browsers.</p><p>So there has to be some sort of difference between the two test cases. I spent about half an hour testing various options (see the <a href="https://github.com/Fyrd/caniuse/issues/2621" class="external">issue</a> for details), but in the end gave up. I wrote some snarky sentences for my table and decided to get me some expert help.</p><p>In the end, that help came from Samsung. (Samsung? Yes. They&#8217;re in the process of opening up, but more on that later.) I mailed my contact persons, and they were as surprised as I was. This Monday I saw <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=627037" class="external">their bug report</a>:
+
+
+<p class="accent">Any element that has <code>background-attachment: local</code> also needs a <code>border-radius</code> in all Chromia. And no, <code>border-radius: 0</code> is not enough, it has to have an actual value.</p><p>Thank you, Samsung. I would never have thought to test <code>border-radius</code>. Oh, and incidentally, Chrome 51 on Windows 10 has the same bug. Also, I ascertained that Chromia version 34 or below do <strong>not</strong> support even the <code>border-radius</code> test case. So <code>background-attachment: local</code> (with bug) was introduced in Chromium 35. That&#8217;s good to know.</p><p><strong>Update</strong>: Bug also reported on one MacBook Pro (Retina, 13-inch, Early 2015), though it does not appear on either of my two (Air 13'' early 2015 and Mini 2015).</p><h3>Continue</h3><p>Anyway, there you have the current state of affairs in Backgrounds and Borders. What I haven&#8217;t told you yet is <em>why</em> I wanted to test <code>background-attachment</code> specifically. I&#8217;ll talk about that <a href="/blog/archives/2016/07/the_limits_of_s.html">tomorrow</a>.</p>
+    ]]>
+</content>
+</entry>
+<entry>
+  <title>UC news</title>
+  <link rel="alternate" type="text/html" href="http://www.quirksmode.org/blog/archives/2016/07/uc_news.html" />
+  <modified>2016-07-07T08:55:07Z</modified>
+  <issued>2016-07-07T08:52:01Z</issued>
+  <id>tag:www.quirksmode.org,2016:/blog//1.2493</id>
+  <created>2016-07-07T08:52:01Z</created>
+  <summary type="text/plain">
+    <p>There is some news about the UC browser &amp;#8212; the important one that nobody but me has ever heard of. (OK, that&amp;#8217;s an exaggeration &amp;#8212; but not by much.) Astonish your peers by being better informed than them....</p>
+  </summary>
+  <author>
+    <name>ppk</name>
+    <url>http://www.quirksmode.org/</url>
+    <email>ppk@xs4all.nl</email>
+  </author>
+  <dc:subject>UC</dc:subject>
+  <content type="text/html" mode="escaped" xml:lang="en" xml:base="http://www.quirksmode.org/blog/">
+    <![CDATA[<p>There is some news about the UC browser &#8212; the important one that nobody but me has ever heard of. (OK, that&#8217;s an exaggeration &#8212; but not by much.) Astonish your peers by being better informed than them.</p>
+    ]]>
+    <![CDATA[<p>UC is now <a href="http://pc.ucweb.com/" class="external">available for Windows</a>. Equally importantly, this Windows version is Chromium-based; Chromium 48, to be exact. It&#8217;s now at version 5.6, so apparently they&#8217;re using a different versioning system for their Windows and Android builds.</p><p>Speaking of UC for Android, which is at version 10.10, has it also gone over to Chromium? No, it hasn&#8217;t. It&#8217;s still WebKit-based, even though you can set the UA string to a &#8220;desktop version&#8221; that claims, falsely, that it&#8217;s Chromium 31. (Where can you find that setting? I&#8217;ll leave that for you to find out. Searching through an unknown browser&#8217;s setting system is an excellent way of developing more awareness for non-Chrome browsers.)</p><p>And how am I so certain that the Windows version is Chromium while the Android version is WebKit? My current tracer is the <a href="/css/mediaqueries/features.html">pointer media query</a>, which is supported in Chromium but not in WebKit. UC on Windows supports it; UC on Android doesn&#8217;t. (Incidentally, this test also allowed me to unmask the Dolphin browser for Android, which claims it&#8217;s Chromium 33 but lies: it fails the pointer test.)</p><p>Also, there was a drop in UC&#8217;s market share on <a href="http://gs.statcounter.com/#mobile_browser-ww-weekly-201617-201626" class="external">StatCounter</a> last month, while &#8220;Chrome&#8221; (which means all Chromia except for the Samsung ones) rose. At first I thought it had something to do with the UC for Windows (misdetected as Chrome for Android?), but that turns out not to be the case.</p><p>Instead, StatCounter figured out that some UC versions sent out two requests for one page load, and were thus counted twice. (Why? It could be an honest mistake. It could also be that UC wants to end up higher in the stats because web developers don&#8217;t care about it otherwise.) See the note in Week 24 for more information.</p><p>Anyway, now you&#8217;re up to speed with the UC news. Download and test!</p>
+    ]]>
+  </content>
+</entry>
+<entry>
+  <title>Indian phones are weird</title>
+  <link rel="alternate" type="text/html" href="http://www.quirksmode.org/blog/archives/2016/07/indian_phones_a.html" />
+  <modified>2016-07-04T15:16:06Z</modified>
+  <issued>2016-07-04T15:12:33Z</issued>
+  <id>tag:www.quirksmode.org,2016:/blog//1.2492</id>
+  <created>2016-07-04T15:12:33Z</created>
+  <summary type="text/plain">
+    <p>Thanks to the good offices of Dees and his Indian colleagues at Mozilla I finally received three Indian test phones two weeks ago. This is the remarkable story of how Indian phone makers are weird in some respects &amp;#8212; even...</p>
+  </summary>
+  <author>
+    <name>ppk</name>
+    <url>http://www.quirksmode.org/</url>
+    <email>ppk@xs4all.nl</email>
+  </author>
+  <dc:subject>Chromia on Android</dc:subject>
+  <content type="text/html" mode="escaped" xml:lang="en" xml:base="http://www.quirksmode.org/blog/">
+    <![CDATA[<p>Thanks to the good offices of <a href="http://desiganchinniah.com/" class="external">Dees</a> and his Indian colleagues at Mozilla I finally received three Indian test phones two weeks ago. This is the remarkable story of how Indian phone makers are weird in some respects &#8212; even weirder than the Chinese ones. Nobody but me cares about this sort of stuff, but this is my blog, so I&#8217;ll write my piece anyway.</p>
+    ]]>
+    <![CDATA[<h3>New Chromia!</h3><p>At the time I received the phones I was at a conference (the ninth in eight weeks), so I only did a quick check, and found the following default browsers (i.e. browsers present on the home screen):</p><ul><li>Lava V2, default browser Google Chrome 51 (boooooring!)</li><li>Micromax Canvas Nitro 3, default browser Chromium 39 (interesting!)</li><li>Intex Agua Super, default browser Opera Mini (unexpected!)</li></ul><p>Obviously, the Micromax and Intex also had Google Chrome installed. They have to, if they want to use Google Services. No surprises here.</p><p>I had hoped to get three radically different Chromia for my collection, but no such luck. However, the Micromax Chromium 39 had one oddity: the UA string contains <code>Version/4</code>, which is usually reserved for WebViews. Fortunately Niels Leenheer of <a href="https://html5test.com/" class="external">HTML5 Test</a> was at hand, and he agreed that it was likely that the Micromax default browser actually uses the WebView, which was also Chromium 39. That was interesting.</p><h3>Getting them ready for testing</h3><p>Fast-forward two weeks. Today I first used these phones in actual testing. I added the Micromax Chromium 39 to my test array, and it performed roughly as one would expect from such a phone.</p><p>I also studied the Intex&#8217;s Opera Mini, which turns out to be a version 11. That&#8217;s an old one &#8212; Opera Mini is currently at 17. I considered swapping in the Intex for my usual Opera Mini installs because I prefer to test browsers on devices they&#8217;re actually the default browser on, but got stuck on the question whether I should update it.</p><p>On the one hand I want to test in the latest Opera Mini; on the other hand many actual Intex users in India will likely use the old Opera Mini 11. So what to do? In the end I decided to keep the Intex at 11 and test it alongside a modern 17.</p><h3>Non-default default browsers</h3><p>But wait, we&#8217;re not done yet. I decided to see what WebViews the Lava and Intex had. Both turned out to have Chromium 39, just like Micromax. That, again, is interesting.</p><p>Then I happened to see a &#8220;Browser&#8221; icon in the app menu of one of the two. I tested it, and it turned out to be, again, Chromium 39. I looked at the other, and it, too, turned out to have a default browser hidden in the app menu; again Chromium 39.</p><p>This was getting weird. A phone vendor providing its own default browser based on Chromium is normal. Basing that default browser on the WebView is odd, but understandable if you have few engineers to spare. But subsequently <em>not putting it on your home screen</em> is completely idiotic. How will consumers ever find and use that default browser? And if you don&#8217;t care if consumers use your browser or not, why provide it in the first place?</p><h3>Downgrading the browser by upgrading the WebView</h3><p>But wait, we&#8217;re not done yet. I went to Google Play on the Lava and saw that it offered an update to the WebView.</p><p>Ooohhh ... temptation! Would I update the WebView? Would that also update the default browser? But if it did, would my phone still be valid for testing? I doubt the average Indian consumer will do this.</p><p>Seeing that I had two other phones with Chromium 39, I decided to gamble it. Update WebView. Error 903. Whut? So it failed, right?</p><p>I started up the WebView (I use <a href="https://play.google.com/store/apps/details?id=com.html5test.webview" class="external">this app</a> provided by Niels Leenheer), and lo and behold: despite the error it had upgraded to Chromium 51, as expected.</p><p>And what about that default browser that Lava does not show on its home screen? I&#8217;m glad you asked. It had <strong>downgraded</strong> from Chromium 39 to 37!</p><p>So now I have a unique Indian Chromium 37 for my collection. Pity users won&#8217;t actually use it. But maybe I&#8217;ll add it to my test array anyway, just for kicks.</p><p>Oh, and in case you're wondering: the Micromax and Intex do <strong>not</strong> offer the possibility of upgrading the WebView. Why would they?</p><p>Indian phones are weird.</p>
+
+
+    ]]>
+</content>
+</entry>
+<entry>
+  <title>DRY: Do Repeat Yourself</title>
+  <link rel="alternate" type="text/html" href="http://www.quirksmode.org/blog/archives/2016/05/dry_do_repeat_y.html" />
+  <modified>2016-05-31T11:55:17Z</modified>
+  <issued>2016-05-31T11:54:03Z</issued>
+  <id>tag:www.quirksmode.org,2016:/blog//1.2489</id>
+  <created>2016-05-31T11:54:03Z</created>
+  <summary type="text/plain">
+    <p>I am increasingly of the opinion that the general software engineering adage &amp;#8220;Don&amp;#8217;t Repeat Yourself&amp;#8221; does not always apply to web development. Also, I found that web development classes in CS academia are not very realistic. These two problems turn...</p>
+  </summary>
+  <author>
+    <name>ppk</name>
+    <url>http://www.quirksmode.org/</url>
+    <email>ppk@xs4all.nl</email>
+  </author>
+  <dc:subject>Web thinking</dc:subject>
+  <content type="text/html" mode="escaped" xml:lang="en" xml:base="http://www.quirksmode.org/blog/">
+    <![CDATA[<p>I am increasingly of the opinion that the general software engineering adage &#8220;Don&#8217;t Repeat Yourself&#8221; does not always apply to web development. Also, I found that web development classes in CS academia are not very realistic.</p><p>These two problems turn out to have the same root cause: a lack of appreciation of what browsers do to software development. Browsers, to misquote Douglas Crockford, are the world&#8217;s most misunderstood development platforms.</p>
+    ]]>
+    <![CDATA[<h3>Repeat yourself!</h3><p>Web developers have been proudly repeating themselves for fifteen years now. Who remembers this bit of JavaScript?</p><pre>
+             if (document.layers) {
+             // do this
+             } else if (document.all) {
+             // do that
+             }
+             </pre><p>Or take CSS prefixes:</p><pre>
+             background: -webkit-linear-gradient(0deg,red 10%,yellow 30%,green 60%);
+             background: linear-gradient(90deg,red 10%,yellow 30%,green 60%);
+             </pre><p>Repeat, rinse, repeat. You will say: &#8220;Yeah, but that&#8217;s just because of browsers.&#8221; And you are totally right. <strong>It&#8217;s all about browsers</strong>. But it&#8217;s not <em>just</em> about browsers. The fact that they&#8217;re different is not an aberration; it&#8217;a the keystone of web development. The variety of browsers is what requires us to <strong>repeat ourselves</strong>. But CS people don&#8217;t understand that.</p><h3>Repeat yourself!</h3><p>There&#8217;s another way of repeating ourselves than just different lines of code &#8212; a more conceptual way, if you like. Some progressive enhancement strategies consist almost exclusively of repetition.</p><p>Take a product list page on a site. Often it&#8217;ll show twelve or so products, and when the user scrolls or clicks a button more products are loaded. This load process uses some sort of Ajax call, and that is fine by itself.</p><p>However, we also want to be able to load the next set of products without JavaScript &#8212; not because people turn off JavaScript (they don&#8217;t) but because the script may have gone missing because of a network hiccup (especially on slow mobile connections), or because the user&#8217;s uncommon browser does not understand one line of code.</p><p>Again, we must repeat ourselves by creating a server-generated template in addition to the Ajax script. The button will link to the template, although Ajax will override that if the JavaScript is fully loaded and supported. This is a requirement, by the way, and not a nice extra. It&#8217;s the fundament of web development. <strong>Not repeating yourself is unprofessional</strong> in this situation.</p><p>Then there&#8217;s the question of the initial set of products. Once you&#8217;ve created an Ajax script it becomes tempting to use that script for loading the initial set as well. Hey, we already have the script, we shouldn&#8217;t repeat ourselves, so why not use it?</p><p>Well, it could take quite a while for the script to load (especially if it has those silly dependencies) and then load the product set. Thus, the user could be staring at a blank screen for a few seconds, which is bad web development.</p><p>Instead, we should make sure that the HTML page itself as generated by the server contains the initial set of products. Once they&#8217;re being shown on-screen the Ajax script can kick in for the updates, but using it for the initial set as well is a bad idea.</p><p>You see? Repeating yourself is fundamental to web development.</p><h3>Web development in academia</h3><p>Let&#8217;s take a quick detour to a related problem. A while ago <a href="https://twitter.com/ppk/status/730823670126526468" class="external">I asked</a>:</p><blockquote><p>Why is web development in academia taught as a design discipline instead of a computer science discipline?</p></blockquote><p>This elicited a few interesing responses. I had a <a href="https://twitter.com/dancow/status/730833919877111808" class="external">short but useful discussion</a> with Dan Nguyen, who lectures at Stanford, and who pointed me to <a href="http://web.stanford.edu/class/cs142/info.html" class="external">a Web Applications course description</a> that states:</p><blockquote><p>For this class, the reference browser is Chrome: your project solutions must work on Chrome, and the CAs will use Chrome to test them. Your solutions need not work on any browser other than Chrome.</p></blockquote><p>This is not web development. It&#8217;s a sanitised, abstracted form of quasi-web development that does not prepare students for real-world web development in any form. Also, too, Angular.</p><p>Dan&#8217;s <a href="https://twitter.com/dancow/status/730832633760899072" class="external">counterargument</a> was that many other CS classes define an IDE in order to simplify things for the students. And isn&#8217;t simplification and concentrating on principles the purpose of university courses? I suppose so, but in this particular case the students are learning <em>the opposite</em> of what they&#8217;re supposed to. (Also, Chrome is not an IDE. It&#8217;s a browser.)</p><p>If it were my course I&#8217;d take a big bag of mobile phones, each with several browsers, and I&#8217;d test each classroom project on two randomly drawn phone/browser combinations over the worst available network connection. The classroom projects do not need to work perfectly &#8212; instead the student would have to explain why the way the site works in this particular browser is the best way it <em>could</em> work. Of course they&#8217;d be free to test on the phones as often as they like and I&#8217;d help them work around browser incompatibilities.</p><p>Another problem I found is that university courses try to teach too much at once; <a href="https://www.fel.cvut.cz/cz/education/bk/predmety/13/97/p1397106.html" class="external">this curriculum</a> from Prague reinforces that. They want to go full-stack, i.e. teach both front-end and back-end development in the same course. Despite the fact that both have to do with websites they are totally different disciplines: back-end development does not deal with browsers while front-end development does. It&#8217;s far better to teach the principles of each form of development separately.</p><h3>Unconscious assumptions</h3><p>Why is web development so misunderstood? And why are common principles like DRY invalid? I said the answer is browsers, but I didn&#8217;t yet explain <em>why</em> that is. Let&#8217;s dig a bit deeper.</p><p>The &#8220;Don&#8217;t Repeat Yourself&#8221; principle (and, I suspect, other software engineering best practices), as well as the CS web development classes we reviewed, rest on the unconscious assumption that the platform the software will run on is known exactly. But, as I <a href="/blog/archives/2015/01/front_end_and_b.html">wrote before</a>, that is not the case on the web.</p><p>On the web you never know what you&#8217;ll get. The latest Chrome on a modern Mac? Or an outdated UC on a vague Chinese Android? Your site should work in both (though that doesn&#8217;t mean it should work the same).</p><p>Where other platforms consist of one rigidly defined environment, the web consists of thousands of related yet different platforms, and you can test on only a few of them. We web developers have known that for years (or, at least, we should have), but software engineers from other disciplines are frequently confused by this state of affairs.</p><p>Instead, they think the web is just one platform, and learning JavaScript is enough to get started on the web. And that&#8217;s object-oriented JavaScript, mind you, because that&#8217;s the only proper way of doing things. As to browser incompatibilities, they will say their app is far too advanced to run in older browsers anyway &#8212; or similar nonsense.</p><p>It&#8217;s easy to make fun of such people. It&#8217;s far harder to teach them proper web development. That&#8217;s partly because &#8220;real&#8221; software engineers are convinced that only they know how software engineering &#8220;really works&#8221; and don&#8217;t want to listen to a bunch of jumped-up hippie pixel pushers without a CS background that refuse to bow down to the eternal beauty and truth that is object-oriented programming.</p><p>Still, another part of the blame must rest with ourselves: we&#8217;re pretty bad at explaining our craft in terms non-web developers can understand, and we 	use impenetrable jargon as well as any other type of specialist. Pseudo-class? Haha, it&#8217;s a pseudo-<em>element</em>, you silly amateur!</p><p>This article, in fact, is a first attempt to find a line of argument to convince non-web developers, though you&#8217;ve probably noticed it still needs considerable work before it will appeal to them.</p><h3>CS thesis topic</h3><p>As we&#8217;ve seen the &#8220;Don&#8217;t Repeat Yourself&#8221; principle does not always apply to web development. I&#8217;m fairly certain that other principles of software engineering or computer science have a similarly strained relationship to the reality of web development.</p><p>Problem is: I can&#8217;t tell which ones because I don&#8217;t have a computer science background. (In case you&#8217;re wondering, my degree is in ancient history, specialisation Later Roman Empire. Precious little software around in those days. Lots of Huns, though, who can also be fun.)</p><p>I would very much like some sort of computer-science person to take a good look at web development, accept that it differs from other forms of software development because of the myriad platforms, and help us out on a theoretical level.</p><p>So if you&#8217;re a CS student looking for a good thesis topic: hey, you found one!</p><p>And don&#8217;t hesitate to ask for help: despite appearances web developers can be pretty friendly to people who want to really learn web development &#8212; and if they notice you&#8217;re working on embedding web development theory in a CS context they&#8217;ll be even more excited.</p><p>The only real requirement from your side is that you&#8217;re willing to jettison theoretical considerations that don&#8217;t make sense on the web. In other words, you should be willing to think outside the CS box and learn.</p>
+    ]]>
+</content>
+</entry>
+<entry>
+  <title>Impostor syndrome &amp;#8212; a story</title>
+  <link rel="alternate" type="text/html" href="http://www.quirksmode.org/blog/archives/2016/04/impostor_syndro.html" />
+  <modified>2016-04-22T16:07:00Z</modified>
+  <issued>2016-04-22T16:06:02Z</issued>
+  <id>tag:www.quirksmode.org,2016:/blog//1.2488</id>
+  <created>2016-04-22T16:06:02Z</created>
+  <summary type="text/plain">
+    <p>Just now Zeldman tweeted a question to which I replied. That reminded me of a story I want to share with you. Zeldman asked: Have you ever felt that you have no talent whatever? How often do you feel that...</p>
+  </summary>
+  <author>
+    <name>ppk</name>
+    <url>http://www.quirksmode.org/</url>
+    <email>ppk@xs4all.nl</email>
+  </author>
+  <dc:subject>Personal</dc:subject>
+  <content type="text/html" mode="escaped" xml:lang="en" xml:base="http://www.quirksmode.org/blog/">
+    <![CDATA[<p>Just now <a href="https://twitter.com/zeldman/status/723509179282010112" class="external">Zeldman tweeted a question</a> to which I <a href="https://twitter.com/ppk/status/723512593873293313" class="external">replied</a>. That reminded me of a story I want to share with you. Zeldman asked:</p><blockquote><p>Have you ever felt that you have no talent whatever? How often do you feel that way?</p></blockquote><p>What he describes is classic impostor syndrome. I&#8217;ve got it, you&#8217;ve got it, just about everybody&#8217;s got it. It&#8217;s the &#8220;just about&#8221; that I want to discuss today.</p>
+    ]]>
+    <![CDATA[<p>A few months back a conversation with friends turned to the subject of impostor syndrome. They didn&#8217;t know the term, but they recognized it and agreed they had it to a larger or smaller degree. Then a friend of mine who&#8217;s a doctor told us a story.</p><p>She told us that one time the conversation among her and her colleagues also turned to impostor syndrome. One doctor confessed he did <strong>not</strong> have it. He understood what the others were talking about, but he just didn&#8217;t feel that way. He was always sure of himself.</p><p>A few months after that conversation this doctor made a very serious medical mistake. Can&#8217;t remember if it was fatal or not, but it was major, and had consequences for the patient and the doctor himself.</p><p>Once she had told this story, my friends and I concluded that impostor syndrome actually serves an important function. It forces you to check and re-check your work, making sure you haven&#8217;t made any mistakes, consider different approaches, and generally be <em>critical</em> of yourself in a positive sense.</p><p>So cherish your impostor syndrome. Don&#8217;t trust people who don&#8217;t have it.</p>
+    ]]>
+  </content>
+</entry>
+<entry>
+  <title>Q1 Android WebView statistics</title>
+  <link rel="alternate" type="text/html" href="http://www.quirksmode.org/blog/archives/2016/04/new_webview_sta.html" />
+  <modified>2016-04-19T10:52:08Z</modified>
+  <issued>2016-04-19T10:43:30Z</issued>
+  <id>tag:www.quirksmode.org,2016:/blog//1.2487</id>
+  <created>2016-04-19T10:43:30Z</created>
+  <summary type="text/plain">
+    <p>Recently Scientia Mobile sent me their Android WebView stats over the first quarter. I edited them slightly and put them online....</p>
+  </summary>
+  <author>
+    <name>ppk</name>
+    <url>http://www.quirksmode.org/</url>
+    <email>ppk@xs4all.nl</email>
+  </author>
+  <dc:subject>Chromia on Android</dc:subject>
+  <content type="text/html" mode="escaped" xml:lang="en" xml:base="http://www.quirksmode.org/blog/">
+    <![CDATA[<p>Recently <a href="http://scientiamobile.com/" class="external">Scientia Mobile</a> sent me their Android WebView stats over the first quarter. I edited them slightly and <a href="/webviews">put them online</a>.</p>
+    ]]>
+    <![CDATA[<p>I haven&#8217;t studied them in detail yet &#8212; to be honest, I&#8217;m not yet sure what my questions should be. Also, they are more detailed than the ones from December I <a href="/blog/archives/2016/02/webview_stats.html">published earlier</a> &#8212; for instance, we now also have Android WebKit data in addition to Chromium data.</p><p>Interesting tidbits from March:</p><ul><li>14% of Android users still use an Android WebKit-based WebView, and not a Chromium-based one. In general this WebView is the same as the default browser on their device.</li><li>Samsung has a market share of 55%.</li><li>No other device vendor has a market share higher than 7%.</li><li>The vast majority uses one of the latest Chromium versions; with 48 being the largest with 55%. Let's say 75% latest Chromium versions overall; only 25% Android WebKit and custom Chromia.</li><li>Nokia Android devices (they&#8217;re here!) use the most custom WebViews: only 11% uses something that can be described as a recent Chromium build.</li></ul><p>Anyway, have fun studying <a href="/webviews">the data</a>.</p>
+    ]]>
+  </content>
+</entry>
+<entry>
+  <title>Responsive images-x mess on desktop</title>
+  <link rel="alternate" type="text/html" href="http://www.quirksmode.org/blog/archives/2016/04/responsive_imag.html" />
+  <modified>2016-04-18T13:04:18Z</modified>
+  <issued>2016-04-12T13:43:20Z</issued>
+  <id>tag:www.quirksmode.org,2016:/blog//1.2486</id>
+  <created>2016-04-12T13:43:20Z</created>
+  <summary type="text/plain">
+    <p>There we go again. The desktop browsers, over my strenuous objections, decided to treat DPR (device pixel ratio) as a variable instead of a constant when the user uses page zooming instead of pinch zooming. The advantages or disadvantages of...</p>
+  </summary>
+  <author>
+    <name>ppk</name>
+    <url>http://www.quirksmode.org/</url>
+    <email>ppk@xs4all.nl</email>
+  </author>
+  <dc:subject>Viewports</dc:subject>
+  <content type="text/html" mode="escaped" xml:lang="en" xml:base="http://www.quirksmode.org/blog/">
+    <![CDATA[<p>There we go again. The desktop browsers, over my <a href="/blog/archives/2013/12/desktop_dpr_red.html" class="external">strenuous objections</a>, decided to treat DPR (device pixel ratio) as a variable instead of a constant when the user uses page zooming instead of pinch zooming.</p><p>The advantages or disadvantages of this decision are not what currently interests me, though I continue to have my doubts.</p><p>What we&#8217;re going to study today is the practical application of that idea: if DPR is a variable, responsive images should respond to page zoom. Do they? Safari doesn&#8217;t, Firefox does but has weird rounding, while Chrome/Opera and Edge each have their own bug but do normal rounding.</p>
+    ]]>
+    <![CDATA[<h3>Page zoom and pinch zoom</h3><p>There are two ways of zooming in on a web page: page zoom and pinch zoom.</p><p>All mobile browsers (so far) only support <strong>pinch zoom</strong>, which you can see <a href="/mobile/viewports/">visualised here</a>. Use X and Z to pinch zoom in and out, and you&#8217;ll see that the visual viewport changes size, while the layout viewport keeps its dimensions.</p><p>All desktop browsers support <strong>page zoom</strong>, which is the old-fashioned zooming with Ctrl/Cmd + or -. Here, the layout viewport changes dimensions, since all CSS pixels are enlarged, and therefore less of them fit in the browser window, and percentual widths and such have to be recalculated relative to the new layout viewport. (I don&#8217;t have a visualisation &#8212; sorry.)</p><p>Nowadays, Chrome and Edge on desktop also support pinch zoom. In Chrome, double-click on an element or pinch on the trackpad of your Mac to get the effect. (I don&#8217;t know how it would work without a trackpad, or on non-Mac computers.) In Edge I don&#8217;t know how it works. It&#8217;s a menu with a magnifying glass and + and - signs. I got it once by accident, dismissed it, and now I have no clue how to access it.</p><h3>DPR</h3><p>Anyway, the point here is not so much the type of zooming or the layout viewport, but the behaviour of devicePixelRatio (DPR).</p><ul><li><strong>Pinch zoom</strong> does not affect DPR at all. On mobile devices, if DPR is 2, it will remain 2.</li><li><strong>Page zoom</strong> does affect DPR, except in Safari. The definition becomes kind-of &#8220;the ratio between the pixels that could theoretically fit on the screen at zoom level 100% and at the current zoom level,&#8221; which has never made sense to me.</li></ul><p>So pinch zoom uses DPR as a constant, while page zoom makes it a variable. I do not like this sort of differences.</p><p>But anyway, the issue here is not my preferences, but responsive images-x. Desktop browsers make a godawful mess of it.</p><h3>DPR changes and responsive images-x</h3><p>Take this sample code; you can use a <a href="/html5/responsiveimages/imgx.html">test page here</a>:</p><pre>
+             &lt;img id="test"
+             srcset="pix/respimg1x.png 1x, pix/respimg2x.png 2x,
+             pix/respimg3x.png 3x"
+             src="pix/respimbpng.png" alt="Alt text"
+             width="320" height="150"&gt;
+             </pre><p>On mobile this is simple: read out the device&#8217;s DPR, select an image, load it, done.</p><p>In a page zoom environment, where DPR is a variable, things get more complicated. Will the browser adjust the image as the user page zooms in and out? Is this a desired effect? I can now answer the first question, but the second question has never been properly treated (or if it has I haven&#8217;t found the article yet).</p><p>First, <strong>Safari</strong> (9). It treats DPR as a constant, and therefore the responsive image does not react to page zooming. So far so good; theory and practice agree here.</p><h3>The clown car</h3><p>Theoretically speaking, if DPR increaes or decreases, the responsive image should change. Makes sense, no &#8212; if you think variable DPR is a good idea. In practice browsers are kind-of confused.</p><p>In <strong>Chrome</strong> (49) and <strong>Opera</strong> (35) the responsive image does not react to page zoom. That is, if you enter the page with a DPR of 1, the 1x image will be loaded and not replaced, however much you zoom. However, if you load the page at DPR 2, the 2x image will be loaded and not replaced. This is not the best application of the principle, I think: if you want responsive images to react to page zoom, DO SO, and don&#8217;t mess around with half measures.</p><p>HOWEVER. If you zoom to DPR 2, reload and get the 2x image, then zoom back to DPR 1 and then reload, you <em>continue to get the 2x image</em>. Apparently, what counts in Chrome is not the current page zoom level but the maximum it has ever reached in this session. You have to close the window to reset the responsive image.</p><p>I&#8217;m not even sure this is a bug or desired behaviour. It&#8217;s weird enough to be a bug, but you never know what kind of rationalisation the Chrome team can come up with.</p><p>In <strong>Edge</strong> (13) the image responds to page zoom. It goes up to 2x, and then to 3x. However, if you zoom out, it doesn&#8217;t go back to 2x and 1x. This, I assume, is a bug pure and simple that will be fixed. Reloading the page works: the responsive image reacts to the current DPR.</p><p>In <strong>Firefox</strong> (45), finally, the image reponds to page zoom in and out. This is the most pure application of the theory of variable DPR, so no more questions here (though I continue to doubt the principle).</p><p>If you use <strong>pinch zoom</strong> the responsive image does not react. (I couldn&#8217;t test this in Edge as much as I wanted, but I think it is the case). That, too, is theoretically fine, since DPR doesn&#8217;t change on pinch zoom.</p><p>There&#8217;s one more thing to consider: <strong>rounding</strong>. My example uses a simple 1x, 2x, and 3x. Exactly when does the browser move from one image to the next? How does it round DPR?</p><p>By now you won&#8217;t be surprised that browsers disagree. Chrome and Edge use mathematical rounding, where DPR 1.5 to 2.49 count as 2, and so on. Firefox, however, switches to the next image as soon as the DPR goes above 1 or 2. Has this been specced? In any case at least one browser gets it wrong.</p><p>Lots of work to do in this area, that&#8217;s for sure. Also, somebody should test this sort of stuff. You&#8217;re lucky that I&#8217;m working on a project that requires a responsive images support detect, or nobody would have ever noticed this mess.</p>]]>
+</content>
+</entry>
+<entry>
+  <title>Why my head was on the front page of Peru&amp;#8217;s largest newspaper</title>
+  <link rel="alternate" type="text/html" href="http://www.quirksmode.org/blog/archives/2016/04/why_my_head_was.html" />
+  <modified>2016-04-05T10:24:47Z</modified>
+  <issued>2016-04-05T10:23:50Z</issued>
+  <id>tag:www.quirksmode.org,2016:/blog//1.2485</id>
+  <created>2016-04-05T10:23:50Z</created>
+  <summary type="text/plain">
+    <p>Why was my head on the front page of Peru&amp;#8217;s largest newspaper? What do the Peruvian presidential elections have to do with me? Quite a lot, it turns out &amp;#8212; at least, with my Twitter account. Last week it blew...</p>
+  </summary>
+  <author>
+    <name>ppk</name>
+    <url>http://www.quirksmode.org/</url>
+    <email>ppk@xs4all.nl</email>
+  </author>
+  <dc:subject>Personal</dc:subject>
+  <content type="text/html" mode="escaped" xml:lang="en" xml:base="http://www.quirksmode.org/blog/">
+    <![CDATA[<p>Why was my head on the front page of Peru&#8217;s largest newspaper? What do the Peruvian presidential elections have to do with me? Quite a lot, it turns out &#8212; at least, with my Twitter account. Last week it blew up; in a funny way, but still my Twitter timeline was useless to me for four days.</p><p>The problem is that one of the candidates is Pedro Pablo Kuczynski, or PPK. You&#8217;re starting to see what&#8217;s coming next, right?</p>
+    ]]>
+    <![CDATA[<p>For years I&#8217;ve received a few tweets per month that were meant for Peru&#8217;s PPK. Not a big deal, although I sometimes blocked repeat offenders. Last week the tweets picked up considerably, and I consulted the Interwebz and saw a new presidential election is looming, where Peru&#8217;s PPK is in third or even second place. It became annoying.</p><p>Then, last Wednesday, I made the capital mistake of posting <a href="https://twitter.com/ppk/status/714834216593321984" class="external">this Tweet</a>:</p><blockquote><p>God, I hope the Peruvian elections are over quickly. Getting tired of people who think I&#39;m a candidate.</p></blockquote><p>It went viral in Peru and overwhelmed my timeline. 1,500 retweets, and I think that doesn&#8217;t count the retweets-with-comment.</p><a href="/blog/pix/peru/tired.jpg" style="border: none"><img src="/blog/pix/peru/tired.jpg" style="max-width: 50%; float: right; margin-left: 10px"></a><p>Meanwhile I&#8217;ve started to understand the joke: if you&#8217;re not really overwhelmed by the Peruvian PPK&#8217;s qualities as a candidate, him &#8220;saying&#8221; he&#8217;s getting tired of being considered a candidate is pretty funny. Suppose &#8220;@Trump&#8221; said that; it would be hilarious.</p><p>The overwhelming majority of replies and commented retweets went on in this funny vein; and several people <a href="https://twitter.com/CarloAAguilar/status/715966051490643968" class="external">assured me</a> Peruvians also laughed at themselves. Actual attack tweets from PPK&#8217;s internal enemies were fairly rare, and mostly in Spanish, which I read only with difficulty, especially when it&#8217;s full of abbreviations and slang. There is something with a dog that I haven&#8217;t figured out yet, but I&#8217;m happy with that remaining a mystery for all time.</p><a href="/blog/pix/peru/newspaper.jpg" style="border: none"><img src="/blog/pix/peru/newspaper.jpg" style="max-width: 50%; float: right; margin-left: 10px"></a><p>Then a journalist from El Comercio, Peru&#8217;s largest newspaper, contacted me and conducted an <a href="http://elcomercio.pe/mundo/actualidad/ppk-mi-twitter-ha-colapsado-culpa-ustedes-noticia-1890814" class="external">interview</a>. I still thought the whole situation was pretty hilarious, so I cooperated.</p><p>Then it turned out they not only published the interview, but also put an old photo of me on the front page of the newspaper. Apparently the joke was even bigger than I thought. After that, predictably, the tweetstream went on and on and my timeline was still useless.</p><p>Meanwhile the stream has abated, and I can use Twitter normally again. Still, in order to let sleeping dogs lie, I will not announce this post on Twitter.</p><p>And in case you&#8217;re wondering: PPK is also mistaken for the Walther PPK gun, a vegan movement called Post-Punk Kitchen, a Brazilian word for a woman&#8217;s intimate parts, and something in Indonesia I haven&#8217;t figured out yet. That&#8217;s the burden one carries when one has a short Twitter user name, as <a href="https://twitter.com/sil/status/715958005368537089" class="external">@sil</a> and <a href="https://twitter.com/firt/status/715956206817423360" class="external">@firt</a> can attest.</p>
+    ]]>
+  </content>
+</entry>
+</feed>

@@ -5,7 +5,7 @@ repl:
 	stack ghci --ghc-options "-package ghci-pretty"
 
 clean-tix:
-	$(RM) $(TIX)
+	@$(RM) $(TIX)
 
 build: clean-tix
 	stack build

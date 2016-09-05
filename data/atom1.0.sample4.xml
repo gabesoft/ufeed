@@ -1,0 +1,1489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule" xmlns:re="http://purl.org/atompub/rank/1.0">
+  <title type="text">Newest questions tagged haskell - Stack Overflow</title>
+  <link rel="self" href="http://stackoverflow.com/feeds/tag?tagnames=haskell&amp;sort=newest" type="application/atom+xml"/>
+  <link rel="alternate" href="http://stackoverflow.com/questions/tagged/?tagnames=haskell&amp;sort=newest" type="text/html"/>
+  <subtitle>most recent 30 from stackoverflow.com</subtitle>
+  <updated>2016-09-05T00:13:20Z</updated>
+  <id>http://stackoverflow.com/feeds/tag?tagnames=haskell&amp;sort=newest</id>
+  <creativeCommons:license>http://www.creativecommons.org/licenses/by-sa/3.0/rdf</creativeCommons:license>
+  <entry>
+    <id>http://stackoverflow.com/q/39321171</id>
+    <re:rank scheme="http://stackoverflow.com">-1</re:rank>
+    <title type="text">interact (concat . sort lines) cba</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <author>
+      <name>J.doe</name>
+      <uri>http://stackoverflow.com/users/6268947</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39321171/interact-concat-sort-lines-cba"/>
+    <published>2016-09-04T20:24:20Z</published>
+    <updated>2016-09-04T20:48:29Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;Why is the code below not working- it is not giving the desired output.I want it to sort a string(e.g cba -&gt; abc ) .After  I signal end of file with 
+^D  i just get: cba . &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import Data.List
+import Data.Char
+import System.IO (isEOF)
+
+
+main =
+   interact (concat . sort .lines)
+&lt;/code&gt;&lt;/pre&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39320695</id>
+    <re:rank scheme="http://stackoverflow.com">2</re:rank>
+    <title type="text">Haskell: function signature</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="types"/>
+    <author>
+      <name>Blezz</name>
+      <uri>http://stackoverflow.com/users/2444986</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39320695/haskell-function-signature"/>
+    <published>2016-09-04T19:28:03Z</published>
+    <updated>2016-09-04T22:14:52Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;This program compiles without problems:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;bar :: MonadIO m
+    =&amp;gt; m String
+bar = undefined
+
+run2IO :: MonadIO m
+       =&amp;gt; m String
+       -&amp;gt; m String
+run2IO foo  = liftIO bar
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When I change &lt;code&gt;bar&lt;/code&gt; to &lt;code&gt;foo&lt;/code&gt; (argument name),&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;run2IO :: MonadIO m
+       =&amp;gt; m String
+       -&amp;gt; m String
+run2IO foo  = liftIO foo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I get:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Couldn't match type ‘m’ with ‘IO’
+        ‘m’ is a rigid type variable bound by
+            the type signature for run2IO :: MonadIO m =&gt; m String -&gt; m String
+  ...&lt;/p&gt;
+  
+  &lt;p&gt;Expected type: IO String
+  Actual type: m String ...&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Why are the 2 cases are not equivalent?&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39320035</id>
+    <re:rank scheme="http://stackoverflow.com">2</re:rank>
+    <title type="text">Configure vim to add module declaration for haskell files</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="vim"/>
+    <author>
+      <name>dimid</name>
+      <uri>http://stackoverflow.com/users/165753</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39320035/configure-vim-to-add-module-declaration-for-haskell-files"/>
+    <published>2016-09-04T18:13:15Z</published>
+    <updated>2016-09-04T19:01:36Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;When I edit a new Haskell file e.g. "xyz.hs", I'd like vim to automatically add&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;module Xyz where
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;at the first line. How can it be configured?&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39319706</id>
+    <re:rank scheme="http://stackoverflow.com">3</re:rank>
+    <title type="text">How to pattern match against Text without using OverloadedStrings?</title>
+    <category scheme="http://stackoverflow.com/tags" term="string"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="pattern-matching"/>
+    <author>
+      <name>Xavier Shay</name>
+      <uri>http://stackoverflow.com/users/379639</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39319706/how-to-pattern-match-against-text-without-using-overloadedstrings"/>
+    <published>2016-09-04T17:38:08Z</published>
+    <updated>2016-09-04T20:27:12Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;This works:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{-# LANGUAGE OverloadedStrings #-}
+myFunc :: Text -&amp;gt; String
+myFunc ""    = "nothing"
+myFunc other = "something!"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Without the &lt;code&gt;OverloadedStrings&lt;/code&gt; extension however, &lt;code&gt;""&lt;/code&gt; is of type &lt;code&gt;String&lt;/code&gt; so it doesn't compile. Using a function  like &lt;code&gt;myFunc (pack "")&lt;/code&gt; is not allowed in patterns.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://stackoverflow.com/questions/4056449/haskell-bytestrings-how-to-pattern-match"&gt;Haskell Bytestrings: How to pattern match?&lt;/a&gt; contains some suggestions that should work, however in this case I'm wondering if there is something special about the fact that it works with &lt;code&gt;OverloadedStrings&lt;/code&gt; that would allow a better way?&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39319461</id>
+    <re:rank scheme="http://stackoverflow.com">0</re:rank>
+    <title type="text">multiples modes with cmdargs explicit</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell-cmdargs"/>
+    <author>
+      <name>JeanJouX</name>
+      <uri>http://stackoverflow.com/users/3595992</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39319461/multiples-modes-with-cmdargs-explicit"/>
+    <published>2016-09-04T17:09:17Z</published>
+    <updated>2016-09-04T17:29:51Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I would like to make a multi modes cli program with &lt;strong&gt;Haskell&lt;/strong&gt; and &lt;a href="https://hackage.haskell.org/package/cmdargs" rel="nofollow"&gt;&lt;strong&gt;cmd-args&lt;/strong&gt;&lt;/a&gt;. &lt;/p&gt;
+
+&lt;p&gt;I firstly wrote my program with cmdargs &lt;a href="https://hackage.haskell.org/package/cmdargs-0.10.14/docs/System-Console-CmdArgs-Implicit.html" rel="nofollow"&gt;&lt;code&gt;Implicit&lt;/code&gt;&lt;/a&gt; and used the &lt;code&gt;modes&lt;/code&gt; function to parse the several modes. With something like this : &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;data Options =
+      Mode1   {...  }
+    | Mode2 {... }
+
+mode1 = Mode1 {...}
+mode2 = Mode2 {...}
+
+modesProg = cmdArgsMode $ modes [mode1,mode2]
+
+main = do
+     opts &amp;lt;- cmdArgsRun modesProg 
+     ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But now (for many reasons), I rewrote my program with &lt;a href="https://hackage.haskell.org/package/cmdargs-0.10.14/docs/System-Console-CmdArgs-Explicit.html" rel="nofollow"&gt;&lt;code&gt;Explicit&lt;/code&gt;&lt;/a&gt; and I'm wondering how to parse several modes. I tried the &lt;code&gt;modes&lt;/code&gt; function provided with &lt;code&gt;Explicit&lt;/code&gt; but this function seem to do something else. With :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;data Options =
+      Mode1   {...  }
+    | Mode2 {... }
+
+mode1 = mode "mode1" initialOpts  description unnamedArg convertFlags
+     where ...
+
+mode2 = mode "mode2" initialOpts  description unnamedArg convertFlags
+     where ...
+
+modesCLI = modes "myProg" initialOpts "help" [mode1,mode2]
+
+main = do
+    opts &amp;lt;- processArgs $ modesCLI
+    ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;My questions are :&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;What is the difference between Implicit &lt;code&gt;modes&lt;/code&gt; and Explicit &lt;code&gt;modes&lt;/code&gt; functions?&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Do you know what is the right way to make multi modes programs with cmdargs Explicit ?&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39319292</id>
+    <re:rank scheme="http://stackoverflow.com">1</re:rank>
+    <title type="text">GtkOverlay hides GtkTextView</title>
+    <category scheme="http://stackoverflow.com/tags" term="python"/>
+    <category scheme="http://stackoverflow.com/tags" term="user-interface"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="gtk"/>
+    <author>
+      <name>user2085282</name>
+      <uri>http://stackoverflow.com/users/2085282</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39319292/gtkoverlay-hides-gtktextview"/>
+    <published>2016-09-04T16:51:21Z</published>
+    <updated>2016-09-04T18:27:41Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I'm trying to develop an application using &lt;code&gt;Gtk&lt;/code&gt;, and I have run into a problem using &lt;code&gt;GtkOverlay&lt;/code&gt;. If I have a &lt;code&gt;GtkOverlay&lt;/code&gt; with a &lt;code&gt;GtkTextView&lt;/code&gt; that was added using the standard container &lt;code&gt;add&lt;/code&gt; method, the text is hidden. However, all other widgets, say for example, buttons, appear just fine. Even more odd is the fact that this behavior is only present if at least one widget was adding using &lt;code&gt;add_overlay&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://i.stack.imgur.com/SG7up.png" rel="nofollow"&gt;&lt;img src="http://i.stack.imgur.com/SG7up.png" alt="enter image description here"&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://i.stack.imgur.com/CjYgD.png" rel="nofollow"&gt;&lt;img src="http://i.stack.imgur.com/CjYgD.png" alt="enter image description here"&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/usr/bin/env python
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+
+USE_OVERLAY = False
+
+win = Gtk.Window()
+text_view = Gtk.TextView()
+overlay = Gtk.Overlay()
+top_button = Gtk.Button()
+bottom_button = Gtk.Button()
+top_container = Gtk.VBox()
+bottom_container = Gtk.VBox()
+
+overlay_str = "( USE_OVERLAY = " + str(USE_OVERLAY) + ")"
+win.set_title(overlay_str)
+
+top_button.set_label("I'm a button on top!")
+bottom_button.set_label("I'm a button on bottom!")
+text_view.get_buffer().set_text("This should be visible")
+
+win.add(overlay)
+overlay.add(bottom_container)
+bottom_container.pack_start(bottom_button, False, False, 0)
+bottom_container.pack_end(text_view, True, True, 0)
+if USE_OVERLAY:
+    overlay.add_overlay(top_container)
+    top_container.pack_end(top_button, False, False, 0)
+
+win.connect("delete-event", Gtk.main_quit)
+overlay.show_all()
+
+win.show_all()
+Gtk.main()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I have reason to believe that this is not a python problem, as the actual application is written using &lt;code&gt;haskell-gi&lt;/code&gt;, however I figured more people would be familiar with python.&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39318167</id>
+    <re:rank scheme="http://stackoverflow.com">-2</re:rank>
+    <title type="text">How to compile and run haskell program in ubuntu linux system?</title>
+    <category scheme="http://stackoverflow.com/tags" term="linux"/>
+    <category scheme="http://stackoverflow.com/tags" term="ubuntu"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="mint"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell-platform"/>
+    <author>
+      <name>Prashant Tripathi</name>
+      <uri>http://stackoverflow.com/users/5710489</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39318167/how-to-compile-and-run-haskell-program-in-ubuntu-linux-system"/>
+    <published>2016-09-04T14:50:40Z</published>
+    <updated>2016-09-04T16:04:37Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I am new in ubuntu platform, i don't have idea how i can compile and run haskell code in ubuntu system, haskell is in my syllabus so i have to configure my system for haskell. Please show me the way.&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39317573</id>
+    <re:rank scheme="http://stackoverflow.com">0</re:rank>
+    <title type="text">Haskell *** Exception: Prelude.head: empty list</title>
+    <category scheme="http://stackoverflow.com/tags" term="list"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <author>
+      <name>Junwen Xie</name>
+      <uri>http://stackoverflow.com/users/6793286</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39317573/haskell-exception-prelude-head-empty-list"/>
+    <published>2016-09-04T13:46:28Z</published>
+    <updated>2016-09-04T17:40:54Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;this function is to find out how many elements in list A is smaller than the smallest element in list B&lt;/p&gt;
+
+&lt;p&gt;every time the recursion happens the length list of A is reduce until emepty.&lt;/p&gt;
+
+&lt;p&gt;however... it only return the Exception: Prelude.head: empty list 
+not even a 0..&lt;/p&gt;
+
+&lt;p&gt;why it is happened?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;compareSmall::[Card] -&amp;gt; [Card] -&amp;gt; Int
+compareSmall [] _ = 0
+compareSmall _ [] = 0
+compareSmall (x:xs) (y:ys) =         
+        if   rank  (head tnt1) &amp;lt; rank (head tnt2)   then         
+            1 + compareSmall (tail tnt1) (tnt2)      
+        else if  rank (head (tail tnt1)) == rank (head tnt2) then       
+            0 + compareSmall (tail tnt1) (tnt2)       
+        else 
+            0 + compareSmall (tail tnt1) (tnt2)
+                    where tnt1 = rankCard (x:xs)
+                          tnt2 = rankCard (y:ys)
+&lt;/code&gt;&lt;/pre&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39316460</id>
+    <re:rank scheme="http://stackoverflow.com">0</re:rank>
+    <title type="text">Cabal failing to install network-2.6.3.1 on Linux</title>
+    <category scheme="http://stackoverflow.com/tags" term="linux"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="ubuntu-14.04"/>
+    <category scheme="http://stackoverflow.com/tags" term="cabal"/>
+    <category scheme="http://stackoverflow.com/tags" term="hackage"/>
+    <author>
+      <name>r-bonallo</name>
+      <uri>http://stackoverflow.com/users/3975579</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39316460/cabal-failing-to-install-network-2-6-3-1-on-linux"/>
+    <published>2016-09-04T11:32:46Z</published>
+    <updated>2016-09-04T15:50:40Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;In short I am fairly new to the Haskell world and am having an issue installing a package with a dependency on network-2.6.3.1. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cabal install happstack-server
+Resolving dependencies...
+Configuring network-2.6.3.1...
+Failed to install network-2.6.3.1
+cabal: Error: some packages failed to install:
+happstack-server-7.4.6.2 depends on network-2.6.3.1 which failed to install.
+hslogger-1.2.10 depends on network-2.6.3.1 which failed to install.
+network-2.6.3.1 failed during the configure step. The exception was:
+ExitFailure 127
+sendfile-0.7.9 depends on network-2.6.3.1 which failed to install.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Installing network on its own yields similar results. Are there any usual suspects or recommended steps for erroring installations? I have successfully installed other packages, ghcid, ghc-mod etc.&lt;/p&gt;
+
+&lt;h2&gt;Update&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; ghc --version
+The Glorious Glasgow Haskell Compilation System, version 7.6.3
+&amp;gt; cabal --version
+cabal-install version 1.16.0.2 using version 1.16.0 of the Cabal library"
+&amp;gt; ghc-pkg list 
+/var/lib/ghc/package.conf.d
+   Cabal-1.16.0
+   GLURaw-1.3.0.0
+   GLUT-2.4.0.0
+   HTTP-4000.2.8
+   HUnit-1.2.5.2
+   MonadCatchIO-mtl-0.3.0.5
+   OpenGL-2.8.0.0
+   OpenGLRaw-1.3.0.0
+   QuickCheck-2.6
+   array-0.4.0.1
+   async-2.0.1.4
+   attoparsec-0.10.4.0
+   base-4.6.0.1
+   bin-package-db-0.0.0.0
+   binary-0.5.1.1
+   bytestring-0.10.0.2
+   case-insensitive-1.1.0.2
+   cgi-3001.1.8.3
+   containers-0.5.0.0
+   deepseq-1.3.0.1
+   directory-1.2.0.1
+   extensible-exceptions-0.1.1.4
+   fgl-5.4.2.4
+   filepath-1.3.0.1
+   ghc-7.6.3
+   ghc-prim-0.3.0.0
+   hashable-1.2.1.0
+   haskell-src-1.0.1.5
+   haskell2010-1.1.1.0
+   haskell98-2.0.0.2
+   hoopl-3.9.0.0
+   hpc-0.6.0.0
+   html-1.0.1.2
+   integer-gmp-0.5.0.0
+   mtl-2.1.2
+   network-2.4.1.2
+   old-locale-1.0.0.5
+   old-time-1.1.0.1
+   parallel-3.2.0.3
+   parsec-3.1.3
+   pretty-1.1.1.0
+   primitive-0.5.0.1
+   process-1.1.0.2
+   random-1.0.1.1
+   regex-base-0.93.2
+   regex-compat-0.95.1
+   regex-posix-0.95.2
+   rts-1.0
+   split-0.2.2
+   stm-2.4.2
+   syb-0.4.0
+   template-haskell-2.8.0.0
+   text-0.11.3.1
+   time-1.4.0.1
+   transformers-0.3.0.0
+   unix-2.6.0.1
+   unordered-containers-0.2.3.0
+   vector-0.10.0.1
+   xhtml-3000.2.1
+   zlib-0.5.4.1
+/home/myHome/.ghc/x86_64-linux-7.6.3/package.conf.d
+   base64-bytestring-1.0.0.1
+   blaze-builder-0.4.0.2
+   blaze-html-0.8.1.2
+   blaze-markup-0.7.1.0
+   bytestring-0.10.8.1
+   bytestring-builder-0.10.8.1.0
+   cereal-0.5.3.0
+   exceptions-0.8.3
+   fail-4.9.0.0
+   monad-control-1.0.1.0
+   mtl-2.2.1
+   network-uri-2.6.1.0
+   parsec-3.1.11
+   system-filepath-0.4.13.4
+   threads-0.5.1.4
+   time-compat-0.1.0.3
+   transformers-0.5.2.0
+   transformers-base-0.4.4
+   transformers-compat-0.5.1.4
+   utf8-string-1.0.1.1
+&lt;/code&gt;&lt;/pre&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39315762</id>
+    <re:rank scheme="http://stackoverflow.com">0</re:rank>
+    <title type="text">freeze simulation in gloss Haskell</title>
+    <category scheme="http://stackoverflow.com/tags" term="function"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="simulation"/>
+    <category scheme="http://stackoverflow.com/tags" term="gloss"/>
+    <author>
+      <name>Max K</name>
+      <uri>http://stackoverflow.com/users/5872882</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39315762/freeze-simulation-in-gloss-haskell"/>
+    <published>2016-09-04T10:04:48Z</published>
+    <updated>2016-09-04T10:04:48Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I'm using the gloss library to picture a simulation. Is there a function, which stops the &lt;code&gt;simulation&lt;/code&gt; function when a condition is true. Just the last drawn picture should remain in the window. &lt;/p&gt;
+
+&lt;p&gt;Thanks in advance&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39313923</id>
+    <re:rank scheme="http://stackoverflow.com">1</re:rank>
+    <title type="text">Pirate language in Haskell</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <author>
+      <name>DoubleOseven</name>
+      <uri>http://stackoverflow.com/users/4748776</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39313923/pirate-language-in-haskell"/>
+    <published>2016-09-04T05:50:19Z</published>
+    <updated>2016-09-04T06:48:15Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I am trying to create a function that changes &lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;"cat" to "cocatot"&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;by putting an 'o' if a consonant is detected and repeating the same consonant after that.&lt;/p&gt;
+
+&lt;p&gt;This is what I have came up with so far. &lt;/p&gt;
+
+&lt;p&gt;UPDATED (cleaner version)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;isConsonant letter = notElem letter "aeiouy"
+sky :: [a] -&amp;gt; [a]
+--sky [a] = [a]
+sky [] = []
+sky (x:rest) = if isConsonant x then x : 'o' : [x] ++ sky rest else x : sky rest
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and get these errors&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; * Couldn't match expected type `Char' with actual type `a'
+      `a' is a rigid type variable bound by
+        the type signature for:
+          sky :: forall a. [a] -&amp;gt; [a]
+
+ * In the first argument of `isConsonant', namely `(x)'
+      In the expression: isConsonant (x)
+      In the expression:
+        if isConsonant (x) then
+            x : ('o' : [x]) ++ sky (rest)
+        else
+            x : sky (rest)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Any help is really appreciated. I am a beginner in Haskell and I am getting nowhere. &lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39313267</id>
+    <re:rank scheme="http://stackoverflow.com">1</re:rank>
+    <title type="text">Make this function tacit</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="pointfree"/>
+    <author>
+      <name>dimid</name>
+      <uri>http://stackoverflow.com/users/165753</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39313267/make-this-function-tacit"/>
+    <published>2016-09-04T03:26:07Z</published>
+    <updated>2016-09-04T09:56:46Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I'd like to make this function point-free, in order to simplify it. I'm passing the length explicitly instead of computing it, since I also need it for other functions, and I'd like to compute it just once. I've manged to get rid of the target string parameter, but struggling with the other two.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-- Cycle with respect to whitespace (currently only spaces).
+-- Given a source string and its length, and a longer target string
+-- (which may contain spaces) match the source to target such that:
+-- 1. both will have the same length
+-- 2. spaces in the target string will remain spaces
+-- 3. chars from the source string will be cycled
+--
+-- Example:
+-- src: "ALLY", len: 4
+-- target: "MEET AT DAWN"
+-- Result: "ALLY AL LYAL"                  
+cycleWS :: String -&amp;gt; Int -&amp;gt; String -&amp;gt; String
+cycleWS str len = fst . (foldr (\x (s, n) -&amp;gt; if x == ' ' then (s ++ " ", n) else (s ++ [str !! (n `mod` len)], n + 1)) ("", 0))
+&lt;/code&gt;&lt;/pre&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39313019</id>
+    <re:rank scheme="http://stackoverflow.com">0</re:rank>
+    <title type="text">What's the difference between these functions implemented with currying and transducers?</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="clojure"/>
+    <category scheme="http://stackoverflow.com/tags" term="functional-programming"/>
+    <category scheme="http://stackoverflow.com/tags" term="currying"/>
+    <category scheme="http://stackoverflow.com/tags" term="transducer"/>
+    <author>
+      <name>Fuad Saud</name>
+      <uri>http://stackoverflow.com/users/1512161</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39313019/whats-the-difference-between-these-functions-implemented-with-currying-and-tran"/>
+    <published>2016-09-04T02:22:44Z</published>
+    <updated>2016-09-04T12:53:47Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;Taking the three functions below, implemented in Haskell and Clojure respectively:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;f :: [Int] -&amp;gt; Int
+f = foldl1 (+) . map (*7) . filter even
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;pre&gt;&lt;code&gt;(defn f [coll]
+  ((comp
+    (partial reduce +)
+    (partial map #(* 7 %)
+    (partial filter even?)) coll))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;pre&gt;&lt;code&gt;(defn f [coll]
+  (transduce
+    (comp
+      (filter even?)
+      (map #(* 7 %)))
+     + coll))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;when they are applied to a list like &lt;code&gt;[1, 2, 3, 4, 5]&lt;/code&gt; they all return &lt;code&gt;42&lt;/code&gt;. I know the machinery behind the first 2 is similar since &lt;code&gt;map&lt;/code&gt; is lazy in Clojure, but the third one uses transducers. Could someone show the intermediate steps for the execution of these functions?&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39312440</id>
+    <re:rank scheme="http://stackoverflow.com">0</re:rank>
+    <title type="text">haskell wikibook monadplus potential error</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <author>
+      <name>Albert Netymk</name>
+      <uri>http://stackoverflow.com/users/2016455</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39312440/haskell-wikibook-monadplus-potential-error"/>
+    <published>2016-09-04T00:14:12Z</published>
+    <updated>2016-09-04T00:38:27Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;Was reading monadplus chapter of haskell wiki book: &lt;a href="https://en.wikibooks.org/wiki/Haskell/MonadPlus" rel="nofollow"&gt;https://en.wikibooks.org/wiki/Haskell/MonadPlus&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;digit :: Int -&amp;gt; String -&amp;gt; Maybe Int
+digit i s | i &amp;gt; 9 || i &amp;lt; 0 = Nothing
+          | otherwise      = do
+  let (c:_) = s
+  if [c] == show i then Just i else Nothing
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;"The do-block assures that any failed pattern match will result in returning Nothing."&lt;/p&gt;
+
+&lt;p&gt;However, when I tried &lt;code&gt;digit 1 ""&lt;/code&gt;, it produces irrefutable runtime error, instead of "Nothing".&lt;/p&gt;
+
+&lt;p&gt;I can get around it using &lt;code&gt;(c:_) &amp;lt;- return s&lt;/code&gt;. It would be great if someone more experienced in haskell could confirm/clarify on this.&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39311908</id>
+    <re:rank scheme="http://stackoverflow.com">4</re:rank>
+    <title type="text">What in lens should I use to build a read-only getter by index?</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="lens"/>
+    <author>
+      <name>Koz Ross</name>
+      <uri>http://stackoverflow.com/users/2629787</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39311908/what-in-lens-should-i-use-to-build-a-read-only-getter-by-index"/>
+    <published>2016-09-03T22:35:24Z</published>
+    <updated>2016-09-04T11:29:35Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I have a type whose internal details are hidden. I want to provide some kind of lens that can read elements from said type at particular indexes, but &lt;em&gt;not&lt;/em&gt; modify them.  An &lt;code&gt;Ixed&lt;/code&gt; instance for my type doesn't seem to do what I want, as it explicitly allows modifications (though not insertions or deletions). I'm not sure what I use if I want to allow read-only indexing.&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39311519</id>
+    <re:rank scheme="http://stackoverflow.com">-1</re:rank>
+    <title type="text">Haskell: memoizing search results</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="memoization"/>
+    <author>
+      <name>matthias</name>
+      <uri>http://stackoverflow.com/users/5200466</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39311519/haskell-memoizing-search-results"/>
+    <published>2016-09-03T21:31:19Z</published>
+    <updated>2016-09-04T15:34:55Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I have a list of words, for example: &lt;code&gt;myWords = ["ant", "as", "ahfoa", "pet", "eye", "afahaofha" , "ant"]&lt;/code&gt;. This list can be and is often over a thousand elements long. It changes frequently and up to half of the list could be duplicates.&lt;/p&gt;
+
+&lt;p&gt;I also have a list of real words &lt;code&gt;realWords&lt;/code&gt; which is  around 200,000 elements long. The elements will not change (or at least will change very infrequently)&lt;/p&gt;
+
+&lt;p&gt;I want to be able to return a list of &lt;code&gt;Boolean&lt;/code&gt; by checking if the words in &lt;code&gt;myWords&lt;/code&gt; exist in &lt;code&gt;realWords&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;something like  &lt;code&gt;map (`elem` realWords) myWords&lt;/code&gt; will yield the output I want&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;λ: map (`elem` realWords) myWords
+[True,True,False,True,True,False,True]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I would like to know what the best way to do the look up is i.e. Should I use a certain library to create a look up table? or what sort of data structure should I use to store the &lt;code&gt;realWords&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Memoization: I would like to have the result for a search memoized. For example, if I search for the word &lt;code&gt;"ant"&lt;/code&gt;, I would like to store the result &lt;code&gt;True&lt;/code&gt; or &lt;code&gt;{"ant":True}&lt;/code&gt; so that my search function actually checks to see if the element has already been searched for and if it has, it looks up the value in &lt;code&gt;"already searched"&lt;/code&gt; list and returns that. If it hasn't it looks up the word in &lt;code&gt;realWords&lt;/code&gt; and appends that value to my output list as well as adds appends the value my list to my list of previously searched elements. &lt;/p&gt;
+
+&lt;p&gt;Maybe I am using the wrong word, and I should be saying &lt;code&gt;caches&lt;/code&gt; the result?&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39310043</id>
+    <re:rank scheme="http://stackoverflow.com">1</re:rank>
+    <title type="text">Getting "Prelude.read: no parse" error when using detailed-0.9 tests with cabal</title>
+    <category scheme="http://stackoverflow.com/tags" term="unit-testing"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="cabal"/>
+    <author>
+      <name>mgmillani</name>
+      <uri>http://stackoverflow.com/users/3453051</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39310043/getting-prelude-read-no-parse-error-when-using-detailed-0-9-tests-with-cabal"/>
+    <published>2016-09-03T18:18:41Z</published>
+    <updated>2016-09-04T14:07:03Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I tried to follow &lt;a href="https://www.haskell.org/cabal/users-guide/developing-packages.html#test-suites" rel="nofollow"&gt;this guide&lt;/a&gt; in order to write some tests for a Haskell package using the &lt;code&gt;detailed-0.9&lt;/code&gt; test type. The cabal file is&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Name:           bar
+Version:        1.0
+License:        BSD3
+Cabal-Version:  &amp;gt;= 1.10
+Build-Type:     Simple
+
+Library
+    exposed-modules:     Foo
+    build-depends:       base &amp;gt;=4.9 &amp;amp;&amp;amp; &amp;lt;4.10
+    default-language:    Haskell2010
+
+Test-Suite test-bar
+    type:       detailed-0.9
+    test-module: Bar
+    build-depends: base, Cabal &amp;gt;= 1.9.2
+    default-language:    Haskell2010
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and Bar.hs is&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;module Bar ( tests ) where
+
+import Distribution.TestSuite
+
+tests :: IO [Test]
+tests = return [ Test succeeds, Test fails ]
+  where
+    succeeds = TestInstance
+        { run = return $ Finished Pass
+        , name = "succeeds"
+        , tags = []
+        , options = []
+        , setOption = \_ _ -&amp;gt; Right succeeds
+        }
+    fails = TestInstance
+        { run = return $ Finished $ Fail "Always fails!"
+        , name = "fails"
+        , tags = []
+        , options = []
+        , setOption = \_ _ -&amp;gt; Right fails
+        }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;However, when I run the tests with&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cabal configure --enable-tests
+cabal build
+cabal test
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I get&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Preprocessing test suite 'test-bar' for bar-1.0...
+[1 of 1] Compiling Main             ( dist/build/test-barStub/test-barStub-tmp/test-barStub.hs, dist/build/test-barStub/test-barStub-tmp/Main.dyn_o )
+Linking dist/build/test-barStub/test-barStub ...
+Running 1 test suites...
+Test suite test-bar: RUNNING...
+Prelude.read: no parse
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This also happens with the code from &lt;a href="https://github.com/michaxm/test-detailed-example" rel="nofollow"&gt;this repository&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Using &lt;code&gt;strace cabal test&lt;/code&gt; I managed to see that the last file that cabal tries to open is &lt;code&gt;dist/test/cabal-test-1804289383846930886.log&lt;/code&gt;, which does not exist. Creating the file does not help.&lt;/p&gt;
+
+&lt;p&gt;Is the &lt;code&gt;detailed-0.9&lt;/code&gt; test type still experimental? Should I use &lt;code&gt;exitcode-stdio-1.0&lt;/code&gt; instead?&lt;/p&gt;
+
+&lt;p&gt;GHC version: 8.0.1&lt;br&gt;
+cabal version: 1.24.0.0&lt;/p&gt;
+
+&lt;p&gt;EDIT:
+The error persists even if I set &lt;code&gt;tests = return []&lt;/code&gt; in &lt;code&gt;Bar.hs&lt;/code&gt;.&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39309749</id>
+    <re:rank scheme="http://stackoverflow.com">5</re:rank>
+    <title type="text">Passing struct-like data between C and Haskell via the FFI</title>
+    <category scheme="http://stackoverflow.com/tags" term="c"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="ffi"/>
+    <author>
+      <name>smilingbuddha</name>
+      <uri>http://stackoverflow.com/users/505306</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39309749/passing-struct-like-data-between-c-and-haskell-via-the-ffi"/>
+    <published>2016-09-03T17:49:02Z</published>
+    <updated>2016-09-04T21:47:55Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;Consider a Haskell data-type which looks like this &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;data MyData = MyData { arrInt :: [Int] , arrDouble :: [Double], arraySize :: N }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here N represents the sizes of both the arrays the MyData record. &lt;/p&gt;
+
+&lt;p&gt;Is it possible to pass this (or some kind of Haskell "pointer" of a MyData object) to a C function which looks like this. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;int myfunc (int* a, double* b, int N)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I am able to use the FFI to call C functions accepting and returning simple datat-types like Double, Int, Char etc. But for more complicated types I don't know what to do. &lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39309695</id>
+    <re:rank scheme="http://stackoverflow.com">0</re:rank>
+    <title type="text">Haskell: Different ways to join a list</title>
+    <category scheme="http://stackoverflow.com/tags" term="list"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <author>
+      <name>matthias</name>
+      <uri>http://stackoverflow.com/users/5200466</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39309695/haskell-different-ways-to-join-a-list"/>
+    <published>2016-09-03T17:44:03Z</published>
+    <updated>2016-09-03T18:06:15Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;If I have a list &lt;code&gt;[a,b,c,d,e]&lt;/code&gt; how do I find every way of joining the elements into sub-lists while maintaining order.&lt;/p&gt;
+
+&lt;p&gt;The output should look something like this &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[ [[a], [b], [c], [d]]
+, [[a,b], [c], [d]]
+, [[a], [b,c], [d]]
+, [[a], [b], [c,d]]
+, [[a,b,c], [d]]
+, [[a,b], [c,d]]
+, [[a,b,c,d]]
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39309616</id>
+    <re:rank scheme="http://stackoverflow.com">0</re:rank>
+    <title type="text">Haskell: parse error on input `|'</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <author>
+      <name>DoubleOseven</name>
+      <uri>http://stackoverflow.com/users/4748776</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39309616/haskell-parse-error-on-input"/>
+    <published>2016-09-03T17:36:31Z</published>
+    <updated>2016-09-03T17:36:31Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I am getting this error:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;sky.hs:3:5: error: parse error on input `|'&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This is the code:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sky list  
+    | (length list) /= 1 = reverse (last(even (sky list)) : reverse(odd list)
+    | otherwise = list
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Does anyone have any idea why this is happening? I have made sure that there are no tabs, just 4 spaces before the &lt;code&gt;|&lt;/code&gt; symbol. This might seem like a novice question but I am a beginner in Haskell.&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39309234</id>
+    <re:rank scheme="http://stackoverflow.com">2</re:rank>
+    <title type="text">How to write my version of unfoldr in a better / more idiomatic manner in Haskell?</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="fold"/>
+    <author>
+      <name>Emre Sevinç</name>
+      <uri>http://stackoverflow.com/users/236007</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39309234/how-to-write-my-version-of-unfoldr-in-a-better-more-idiomatic-manner-in-haskel"/>
+    <published>2016-09-03T16:49:45Z</published>
+    <updated>2016-09-03T21:29:26Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I'm trying to write my version of &lt;code&gt;unfoldr&lt;/code&gt; in order to solve a chapter exercise from &lt;a href="http://haskellbook.com/" rel="nofollow"&gt;Haskell Book&lt;/a&gt; (Chapter 12, Signaling Adversity). The book says:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Write the function &lt;code&gt;myUnfoldr&lt;/code&gt; using direct recursion. Compare with
+  the built-in &lt;code&gt;unfoldr&lt;/code&gt; to check your implementation. Again, don’t look
+  at implementations of unfoldr so that you figure it out yourself.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And gives the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;myUnfoldr :: (b -&amp;gt; Maybe (a, b)) -&amp;gt; b -&amp;gt; [a] 
+myUnfoldr = undefined
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;My initial attempt for &lt;code&gt;myUnfoldr&lt;/code&gt; has been to write it using a single helper function:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;maybeToList :: Maybe a -&amp;gt; [a]
+maybeToList (Just x) = [x]
+maybeToList Nothing = []
+
+myUnfoldr :: (b -&amp;gt; Maybe (a, b)) -&amp;gt; b -&amp;gt; [a]
+myUnfoldr f x = (fst $ head $ maybeToList (f x)) :
+  myUnfoldr f (snd $ head $ maybeToList (f x))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This type checks, and for a few example runs it seems like I've achieved what &lt;code&gt;unfoldr&lt;/code&gt; does, because:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;λ&amp;gt; take 10 $ unfoldr (\x -&amp;gt; Just (x, x + 1)) 0
+[0,1,2,3,4,5,6,7,8,9]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and the same result with &lt;code&gt;myUnfoldr&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;λ&amp;gt; take 10 $ myUnfoldr (\x -&amp;gt; Just (x, x + 1)) 0
+[0,1,2,3,4,5,6,7,8,9]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But of course, &lt;code&gt;myUnfoldr&lt;/code&gt; is problematic because if I try the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;λ&amp;gt; take 10 $ myUnfoldr (\x -&amp;gt; Nothing) 0
+[*** Exception: Prelude.head: empty list
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;whereas &lt;code&gt;unfoldr&lt;/code&gt; works as expected, returning &lt;code&gt;[]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;I can see why my &lt;code&gt;unFoldr&lt;/code&gt; is problematic, but I couldn't find out how to handle the situation where &lt;code&gt;f&lt;/code&gt; can return &lt;code&gt;Nothing&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;So my second take at the problem is to use another helper function, and this time use guards:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;isJust :: Maybe a -&amp;gt; Bool
+isJust (Just _) = True
+isJust _      = False
+
+myUnfoldr :: (b -&amp;gt; Maybe (a, b)) -&amp;gt; b -&amp;gt; [a]
+myUnfoldr f x | isJust $ (f x) = (fst $ head $ maybeToList (f x)) : myUnfoldr f (snd $ head $ maybeToList (f x))
+              | otherwise = []
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This second version seems to work as expected both for &lt;code&gt;take 10 $ myUnfoldr (\x -&amp;gt; Just (x, x+1)) 0&lt;/code&gt; and &lt;code&gt;take 10 $ myUnfoldr (\x -&amp;gt; Nothing) 0&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;But I'm still not comfortable with my solution.&lt;/p&gt;
+
+&lt;p&gt;Any ideas whether it can be written in a more concise form, without using a helper function? Or in a more idiomatic way? &lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39306945</id>
+    <re:rank scheme="http://stackoverflow.com">2</re:rank>
+    <title type="text">In Gtk2hs, why do TreeModelIface functions sometimes take an Iter, somtimes a Maybe Iter</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="gtk2hs"/>
+    <author>
+      <name>Paul Johnson</name>
+      <uri>http://stackoverflow.com/users/49220</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39306945/in-gtk2hs-why-do-treemodeliface-functions-sometimes-take-an-iter-somtimes-a-ma"/>
+    <published>2016-09-03T12:34:52Z</published>
+    <updated>2016-09-03T12:43:23Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;In Gtk2hs there is the &lt;code&gt;Graphics.UI.Gtk.ModelView.CustomStore&lt;/code&gt; module, which includes a data type containing a collection of functions, &lt;a href="https://hackage.haskell.org/package/gtk-0.14.5/docs/Graphics-UI-Gtk-ModelView-CustomStore.html#t:TreeModelIface" rel="nofollow"&gt;&lt;code&gt;TreeModelIface&lt;/code&gt;&lt;/a&gt;. It contains a bunch of functions for navigating around a user-defined tree type where the location is stored as a&lt;code&gt;TreeIter&lt;/code&gt;. So one of the member functions is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;treeModelIfaceIterNext :: TreeIter -&amp;gt; IO (Maybe TreeIter)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This returns the &lt;code&gt;TreeIter&lt;/code&gt; associated with the next sibling node, if there is one. Simple enough. But the following member function is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;treeModelIfaceIterChildren :: Maybe TreeIter -&amp;gt; IO (Maybe TreeIter)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This takes a &lt;code&gt;Maybe TreeIter&lt;/code&gt; instead of a simple &lt;code&gt;TreeIter&lt;/code&gt;. The documentation doesn't say why, or what an argument of &lt;code&gt;Nothing&lt;/code&gt; is used for.&lt;/p&gt;
+
+&lt;p&gt;Questions:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Why this variation of argument types?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;What should &lt;code&gt;treeModelIfaceIterChilren iface Nothing&lt;/code&gt; return?&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39305990</id>
+    <re:rank scheme="http://stackoverflow.com">2</re:rank>
+    <title type="text">Translating this monadic counter from Haskell to Scala</title>
+    <category scheme="http://stackoverflow.com/tags" term="scala"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="functional-programming"/>
+    <category scheme="http://stackoverflow.com/tags" term="scalaz"/>
+    <category scheme="http://stackoverflow.com/tags" term="scala-cats"/>
+    <author>
+      <name>Damian Nadales</name>
+      <uri>http://stackoverflow.com/users/2289983</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39305990/translating-this-monadic-counter-from-haskell-to-scala"/>
+    <published>2016-09-03T10:39:46Z</published>
+    <updated>2016-09-03T14:17:39Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I have defined a &lt;a href="https://github.com/capitanbatata/sandbox/tree/master/monadic-counter" rel="nofollow"&gt;monadic counter in Haskell&lt;/a&gt; which I'm trying to translate to Scala, failing miserably so far. The problem in a nutshell is about implementing a counter as a state monad, which reads the counter increment constant from the environment, and logs the history of the counter (its sequence of values).&lt;/p&gt;
+
+&lt;p&gt;A friend of mine improved upon my solution, and came up with this simple solution:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;newtype Counter = Counter Int deriving (Eq)
+
+instance Show Counter where
+  show (Counter i) = show i
+
+incWith :: MonadState Counter m =&amp;gt; Int -&amp;gt; m ()
+incWith n = let incCounter n' (Counter i) = Counter $ i + n'
+            in modify (incCounter n)
+
+inc :: (MonadReader Int m, MonadState Counter m, MonadWriter [Counter] m) =&amp;gt; m ()
+inc = ask &amp;gt;&amp;gt;= incWith &amp;gt;&amp;gt; get &amp;gt;&amp;gt;= tell . (:[])
+
+compute :: (MonadReader Int m, MonadState Counter m, MonadWriter [Counter] m) =&amp;gt; m ()
+compute =
+  local (const 3) $ do
+    inc
+    inc
+    inc
+    local (const 5) $ do
+      inc
+      inc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I've tried &lt;a href="https://github.com/capitanbatata/sandbox/tree/master/monadic-counter-scala-remix" rel="nofollow"&gt;without success&lt;/a&gt; to code this into Scala + (Cats | ScalaZ). The latest stable version of Cats lacks a &lt;code&gt;lift&lt;/code&gt; method for &lt;code&gt;WriterT&lt;/code&gt;. And with &lt;code&gt;ReaderWriterState&lt;/code&gt; in &lt;code&gt;Scalaz&lt;/code&gt; I could not figure out in a couple of hours how to use the &lt;code&gt;local&lt;/code&gt; method. And that's only the begining ...&lt;/p&gt;
+
+&lt;p&gt;How this Haskell solution could be translated in a simple and elegant way? (to the extent allowed by the language).&lt;/p&gt;
+
+&lt;p&gt;Side note: &lt;/p&gt;
+
+&lt;p&gt;I'm still trying to figure out why I need to spend so much time to translate simple solutions from Haskell to Scala + FP libraries (Cats, Scalaz). In Haskell finding the instances and available functions of each type-class is a breeze, in Scala using IntelliJ, GitHub and StackOverflow this takes me days. So I'm wondering what am I doing wrong, and how could I improve this situation.&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39305716</id>
+    <re:rank scheme="http://stackoverflow.com">0</re:rank>
+    <title type="text">Infinite loop in pow function</title>
+    <category scheme="http://stackoverflow.com/tags" term="function"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="operator-precedence"/>
+    <author>
+      <name>Lazyexpert</name>
+      <uri>http://stackoverflow.com/users/4379015</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39305716/infinite-loop-in-pow-function"/>
+    <published>2016-09-03T10:09:35Z</published>
+    <updated>2016-09-03T10:56:35Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I'm new to Haskell, and I'm getting an infinite loop here, but I don't know why.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;module Main where
+
+pow :: Int -&amp;gt; Int -&amp;gt; Int
+pow x 0 = 1
+pow x y = x * pow x y-1
+
+main :: IO ()
+main = print( pow 2 3 )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Any ideas?&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39305513</id>
+    <re:rank scheme="http://stackoverflow.com">0</re:rank>
+    <title type="text">Opaleye query by String to Maybe</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="opaleye"/>
+    <author>
+      <name>atc</name>
+      <uri>http://stackoverflow.com/users/27385</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39305513/opaleye-query-by-string-to-maybe"/>
+    <published>2016-09-03T09:46:17Z</published>
+    <updated>2016-09-03T15:35:24Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I want to run a query against my table for a given value, and return a &lt;code&gt;Maybe a&lt;/code&gt; depending on whether a row was found.&lt;/p&gt;
+
+&lt;p&gt;I have this domain:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;data User' a b c d e f = User {  usrId :: a,
+                                     usrApproved :: b,
+                                     usrIden :: c, 
+                                     usrImgUrl :: d,
+                                     usrTitle :: e, 
+                                     usrUrl :: f 
+                                  }
+
+type User = User' Int Bool String String String String
+
+$(makeAdaptorAndInstance "pUser" ''User')
+
+type UserColumn = User' (Column PGInt4) (Column PGBool) (Column PGText) (Column PGText) (Column PGText) (Column PGText) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and the following definitions for the table and queries:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;userTable :: Table UserColumn UserColumn
+userTable = Table "user" (pUser User {  usrId       = required "id",
+                                                usrApproved = required "approved",
+                                                usrIden     = required "identifier",
+                                                usrImgUrl   = required "img_url",
+                                                usrTitle    = required "title",
+                                                usrUrl      = required "url"
+                                             })
+
+userQuery :: Query UserColumn
+userQuery = queryTable userTable
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As hinted previously, I want to query by the "identifier" column, so I've written this query and wish to return a `IO (Maybe User)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;userByIdenQuery :: (Column PGText) -&amp;gt; Query UserColumn
+userByIdenQuery iden = proc () -&amp;gt; do
+  user &amp;lt;- userQuery -&amp;lt; ()
+  restrict -&amp;lt; (adIden user) .=== iden
+  returnA -&amp;lt; user    
+
+getUserByIden :: String -&amp;gt; PGS.Connection -&amp;gt; IO (Maybe User)
+getUserByIden iden c = do
+  usr &amp;lt;- runQuery c (userByIdenQuery $ pgString iden)
+  -- But this fails to compile
+  undefined -- just to minimise compilation errors
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;this fails to compile with:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;No instance for (Default
+                   Opaleye.Internal.RunQuery.QueryRunner UserColumn haskells0)
+  arising from a use of `runQuery'
+The type variable `haskells0' is ambiguous
+Note: there is a potential instance available:
+  instance (product-profunctors-0.7.1.0:Data.Profunctor.Product.Class.ProductProfunctor
+              p,
+            Default p a1_0 a1_1, Default p a2_0 a2_1, Default p a3_0 a3_1,
+            Default p a4_0 a4_1, Default p a5_0 a5_1, Default p a6_0 a6_1) =&amp;gt;
+           Default
+             p
+             (User' a1_0 a2_0 a3_0 a4_0 a5_0 a6_0)
+             (User' a1_1 a2_1 a3_1 a4_1 a5_1 a6_1)
+    -- Defined at src\DB.hs:33:3
+In a stmt of a 'do' block:
+  usr &amp;lt;- runQuery c (userByIdenQuery $ pgString iden)
+In the expression:
+  do { usr &amp;lt;- runQuery c (userByIdenQuery $ pgString iden);
+       undefined }
+In an equation for `getUserByIden':
+    getUserByIden iden c
+      = do { usr &amp;lt;- runQuery c (userByIdenQuery $ pgString iden);
+             undefined }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If I try to implement the function:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;getUserByIden :: String -&amp;gt; PGS.Connection -&amp;gt; IO (Maybe User)
+getUserByIden iden c = do
+  (usrId, appr, idn, imUrl, tit, url) &amp;lt;- runQuery c (userByIdenQuery $ pgString iden)
+  return $ Just $ User usrId appr idn imUrl tit url
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then I'm presented with this compilation error:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Couldn't match expected type `[haskells0]'
+        with actual type `(Int, Bool, String, String, String, String)'
+In the pattern: (usrId, appr, idn, imUrl, tit, url)
+In a stmt of a 'do' block:
+  (usrId, appr, idn, imUrl, tit, url) &amp;lt;- runQuery
+                                          c (userByIdenQuery $ pgString iden)
+In the expression:
+  do { (usrId, appr, idn, imUrl, tit, url) &amp;lt;- runQuery
+                                               c (userByIdenQuery $ pgString iden);
+       return $ Just $ User usrId appr idn imUrl tit url }
+
+I really have no idea where to go with this, other than using a library other than Opaleye.
+&lt;/code&gt;&lt;/pre&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39298795</id>
+    <re:rank scheme="http://stackoverflow.com">1</re:rank>
+    <title type="text">Case conversion of large dictionary word set</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="optimization"/>
+    <category scheme="http://stackoverflow.com/tags" term="data-structures"/>
+    <author>
+      <name>RoyM</name>
+      <uri>http://stackoverflow.com/users/1913372</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39298795/case-conversion-of-large-dictionary-word-set"/>
+    <published>2016-09-02T18:35:29Z</published>
+    <updated>2016-09-03T15:33:57Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I'm trying to match words from a dictionary, case-insensitively. My initial approach
+looks like so:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;read dict; convert all words to lowercase, store in set.&lt;/li&gt;
+&lt;li&gt;check new word for membership in set&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Is there a better (more efficient) way to achieve this? I'm new to Haskell.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import System.IO
+import Data.Text (toLower, pack, unpack)
+import Data.Set (fromList, member)
+
+main = do
+  let path = "/usr/share/dict/american-english"
+  h &amp;lt;- openFile path ReadMode
+  hSetEncoding h utf8
+  contents &amp;lt;- hGetContents h
+  let mySet = (fromList . map (unpack . toLower . pack) . lines) contents
+  putStrLn $ show $ member "acadia" mySet
+&lt;/code&gt;&lt;/pre&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39296935</id>
+    <re:rank scheme="http://stackoverflow.com">2</re:rank>
+    <title type="text">Calling C++ libraries (especially template based like CGAL) from Haskell</title>
+    <category scheme="http://stackoverflow.com/tags" term="c++"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <author>
+      <name>smilingbuddha</name>
+      <uri>http://stackoverflow.com/users/505306</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39296935/calling-c-libraries-especially-template-based-like-cgal-from-haskell"/>
+    <published>2016-09-02T16:23:28Z</published>
+    <updated>2016-09-02T16:23:28Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I have been using Haskell for a few months and would really like to use it in one of my projects involving computational geometry. &lt;/p&gt;
+
+&lt;p&gt;Haskell however, sorely lacks in good geometry libraries. Geometric algorithms are notoriously hard to implement robustly, hence I would like to use an off-the-shelf package like CGAL. It makes heavy use of C++ templates. I won't be needing an interface to all of CGAL, just a small subset of functions which I use most of the time. &lt;/p&gt;
+
+&lt;p&gt;Haskell has a good C foreign function interface, but not for C++. So how can I call C++ through Haskell? &lt;/p&gt;
+
+&lt;p&gt;All I found was this &lt;a href="https://wiki.haskell.org/CPlusPlus_from_Haskell" rel="nofollow"&gt;https://wiki.haskell.org/CPlusPlus_from_Haskell&lt;/a&gt; which seems a complicated way of going about the process. I am sure people have a simpler way of calling C++ from Haskell. &lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39295923</id>
+    <re:rank scheme="http://stackoverflow.com">0</re:rank>
+    <title type="text">Installation of haskell-chart fails due to gtk-0.14.2 build error</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell-stack"/>
+    <category scheme="http://stackoverflow.com/tags" term="gtk2hs"/>
+    <author>
+      <name>E. Nerush</name>
+      <uri>http://stackoverflow.com/users/6788235</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39295923/installation-of-haskell-chart-fails-due-to-gtk-0-14-2-build-error"/>
+    <published>2016-09-02T15:25:30Z</published>
+    <updated>2016-09-03T15:00:41Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I'm trying to install haskell-chart from &lt;a href="https://github.com/timbod7/haskell-chart" rel="nofollow" title="here"&gt;here&lt;/a&gt; (github), I clone it, install &lt;em&gt;stack&lt;/em&gt;, ran &lt;em&gt;stack setup&lt;/em&gt; (it installs GHC successfully), but then I ran &lt;em&gt;make&lt;/em&gt; that fails with the messages:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;...
+Chart-cairo-1.8: copy/register
+Chart-diagrams-1.8: copy/register
+Progress: 4/6
+--  While building package gtk-0.14.2 using:
+      /tmp/stack4807/gtk-0.14.2/.stack-work/dist/x86_64-linux/Cabal-1.22.5.0/setup/setup --builddir=.stack-work/dist/x86_64-linux/Cabal-1.22.5.0 build --ghc-options " -ddump-hi -ddump-to-file"
+    Process exited with code: ExitFailure 1
+...
+
+[ 22 of 209] Compiling Graphics.UI.Gtk.Embedding.Plug ( .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Graphics/UI/Gtk/Embedding/Plug.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Graphics/UI/Gtk/Embedding/Plug.o )
+
+    /tmp/stack4807/gtk-0.14.2/Graphics/UI/Gtk/Embedding/Plug.chs:120:6:
+        Couldn't match expected type ‘CUInt’
+                    with actual type ‘Maybe DrawWindow’
+        In the first argument of ‘gtk_plug_new’, namely...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Stack version is 1.1.2 x86_64 hpack-0.14.1, LTS Haskell 5.18 (ghc-7.10.3). What can I do with this errors?&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39295245</id>
+    <re:rank scheme="http://stackoverflow.com">1</re:rank>
+    <title type="text">How to write pseudocode for functional programming languages? [on hold]</title>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="functional-programming"/>
+    <category scheme="http://stackoverflow.com/tags" term="scheme"/>
+    <category scheme="http://stackoverflow.com/tags" term="pseudocode"/>
+    <author>
+      <name>Vasantha Ganesh K</name>
+      <uri>http://stackoverflow.com/users/3750381</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39295245/how-to-write-pseudocode-for-functional-programming-languages"/>
+    <published>2016-09-02T14:48:48Z</published>
+    <updated>2016-09-02T16:18:30Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;How to write pseudocode for functional programming languages like Scheme or Haskell?
+All that I searched for showed C style or Python style pseudocode.&lt;/p&gt;
+
+        </summary>
+  </entry>
+  <entry>
+    <id>http://stackoverflow.com/q/39293599</id>
+    <re:rank scheme="http://stackoverflow.com">8</re:rank>
+    <title type="text">How has instance (Param B.ByteString) managed to vanish?</title>
+    <category scheme="http://stackoverflow.com/tags" term="mysql"/>
+    <category scheme="http://stackoverflow.com/tags" term="haskell"/>
+    <category scheme="http://stackoverflow.com/tags" term="cabal"/>
+    <author>
+      <name>pigworker</name>
+      <uri>http://stackoverflow.com/users/828361</uri>
+    </author>
+    <link rel="alternate" href="http://stackoverflow.com/questions/39293599/how-has-instance-param-b-bytestring-managed-to-vanish"/>
+    <published>2016-09-02T13:26:33Z</published>
+    <updated>2016-09-02T14:52:46Z</updated>
+    <summary type="html">
+            
+
+            &lt;p&gt;I have some old code which used to compile, but now it doesn't. I worry I may have hit a package management snafu, and I'm really bad at dealing with that sort of thing. I've cut it down to a minimal failing example.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{-# LANGUAGE OverloadedStrings #-}
+
+module Gremlin where
+
+import Database.MySQL.Simple.Param
+import qualified Data.ByteString as SB
+
+foo :: Param x =&amp;gt; [x]
+foo = []
+
+shoo :: [SB.ByteString]
+shoo = foo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The error I get is&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/.../Gremlin.hs:12:8:
+No instance for (Param SB.ByteString) arising from a use of ‘foo’
+In the expression: foo
+In an equation for ‘shoo’: shoo = foo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But when I look at the source code for&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;module Database.MySQL.Simple.Param
+    (
+      Action(..)
+    , Param(..)
+    , inQuotes
+    ) where
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I see&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import qualified Data.ByteString as SB
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;instance Param SB.ByteString where
+    render = Escape
+    {-# INLINE render #-}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Relevant version information may include&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ghci --version
+The Glorious Glasgow Haskell Compilation System, version 7.10.2
+$ ghc-pkg latest mysql-simple
+mysql-simple-0.2.2.5
+$ ghc-pkg latest bytestring
+bytestring-0.10.8.1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When I ask ghci&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:info Param
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I get a shorter list than the mysql-simple documentation would lead me to expect.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Prelude&amp;gt; :m + Database.MySQL.Simple.Param Data.ByteString
+Prelude Database.MySQL.Simple.Param Data.ByteString&amp;gt; :info Param
+class Param a where
+  render :: a -&amp;gt; Action  
+    -- Defined in ‘Database.MySQL.Simple.Param’
+instance Param [Char] -- Defined in ‘Database.MySQL.Simple.Param’
+instance Param Word -- Defined in ‘Database.MySQL.Simple.Param’
+instance Param a =&amp;gt; Param (Maybe a)
+  -- Defined in ‘Database.MySQL.Simple.Param’
+instance Param Integer -- Defined in ‘Database.MySQL.Simple.Param’
+instance Param Int -- Defined in ‘Database.MySQL.Simple.Param’
+instance Param Float -- Defined in ‘Database.MySQL.Simple.Param’
+instance Param Double -- Defined in ‘Database.MySQL.Simple.Param’
+instance Param Bool -- Defined in ‘Database.MySQL.Simple.Param’
+instance Param Action -- Defined in ‘Database.MySQL.Simple.Param’
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;but I suppose that only tells me the instances for what's locally in scope. I then do&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Prelude Database.MySQL.Simple.Param Data.ByteString&amp;gt; :m +Data.Text
+Prelude Database.MySQL.Simple.Param Data.ByteString Data.Text&amp;gt; :info Param
+class Param a where
+...
+instance Param Text -- Defined in ‘Database.MySQL.Simple.Param’
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Further investigation points to a potential source of trouble:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ghc-pkg describe mysql-simple
+name: mysql-simple
+version: 0.2.2.5
+...
+depends:
+...
+    bytestring-0.10.6.0-6e8453cb70b477776f26900f41a5e17a
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I'm guessing that the &lt;code&gt;ByteString&lt;/code&gt; with the instance is from &lt;code&gt;0.10.6.0&lt;/code&gt; and distinct from the version I get when write exactly the same import in my source file. If so, I'm a bit peeved at how much work I had to do to find that out: it would be great if "No instance for Foo" would add "even though there's an instance for a whole other Foo".&lt;/p&gt;
+
+&lt;p&gt;This is cabal hell, right? Can I make mysql-simple rebuild with the newer version? I tried &lt;code&gt;ghc-pkg unregister mysql-simple&lt;/code&gt; and then &lt;code&gt;cabal install mysql-simple&lt;/code&gt;, but to no avail.&lt;/p&gt;
+
+&lt;p&gt;What's a good repair strategy?&lt;/p&gt;
+
+        </summary>
+  </entry>
+</feed>

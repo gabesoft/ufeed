@@ -22,7 +22,7 @@ sample =
   -- c1 $/ element "{http://www.w3.org/2005/Atom}title" &/ content
   -- attribute "href" c3
   -- attribute "href" <$> (c1 $/ element "{http://www.w3.org/2005/Atom}link")
-  do d <- readXml "data/atom1.0.sample1.xml"
+  do d <- readXml "data/rss2.sample1.xml"
      let h = head $ rights [d]
      return (h,fromDocument h)
 
@@ -32,6 +32,10 @@ readXml file = do
   f <- BS.readFile file
   return $ parseLBS def f
 
+-- TODO return Either SomeException ByteString
+-- |
+-- Fetch a feed and all its posts that are newer than
+-- the specified last modified information
 fetchFeed
   :: String -> LastModified -> IO (Maybe FT.Feed,LastModified)
 fetchFeed uri modified =
@@ -43,6 +47,8 @@ fetchFeed uri modified =
             ,LastModified (C.unpack <$> et)
                           (C.unpack <$> lm))
 
+-- |
+-- Add the last modified headers to the default options
 modifiedHeaders :: LastModified -> Options
 modifiedHeaders modified = foldr step defaults (fs <*> [modified])
   where fs = [(,) hIfNoneMatch . etag,(,) hIfModifiedSince . lastModified]

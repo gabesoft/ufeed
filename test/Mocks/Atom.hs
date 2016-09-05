@@ -1,43 +1,23 @@
--- | Tests for Query.Atom
-module Main (main) where
+{-# LANGUAGE OverloadedStrings #-}
 
-import Control.Exception (SomeException)
-import Data.ByteString.Lazy as BS (readFile)
-import Model
-import Query.Atom
-import Test.Hspec
-import Text.XML as XML
+-- | Mock for atom tests
+module Mocks.Atom where
+
+import Types
+
+feedCases :: [(String,Feed)]
+feedCases = zip files feeds
+
+postsCases :: [(String,[Post])]
+postsCases = zip (take 2 files) posts
 
 files :: [String]
 files =
-  ["data/atom0.3.sample1.xml"
-  ,"data/atom1.0.sample0.xml"
-  ,"data/atom1.0.sample1.xml"
-  ,"data/atom1.0.sample2.xml"
-  ,"data/atom1.0.sample3.xml"
-  ,"data/atom1.0.sample4.xml"]
-
-cases :: [(String,Feed)]
-cases = zip (tail files) feeds
-
-readXml
-  :: String -> IO (Either SomeException Document)
-readXml file =
-  do f <- BS.readFile file
-     return $ parseLBS def f
-
-main :: IO ()
-main =
-  hspec $
-  describe "extract feed data" $
-  mapM_ (\(f,e) -> it f $ extractAndVerify f e) cases
-
-extractAndVerify :: String -> Feed -> IO ()
-extractAndVerify file expected =
-  do doc <- readXml file
-     case doc of
-       Left err -> fail (show err)
-       Right d -> toFeed d `shouldBe` expected
+  ["test/data/atom1.0.sample0.xml"
+  ,"test/data/atom1.0.sample1.xml"
+  ,"test/data/atom1.0.sample2.xml"
+  ,"test/data/atom1.0.sample3.xml"
+  ,"test/data/atom1.0.sample4.xml"]
 
 feeds :: [Feed]
 feeds =
@@ -77,7 +57,7 @@ feeds =
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "dive into mark"
-        ,feedUri = Just "http://example.org/feed.atom"}
+        ,feedUri = Nothing}
   ,Feed {feedAuthor = Just "Bozhidar Batsov"
         ,feedData = Nothing
         ,feedDate = Just "2015-06-17T12:45:14+03:00"
@@ -95,7 +75,7 @@ feeds =
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "(think)"
-        ,feedUri = Just "http://batsov.com/atom.xml"}
+        ,feedUri = Nothing}
   ,Feed {feedAuthor = Nothing
         ,feedData = Nothing
         ,feedDate = Just "2014-11-17T00:00:00+02:00"
@@ -113,7 +93,7 @@ feeds =
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "Emacs Rocks!"
-        ,feedUri = Just "http://emacsrocks.com/atom.xml"}
+        ,feedUri = Nothing}
   ,Feed {feedAuthor = Nothing
         ,feedData = Nothing
         ,feedDate = Just "2016-09-05T00:13:20Z"
@@ -133,5 +113,29 @@ feeds =
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "Newest questions tagged haskell - Stack Overflow"
-        ,feedUri =
-           Just "http://stackoverflow.com/feeds/tag?tagnames=haskell&sort=newest"}]
+        ,feedUri = Nothing}]
+
+posts :: [[Post]]
+posts =
+  [[Post {postAuthor = Nothing
+         ,postComments = Nothing
+         ,postDate = "2003-12-13T18:30:02Z"
+         ,postDescription = Nothing
+         ,postFeedId = Nothing
+         ,postGuid = "urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a"
+         ,postImage = Nothing
+         ,postLink = "http://example.org/2003/12/13/atom03"
+         ,postPubdate = Nothing
+         ,postSummary = Just "Some text."
+         ,postTitle = "Atom-Powered Robots Run Amok"}]
+  ,[Post {postAuthor = Just "Mark Pilgrim"
+         ,postComments = Nothing
+         ,postDate = "2005-07-31T12:29:29Z"
+         ,postDescription = Just ""
+         ,postFeedId = Nothing
+         ,postGuid = "tag:example.org,2003:3.2397"
+         ,postImage = Nothing
+         ,postLink = "http://example.org/2005/04/02/atom"
+         ,postPubdate = Just "2003-12-13T08:29:29-04:00"
+         ,postSummary = Nothing
+         ,postTitle = "Atom draft-07 snapshot"}]]

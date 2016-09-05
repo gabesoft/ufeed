@@ -5,7 +5,7 @@ module Api where
 
 import Control.Lens
 import Data.Text (pack)
-import Model
+import Types
 import Network.Wreq
 
 fetchFeeds :: String -> Int -> IO [Feed]

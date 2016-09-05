@@ -1,62 +1,70 @@
 {-# LANGUAGE RecordWildCards #-}
 
--- | Feed data models
-module Model where
+-- | Feed data types
+module Types where
 
 import Data.Aeson
 import Data.Maybe (fromMaybe)
-import Data.Text (pack)
+import Data.Text (pack, Text, empty)
+import Data.Typeable
+import Control.Exception
 
-type Date = String
+newtype UnsupportedFormat =
+  UnsupportedFormat String
+  deriving (Show,Typeable)
+
+instance Exception UnsupportedFormat
+
+type Date = Text
 
 data Image =
-  Image {imageTitle :: String
-        ,imageUrl :: String}
+  Image {imageTitle :: Text
+        ,imageUrl :: Text}
   deriving (Eq,Show)
 
 data LastModified =
-  LastModified {etag :: Maybe String
+  LastModified {etag :: Maybe Text
                ,lastModified :: Maybe Date}
   deriving (Eq,Show)
 
 data ReadStatus
   = ReadSuccess
-  | ReadFailure String
+  | ReadFailure Text
   deriving (Eq,Show)
 
 data Feed =
-  Feed {feedAuthor :: Maybe String
+  Feed {feedAuthor :: Maybe Text
        ,feedData :: Maybe LastModified
        ,feedDate :: Maybe Date
-       ,feedDescription :: Maybe String
-       ,feedFavicon :: Maybe String
-       ,feedGenerator :: Maybe String
-       ,feedGuid :: Maybe String
-       ,feedId :: Maybe String
+       ,feedDescription :: Maybe Text
+       ,feedFavicon :: Maybe Text
+       ,feedGenerator :: Maybe Text
+       ,feedGuid :: Maybe Text
+       ,feedId :: Maybe Text
        ,feedImage :: Maybe Image
-       ,feedLanguage :: Maybe String
+       ,feedLanguage :: Maybe Text
        ,feedLastPostDate :: Maybe Date
        ,feedLastReadDate :: Maybe Date
        ,feedLastReadStatus :: Maybe ReadStatus
-       ,feedLink :: String
-       ,feedOriginalDescription :: Maybe String
+       ,feedLink :: Text
+       ,feedOriginalDescription :: Maybe Text
        ,feedPostCount :: Int
-       ,feedTitle :: String
-       ,feedUri :: Maybe String}
+       ,feedTitle :: Text
+       ,feedUri :: Maybe Text}
   deriving (Eq,Show)
 
 data Post =
-  Post {postAuthor :: Maybe String
-       ,postComments :: Maybe String
+  Post {postAuthor :: Maybe Text
+       ,postComments :: Maybe Text
        ,postDate :: Date
-       ,postDescription :: Maybe String
-       ,postFeedId :: Maybe String
-       ,postGuid :: String
+       ,postDescription :: Maybe Text
+       ,postFeedId :: Maybe Text
+       ,postGuid :: Text
        ,postImage :: Maybe Image
-       ,postLink :: String
+       ,postLink :: Text
        ,postPubdate :: Maybe Date
-       ,postSummary :: Maybe String
-       ,postTitle :: String}
+       ,postSummary :: Maybe Text
+       ,postTitle :: Text}
   deriving (Eq,Show)
 
 nullLastModified :: LastModified
@@ -97,7 +105,7 @@ instance FromJSON ReadStatus where
        return $
          case readType of
            "success" -> ReadSuccess
-           _ -> ReadFailure (fromMaybe "" readError)
+           _ -> ReadFailure (fromMaybe empty readError)
   parseJSON _ = fail "Expected an object for ReadStatus"
 
 instance FromJSON Image where
@@ -106,4 +114,4 @@ instance FromJSON Image where
     \o ->
       do imageTitle <- o .:? pack "title"
          imageUrl <- o .: pack "url"
-         return $ Image (fromMaybe "" imageTitle) imageUrl
+         return $ Image (fromMaybe empty imageTitle) imageUrl

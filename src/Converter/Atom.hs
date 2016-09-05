@@ -1,22 +1,27 @@
--- | Convert atom feeds and posts
-module Converter.Atom where
+-- |
+-- Converter for atom 1.0 feeds
+module Converter.Atom (extractFeed,extractPosts,isAtom) where
 
-import Data.Maybe (isNothing)
-import Model
-import qualified Text.Atom.Feed as A
-import Util
+import Data.Maybe (listToMaybe, fromMaybe, fromJust)
+import Data.Text (Text, pack, strip, empty)
+import Types
+import Text.XML
+import Text.XML.Cursor
 
-extractAtomFeed :: A.Feed -> Feed
-extractAtomFeed feed =
-  Feed {feedAuthor = (extractAuthor . A.feedAuthors) feed
+atomNS :: String
+atomNS = "http://www.w3.org/2005/Atom"
+
+extractFeed :: Document -> Feed
+extractFeed doc =
+  Feed {feedAuthor = get findAuthor
+       ,feedDate = get findUpdated
        ,feedData = Nothing
-       ,feedDate = Just $ A.feedUpdated feed
-       ,feedDescription = Nothing
-       ,feedFavicon = A.feedIcon feed
-       ,feedGenerator = A.genText <$> A.feedGenerator feed
-       ,feedGuid = Just $ A.feedId feed
+       ,feedDescription = get findSubtitle
+       ,feedFavicon = get findIcon
+       ,feedGenerator = get findGenerator
+       ,feedGuid = get findId
        ,feedId = Nothing
-       ,feedImage = Image "" <$> A.feedLogo feed
+       ,feedImage = Image empty <$> get findLogo
        ,feedLanguage = Nothing
        ,feedLastPostDate = Nothing
        ,feedLastReadDate = Nothing
@@ -24,71 +29,120 @@ extractAtomFeed feed =
        ,feedLink = link
        ,feedOriginalDescription = Nothing
        ,feedPostCount = 0
-       ,feedTitle = extractFeedTitle feed
-       ,feedUri = Just uri}
-  where (link,uri) = extractLinks feed
+       ,feedTitle = fromMaybe empty $ get findTitle
+       ,feedUri = Nothing}
+  where cursor = fromDocument doc
+        link = fromMaybe empty (get findAltLink)
+        get f = f cursor
 
-extractLinks :: A.Feed -> (String,String)
-extractLinks feed = (link,ensureAbsoluteUrl link uri)
-  where filterByRel f =
-          filter (f . A.linkRel)
-                 (A.feedLinks feed)
-        self = filterByRel ((== "self") . rel)
-        other = filterByRel ((== "alternate") . rel) ++ filterByRel isNothing
-        rel Nothing = ""
-        rel (Just (Right ncName)) = ncName
-        rel (Just (Left url)) = url
-        uri = A.linkHref . head $ self
-        link =
-          case other of
-            [] -> A.feedId feed
-            x:_ -> A.linkHref x
+extractPosts :: Document -> [Post]
+extractPosts doc = findPosts (fromDocument doc $/ axis "entry")
 
-extractFeedTitle :: A.Feed -> String
-extractFeedTitle feed = title (A.feedTitle feed)
-  where title (A.TextString s) = s
-        title (A.HTMLString s) = s
-        title _ = A.feedId feed
+findPosts :: [Cursor] -> [Post]
+findPosts = fmap findPost
 
-extractAuthor :: [A.Person] -> Maybe String
-extractAuthor [] = Nothing
-extractAuthor (x:_) = Just $ A.personName x
-
-extractAtomPosts :: A.Feed -> [Post]
-extractAtomPosts feed = extractPost feed <$> A.feedEntries feed
-
-extractPost :: A.Feed -> A.Entry -> Post
-extractPost feed entry =
-  Post {postAuthor = extractAuthor (A.entryAuthors entry)
+findPost :: Cursor -> Post
+findPost cursor =
+  Post {postAuthor = get findAuthor
        ,postComments = Nothing
-       ,postDate = A.entryUpdated entry
-       ,postDescription = extractEntryContent <$> A.entryContent entry
+       ,postDate = fromJust $ get findUpdated
+       ,postDescription = get findContent
        ,postFeedId = Nothing
-       ,postGuid = A.entryId entry
+       ,postGuid = fromJust $ get findId
        ,postImage = Nothing
-       ,postLink = extractEntryLink feed entry
-       ,postPubdate = A.entryPublished entry
-       ,postSummary = extractTextContent <$> A.entrySummary entry
-       ,postTitle = extractTextContent (A.entryTitle entry)}
+       ,postLink = fromJust link
+       ,postPubdate = get findPublished
+       ,postSummary = get findSummary
+       ,postTitle = fromMaybe empty $ get findTitle}
+  where get f = f cursor
+        link = listToMaybe (href <$> findLinks cursor)
+        href (h,_,_) = h
 
-extractEntryLink :: A.Feed -> A.Entry -> String
-extractEntryLink feed entry =
-  case links of
-    [] -> ensureAbsoluteUrl fLink $ A.entryId entry
-    x:_ -> ensureAbsoluteUrl fLink $ A.linkHref x
-  where links = A.entryLinks entry
-        (fLink,_) = extractLinks feed
+findContent :: Cursor -> Maybe Text
+findContent = childContent "content"
 
-extractEntryContent :: A.EntryContent -> String
-extractEntryContent ec =
-  case ec of
-    A.TextContent c -> c
-    A.HTMLContent c -> c
-    _ -> ""
+findPublished :: Cursor -> Maybe Text
+findPublished = childContent "published"
 
-extractTextContent :: A.TextContent -> String
-extractTextContent tc =
-  case tc of
-    A.TextString s -> s
-    A.HTMLString s -> s
-    _ -> ""
+findSummary :: Cursor -> Maybe Text
+findSummary = childContent "summary"
+
+findAuthor :: Cursor -> Maybe Text
+findAuthor cursor =
+  maybeFirstText (cursor $/ axis "author" &/ axis "name" &/ content)
+
+findUpdated :: Cursor -> Maybe Text
+findUpdated = childContent "updated"
+
+findTitle :: Cursor -> Maybe Text
+findTitle = childContent "title"
+
+findSubtitle :: Cursor -> Maybe Text
+findSubtitle = childContent "subtitle"
+
+findIcon :: Cursor -> Maybe Text
+findIcon = childContent "icon"
+
+findGenerator :: Cursor -> Maybe Text
+findGenerator = childContent "generator"
+
+findId :: Cursor -> Maybe Text
+findId = childContent "id"
+
+findLogo :: Cursor -> Maybe Text
+findLogo = childContent "logo"
+
+findSelfLink :: Cursor -> Maybe Text
+findSelfLink = findLinkByRel (== Just (pack "self"))
+
+findAltLink :: Cursor -> Maybe Text
+findAltLink = findLinkByRel (/= Just (pack "self"))
+
+findLinks
+  :: Cursor -> [(Text,Maybe Text,Maybe Text)]
+findLinks cursor = at <$> ls
+  where ls = cursor $/ axis "link"
+        at e =
+          (Prelude.head $ attribute (nm "href") e
+          ,listToMaybe $ attribute (nm "rel") e
+          ,listToMaybe $ attribute (nm "type") e)
+
+findLinkByRel
+  :: (Maybe Text -> Bool) -> Cursor -> Maybe Text
+findLinkByRel f cursor = listToMaybe (href <$> es)
+  where es =
+          Prelude.filter (f . rel)
+                         (findLinks cursor)
+        rel (_,r,_) = r
+        href (h,_,_) = h
+
+childContent :: String -> Cursor -> Maybe Text
+childContent name cursor = maybeFirstText (cursor $/ axis name &/ content)
+
+maybeFirstText :: [Text] -> Maybe Text
+maybeFirstText = fmap strip . listToMaybe
+
+-- |
+-- Determine whether a document is an atom feed
+isAtom :: Document -> Bool
+isAtom doc = name == ns "feed"
+  where root = documentRoot doc
+        name = elementName root
+
+-- |
+-- Create a name-spaced name with the given local name
+ns :: String -> Name
+ns name =
+  Name (pack name)
+       (Just $ pack atomNS)
+       Nothing
+
+-- |
+-- Create an non name-spaced name with the given local name
+nm :: String -> Name
+nm name = Name (pack name) Nothing Nothing
+
+-- |
+-- Create an axis from a local element name
+axis :: String -> Axis
+axis name = element (ns name)

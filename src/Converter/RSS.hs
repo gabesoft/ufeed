@@ -11,6 +11,12 @@ import Text.XML
 import Text.XML.Cursor
 import Types
 
+dcNS :: String
+dcNS = "http://purl.org/dc/elements/1.1/"
+
+contentNS :: String
+contentNS = "http://purl.org/rss/1.0/modules/content/"
+
 extractFeed :: Document -> Feed
 extractFeed doc =
   Feed {feedAuthor = get findEditor
@@ -18,6 +24,7 @@ extractFeed doc =
        ,feedData = Nothing
        ,feedDescription = get findDescription
        ,feedFavicon = Nothing
+       ,feedFormat = Just RSS2
        ,feedGenerator = get findGenerator
        ,feedGuid = get findLink
        ,feedId = Nothing
@@ -51,13 +58,13 @@ findPost cursor =
   Post {postAuthor = get findAuthor
        ,postComments = Nothing
        ,postDate = fromJust $ get findPubDate
-       ,postDescription = get findDescription
+       ,postDescription = get findContent <|> get findDescription
        ,postFeedId = Nothing
        ,postGuid = fromJust (guid <|> link)
        ,postImage = Nothing
        ,postLink = fromJust (link <|> guid)
        ,postPubdate = get findPubDate
-       ,postSummary = Nothing
+       ,postSummary = get findDescription
        ,postTitle = fromMaybe empty $ get findTitle}
   where get f = f cursor
         link = get findLink
@@ -73,7 +80,10 @@ findPubDate cursor =
 
 findAuthor :: Cursor -> Maybe Text
 findAuthor cursor =
-  childContent "author" cursor <|> childContent "creator" cursor
+  childContent "author" cursor <|> childContent "creator" cursor <|> dcCreator
+  where dcCreator =
+          childContentNS (ns dcNS "creator")
+                         cursor
 
 findEditor :: Cursor -> Maybe Text
 findEditor cursor =
@@ -88,6 +98,9 @@ findTitle = childContent "title"
 findDescription :: Cursor -> Maybe Text
 findDescription = childContent "description"
 
+findContent :: Cursor -> Maybe Text
+findContent = childContentNS (ns contentNS "encoded")
+
 findGenerator :: Cursor -> Maybe Text
 findGenerator = childContent "generator"
 
@@ -100,6 +113,9 @@ findLink = childContent "link"
 childContent :: String -> Cursor -> Maybe Text
 childContent name cursor = maybeFirstText (cursor $/ axis name &/ content)
 
+childContentNS :: Name -> Cursor -> Maybe Text
+childContentNS name cursor = maybeFirstText (cursor $/ element name &/ content)
+
 maybeFirstText :: [Text] -> Maybe Text
 maybeFirstText = fmap strip . listToMaybe
 
@@ -109,6 +125,14 @@ isRSS :: Document -> Bool
 isRSS doc = name == nm "rss"
   where root = documentRoot doc
         name = elementName root
+
+-- |
+-- Create a name-spaced name with the given local name
+ns :: String -> String -> Name
+ns nspace name =
+  Name (pack name)
+       (Just $ pack nspace)
+       Nothing
 
 -- |
 -- Create an non name-spaced name with the given local name

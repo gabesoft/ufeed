@@ -1,6 +1,6 @@
 -- |
 -- Converter for atom 1.0 feeds
-module Converter.Atom (extractFeed,extractPosts,isAtom) where
+module Converter.Atom (extractFeed, extractPosts, isAtom) where
 
 import Data.Maybe (listToMaybe, fromMaybe, fromJust)
 import Data.Text (Text, pack, strip, empty)
@@ -18,6 +18,7 @@ extractFeed doc =
        ,feedData = Nothing
        ,feedDescription = get findSubtitle
        ,feedFavicon = get findIcon
+       ,feedFormat = Just Atom1
        ,feedGenerator = get findGenerator
        ,feedGuid = get findId
        ,feedId = Nothing
@@ -37,6 +38,13 @@ extractFeed doc =
 
 extractPosts :: Document -> [Post]
 extractPosts doc = findPosts (fromDocument doc $/ axis "entry")
+
+-- |
+-- Determine whether a document is an atom feed
+isAtom :: Document -> Bool
+isAtom doc = name == ns "feed"
+  where root = documentRoot doc
+        name = elementName root
 
 findPosts :: [Cursor] -> [Post]
 findPosts = fmap findPost
@@ -121,13 +129,6 @@ childContent name cursor = maybeFirstText (cursor $/ axis name &/ content)
 
 maybeFirstText :: [Text] -> Maybe Text
 maybeFirstText = fmap strip . listToMaybe
-
--- |
--- Determine whether a document is an atom feed
-isAtom :: Document -> Bool
-isAtom doc = name == ns "feed"
-  where root = documentRoot doc
-        name = elementName root
 
 -- |
 -- Create a name-spaced name with the given local name

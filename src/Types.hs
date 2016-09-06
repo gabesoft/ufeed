@@ -4,18 +4,16 @@
 module Types where
 
 import Data.Aeson
+import Data.Aeson.Types (Parser)
 import Data.Maybe (fromMaybe)
 import Data.Text (pack, Text, empty)
-import Data.Typeable
-import Control.Exception
-
-newtype UnsupportedFormat =
-  UnsupportedFormat String
-  deriving (Show,Typeable)
-
-instance Exception UnsupportedFormat
 
 type Date = Text
+
+data FeedFormat
+  = RSS2
+  | Atom1
+  deriving (Eq,Show)
 
 data Image =
   Image {imageTitle :: Text
@@ -38,6 +36,7 @@ data Feed =
        ,feedDate :: Maybe Date
        ,feedDescription :: Maybe Text
        ,feedFavicon :: Maybe Text
+       ,feedFormat :: Maybe FeedFormat
        ,feedGenerator :: Maybe Text
        ,feedGuid :: Maybe Text
        ,feedId :: Maybe Text
@@ -77,6 +76,7 @@ instance FromJSON Feed where
        feedDate <- o .: pack "date"
        feedDescription <- o .:? pack "description"
        feedFavicon <- o .:? pack "favicon"
+       feedFormat <- o .:? pack "feedFormat"
        feedGenerator <- o .:? pack "generator"
        feedGuid <- o .:? pack "guid"
        feedId <- o .:? pack "id"
@@ -93,6 +93,18 @@ instance FromJSON Feed where
        return Feed {..}
   parseJSON _ = fail "Expected an object for Feed"
 
+instance FromJSON FeedFormat where
+  parseJSON (Object v) =
+    do ftype <- v .: pack "format"
+       format ftype
+    where format :: String -> Parser FeedFormat
+          format f =
+            case f of
+              "rss-2.0" -> return RSS2
+              "atom-1.0" -> return Atom1
+              _ -> fail "unknown format"
+  parseJSON _ = fail "Expected an object of FeedFormat"
+
 instance FromJSON LastModified where
   parseJSON (Object v) =
     LastModified <$> v .:? pack "etag" <*> v .:? pack "last-modified"
@@ -102,10 +114,13 @@ instance FromJSON ReadStatus where
   parseJSON (Object v) =
     do readType <- v .: pack "readStatus"
        readError <- v .:? pack "readStatusError"
-       return $
-         case readType of
-           "success" -> ReadSuccess
-           _ -> ReadFailure (fromMaybe empty readError)
+       return (status readType readError)
+    where status
+            :: String -> Maybe Text -> ReadStatus
+          status typ err =
+            case typ of
+              "success" -> ReadSuccess
+              _ -> ReadFailure (fromMaybe empty err)
   parseJSON _ = fail "Expected an object for ReadStatus"
 
 instance FromJSON Image where

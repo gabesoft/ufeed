@@ -1,4 +1,4 @@
--- | Converted between the different types of feed and post
+-- | Extractor for feeds and posts
 module Converter (extractFeed, extractPosts, extractFeedAndPosts)
        where
 

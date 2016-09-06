@@ -13,28 +13,21 @@ atomNS = "http://www.w3.org/2005/Atom"
 
 extractFeed :: Document -> Feed
 extractFeed doc =
-  Feed {feedAuthor = get findAuthor
+  feed {feedAuthor = get findAuthor
        ,feedDate = get findUpdated
-       ,feedData = Nothing
        ,feedDescription = get findSubtitle
        ,feedFavicon = get findIcon
        ,feedFormat = Just Atom1
        ,feedGenerator = get findGenerator
        ,feedGuid = get findId
-       ,feedId = Nothing
        ,feedImage = Image empty <$> get findLogo
-       ,feedLanguage = Nothing
-       ,feedLastPostDate = Nothing
-       ,feedLastReadDate = Nothing
-       ,feedLastReadStatus = Just ReadSuccess
        ,feedLink = link
-       ,feedOriginalDescription = Nothing
        ,feedPostCount = 0
-       ,feedTitle = fromMaybe empty $ get findTitle
-       ,feedUri = Nothing}
+       ,feedTitle = fromMaybe empty $ get findTitle}
   where cursor = fromDocument doc
         link = fromMaybe empty (get findAltLink)
         get f = f cursor
+        feed = nullFeed Nothing
 
 extractPosts :: Document -> [Post]
 extractPosts doc = findPosts (fromDocument doc $/ axis "entry")
@@ -51,13 +44,10 @@ findPosts = fmap findPost
 
 findPost :: Cursor -> Post
 findPost cursor =
-  Post {postAuthor = get findAuthor
-       ,postComments = Nothing
+  post {postAuthor = get findAuthor
        ,postDate = fromJust $ get findUpdated
        ,postDescription = get findContent
-       ,postFeedId = Nothing
        ,postGuid = fromJust $ get findId
-       ,postImage = Nothing
        ,postLink = fromJust link
        ,postPubdate = get findPublished
        ,postSummary = get findSummary
@@ -65,6 +55,7 @@ findPost cursor =
   where get f = f cursor
         link = listToMaybe (href <$> findLinks cursor)
         href (h,_,_) = h
+        post = nullPost
 
 findContent :: Cursor -> Maybe Text
 findContent = childContent "content"
@@ -99,9 +90,6 @@ findId = childContent "id"
 
 findLogo :: Cursor -> Maybe Text
 findLogo = childContent "logo"
-
-findSelfLink :: Cursor -> Maybe Text
-findSelfLink = findLinkByRel (== Just (pack "self"))
 
 findAltLink :: Cursor -> Maybe Text
 findAltLink = findLinkByRel (/= Just (pack "self"))

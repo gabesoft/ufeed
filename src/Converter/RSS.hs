@@ -19,27 +19,20 @@ contentNS = "http://purl.org/rss/1.0/modules/content/"
 
 extractFeed :: Document -> Feed
 extractFeed doc =
-  Feed {feedAuthor = get findEditor
+  feed {feedAuthor = get findEditor
        ,feedDate = get findUpdated
-       ,feedData = Nothing
        ,feedDescription = get findDescription
-       ,feedFavicon = Nothing
        ,feedFormat = Just RSS2
        ,feedGenerator = get findGenerator
        ,feedGuid = get findLink
-       ,feedId = Nothing
        ,feedImage = get findImage
        ,feedLanguage = get findLanguage
-       ,feedLastPostDate = Nothing
-       ,feedLastReadDate = Nothing
-       ,feedLastReadStatus = Just ReadSuccess
        ,feedLink = fromJust $ get findLink
-       ,feedOriginalDescription = Nothing
        ,feedPostCount = 0
-       ,feedTitle = fromJust $ get findTitle
-       ,feedUri = Nothing}
+       ,feedTitle = fromJust $ get findTitle}
   where cursor = (fromDocument doc $/ axis "channel") & head
         get f = f cursor
+        feed = nullFeed Nothing
 
 findImage :: Cursor -> Maybe Image
 findImage cursor = join $ listToMaybe (img <$> cs)
@@ -55,13 +48,10 @@ findPosts = fmap findPost
 
 findPost :: Cursor -> Post
 findPost cursor =
-  Post {postAuthor = get findAuthor
-       ,postComments = Nothing
+  post {postAuthor = get findAuthor
        ,postDate = fromJust $ get findPubDate
        ,postDescription = get findContent <|> get findDescription
-       ,postFeedId = Nothing
        ,postGuid = fromJust (guid <|> link)
-       ,postImage = Nothing
        ,postLink = fromJust (link <|> guid)
        ,postPubdate = get findPubDate
        ,postSummary = get findDescription
@@ -69,6 +59,7 @@ findPost cursor =
   where get f = f cursor
         link = get findLink
         guid = get findGuid -- TODO: if no guid is found create an md5 hash from title and description
+        post = nullPost
 
 findLanguage :: Cursor -> Maybe Text
 findLanguage cursor =

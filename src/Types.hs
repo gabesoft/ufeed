@@ -25,6 +25,9 @@ data LastModified =
                ,lastModified :: Maybe Date}
   deriving (Eq,Show)
 
+nullLastModified :: LastModified
+nullLastModified = LastModified Nothing Nothing
+
 data ReadStatus
   = ReadSuccess
   | ReadFailure Text
@@ -52,6 +55,28 @@ data Feed =
        ,feedUri :: Maybe Text}
   deriving (Eq,Show)
 
+nullFeed :: Maybe Text -> Feed
+nullFeed uri =
+  Feed {feedAuthor = Nothing
+       ,feedData = Nothing
+       ,feedDate = Nothing
+       ,feedDescription = Nothing
+       ,feedFavicon = Nothing
+       ,feedFormat = Nothing
+       ,feedGenerator = Nothing
+       ,feedGuid = Nothing
+       ,feedId = Nothing
+       ,feedImage = Nothing
+       ,feedLanguage = Nothing
+       ,feedLastPostDate = Nothing
+       ,feedLastReadDate = Nothing
+       ,feedLastReadStatus = Nothing
+       ,feedLink = empty
+       ,feedOriginalDescription = Nothing
+       ,feedPostCount = 0
+       ,feedTitle = empty
+       ,feedUri = uri}
+
 data Post =
   Post {postAuthor :: Maybe Text
        ,postComments :: Maybe Text
@@ -66,8 +91,19 @@ data Post =
        ,postTitle :: Text}
   deriving (Eq,Show)
 
-nullLastModified :: LastModified
-nullLastModified = LastModified Nothing Nothing
+nullPost :: Post
+nullPost =
+  Post {postAuthor = Nothing
+       ,postComments = Nothing
+       ,postDate = empty
+       ,postDescription = Nothing
+       ,postFeedId = Nothing
+       ,postGuid = empty
+       ,postImage = Nothing
+       ,postLink = empty
+       ,postPubdate = Nothing
+       ,postSummary = Nothing
+       ,postTitle = empty}
 
 instance FromJSON Feed where
   parseJSON (Object o) =

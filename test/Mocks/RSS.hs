@@ -4,6 +4,7 @@
 module Mocks.RSS where
 
 import Types
+import Data.Text (empty)
 
 feedCases :: [(String,Feed)]
 feedCases = zip files feeds
@@ -36,11 +37,11 @@ feeds =
         ,feedLastPostDate = Nothing
         ,feedLastReadDate = Nothing
         ,feedLastReadStatus = Nothing
-        ,feedLink = "http://liftoff.msfc.nasa.gov/"
+        ,feedLink = Just "http://liftoff.msfc.nasa.gov/"
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "Liftoff News"
-        ,feedUri = Nothing}
+        ,feedUri = empty}
   ,Feed {feedAuthor = Nothing
         ,feedData = Nothing
         ,feedDate = Just "Fri, 26 Aug 2016 20:11:28 +0000"
@@ -55,11 +56,11 @@ feeds =
         ,feedLastPostDate = Nothing
         ,feedLastReadDate = Nothing
         ,feedLastReadStatus = Nothing
-        ,feedLink = "http://lea.verou.me"
+        ,feedLink = Just "http://lea.verou.me"
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "Lea Verou"
-        ,feedUri = Nothing}
+        ,feedUri = empty}
   ,Feed {feedAuthor = Nothing
         ,feedData = Nothing
         ,feedDate = Nothing
@@ -74,11 +75,11 @@ feeds =
         ,feedLastPostDate = Nothing
         ,feedLastReadDate = Nothing
         ,feedLastReadStatus = Nothing
-        ,feedLink = "http://blog.npmjs.org/"
+        ,feedLink = Just "http://blog.npmjs.org/"
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "The npm Blog"
-        ,feedUri = Nothing}
+        ,feedUri = empty}
   ,Feed {feedAuthor = Nothing
         ,feedData = Nothing
         ,feedDate = Just "Mon, 18 Apr 2016 23:47:57 +0000"
@@ -95,11 +96,11 @@ feeds =
         ,feedLastPostDate = Nothing
         ,feedLastReadDate = Nothing
         ,feedLastReadStatus = Nothing
-        ,feedLink = "http://www.productivitymashup.com/"
+        ,feedLink = Just "http://www.productivitymashup.com/"
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "Productivity Mashup"
-        ,feedUri = Nothing}]
+        ,feedUri = empty}]
 
 posts :: [[Post]]
 posts =

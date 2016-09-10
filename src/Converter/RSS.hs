@@ -27,12 +27,12 @@ extractFeed doc =
        ,feedGuid = get findLink
        ,feedImage = get findImage
        ,feedLanguage = get findLanguage
-       ,feedLink = fromJust $ get findLink
+       ,feedLink = get findLink
        ,feedPostCount = 0
        ,feedTitle = fromJust $ get findTitle}
   where cursor = (fromDocument doc $/ axis "channel") & head
         get f = f cursor
-        feed = nullFeed Nothing
+        feed = nullFeed empty
 
 findImage :: Cursor -> Maybe Image
 findImage cursor = join $ listToMaybe (img <$> cs)

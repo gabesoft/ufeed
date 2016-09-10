@@ -4,6 +4,7 @@
 module Mocks.Atom where
 
 import Types
+import Data.Text (empty)
 
 feedCases :: [(String,Feed)]
 feedCases = zip files feeds
@@ -35,11 +36,11 @@ feeds =
         ,feedLastPostDate = Nothing
         ,feedLastReadDate = Nothing
         ,feedLastReadStatus = Nothing
-        ,feedLink = "http://example.org/"
+        ,feedLink = Just "http://example.org/"
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "Example Feed"
-        ,feedUri = Nothing}
+        ,feedUri = empty}
   ,Feed {feedAuthor = Nothing
         ,feedData = Nothing
         ,feedDate = Just "2005-07-31T12:29:29Z"
@@ -55,11 +56,11 @@ feeds =
         ,feedLastPostDate = Nothing
         ,feedLastReadDate = Nothing
         ,feedLastReadStatus = Nothing
-        ,feedLink = "http://example.org/"
+        ,feedLink = Just "http://example.org/"
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "dive into mark"
-        ,feedUri = Nothing}
+        ,feedUri = empty}
   ,Feed {feedAuthor = Just "Bozhidar Batsov"
         ,feedData = Nothing
         ,feedDate = Just "2015-06-17T12:45:14+03:00"
@@ -74,11 +75,11 @@ feeds =
         ,feedLastPostDate = Nothing
         ,feedLastReadDate = Nothing
         ,feedLastReadStatus = Nothing
-        ,feedLink = "http://batsov.com/"
+        ,feedLink = Just "http://batsov.com/"
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "(think)"
-        ,feedUri = Nothing}
+        ,feedUri = empty}
   ,Feed {feedAuthor = Nothing
         ,feedData = Nothing
         ,feedDate = Just "2014-11-17T00:00:00+02:00"
@@ -93,11 +94,11 @@ feeds =
         ,feedLastPostDate = Nothing
         ,feedLastReadDate = Nothing
         ,feedLastReadStatus = Nothing
-        ,feedLink = ""
+        ,feedLink = Nothing
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "Emacs Rocks!"
-        ,feedUri = Nothing}
+        ,feedUri = empty}
   ,Feed {feedAuthor = Nothing
         ,feedData = Nothing
         ,feedDate = Just "2016-09-05T00:13:20Z"
@@ -114,11 +115,11 @@ feeds =
         ,feedLastReadDate = Nothing
         ,feedLastReadStatus = Nothing
         ,feedLink =
-           "http://stackoverflow.com/questions/tagged/?tagnames=haskell&sort=newest"
+           Just "http://stackoverflow.com/questions/tagged/?tagnames=haskell&sort=newest"
         ,feedOriginalDescription = Nothing
         ,feedPostCount = 0
         ,feedTitle = "Newest questions tagged haskell - Stack Overflow"
-        ,feedUri = Nothing}]
+        ,feedUri = empty}]
 
 posts :: [[Post]]
 posts =

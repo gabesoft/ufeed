@@ -25,9 +25,9 @@ extractFeed doc =
        ,feedPostCount = 0
        ,feedTitle = fromMaybe empty $ get findTitle}
   where cursor = fromDocument doc
-        link = fromMaybe empty (get findAltLink)
+        link = get findAltLink
         get f = f cursor
-        feed = nullFeed Nothing
+        feed = nullFeed empty
 
 extractPosts :: Document -> [Post]
 extractPosts doc = findPosts (fromDocument doc $/ axis "entry")

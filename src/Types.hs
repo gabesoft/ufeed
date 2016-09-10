@@ -48,14 +48,14 @@ data Feed =
        ,feedLastPostDate :: Maybe Date
        ,feedLastReadDate :: Maybe Date
        ,feedLastReadStatus :: Maybe ReadStatus
-       ,feedLink :: Text
+       ,feedLink :: Maybe Text
        ,feedOriginalDescription :: Maybe Text
        ,feedPostCount :: Int
        ,feedTitle :: Text
-       ,feedUri :: Maybe Text}
+       ,feedUri :: Text}
   deriving (Eq,Show)
 
-nullFeed :: Maybe Text -> Feed
+nullFeed :: Text -> Feed
 nullFeed uri =
   Feed {feedAuthor = Nothing
        ,feedData = Nothing
@@ -71,7 +71,7 @@ nullFeed uri =
        ,feedLastPostDate = Nothing
        ,feedLastReadDate = Nothing
        ,feedLastReadStatus = Nothing
-       ,feedLink = empty
+       ,feedLink = Nothing
        ,feedOriginalDescription = Nothing
        ,feedPostCount = 0
        ,feedTitle = empty

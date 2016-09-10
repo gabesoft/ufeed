@@ -9,7 +9,7 @@ baseUrl :: String
 baseUrl = "http://mypost.com"
 
 iframeExpected :: String
-iframeExpected = "<div></div>"
+iframeExpected = "<html><div></div></html>"
 
 iframeInput :: String
 iframeInput =
@@ -21,7 +21,7 @@ iframeInput =
 |]
 
 scriptExpected :: String
-scriptExpected = "<div></div>"
+scriptExpected = "<html><div></div></html>"
 
 scriptInput :: String
 scriptInput =
@@ -33,7 +33,7 @@ scriptInput =
 |]
 
 stylesheetExpected :: String
-stylesheetExpected = "<div></div>"
+stylesheetExpected = "<html><div></div></html>"
 
 stylesheetInput :: String
 stylesheetInput =
@@ -46,7 +46,7 @@ stylesheetInput =
 |]
 
 styleExpected :: String
-styleExpected = "<head></head><div></div>"
+styleExpected = "<html><head></head><div></div></html>"
 
 styleInput :: String
 styleInput =
@@ -59,22 +59,24 @@ styleInput =
 </html>
 |]
 
+imageExpected :: String
 imageExpected =
   [r|<img width="230" src="http://mypost.com/u/2937359?v=3&amp;s=460"/><img width="230" src="http://mypost.com/2937359?v=3&amp;s=460"/><img width="230" src="http://placehold.it/350x150"/><div></div>|]
 
+imageInput :: String
 imageInput =
   [r|
-<html>
   <img width="230" src="u/2937359?v=3&amp;s=460">
   <img width="230" src="/2937359?v=3&amp;s=460">
   <img width="230" src="http://placehold.it/350x150">
   <div></div>
-</html>
 |]
 
+urlExpected :: String
 urlExpected =
-  [r|<a href="http://mypost.com/u/2937359?v=3&amp;s=460">Link</a><a href="http://mypost.com/2937359?v=3&amp;s=460">Link</a><a href="http://placehold.it/350x150">Link</a><div></div>|]
+  [r|<html><a href="http://mypost.com/u/2937359?v=3&amp;s=460">Link</a><a href="http://mypost.com/2937359?v=3&amp;s=460">Link</a><a href="http://placehold.it/350x150">Link</a><div><a href="http://mypost.com/about.com">hello</a></div></html>|]
 
+urlInput :: String
 urlInput =
   [r|
 <html>
@@ -82,6 +84,9 @@ urlInput =
   <a href="/2937359?v=3&amp;s=460">Link</a>
   <a href="http://placehold.it/350x150">Link</a>
   <a href="http://github.com"></a>
-  <div><a href="http://hello.com"></a></div>
+  <div>
+    <a href="http://hello.com"></a>
+    <a href="about.com">hello</a>
+  </div>
 </html>
 |]

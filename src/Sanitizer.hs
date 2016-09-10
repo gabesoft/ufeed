@@ -1,38 +1,31 @@
 -- | Html sanitizer
-module Sanitizer where
+module Sanitizer (sanitize) where
 
 import Data.Maybe
--- import Text.HandsomeSoup
+import Text.HandsomeSoup
 import Text.XML.HXT.Core
-
--- expandURIString "index.html" "http://localhost:8000"
--- apply (deep $ isElem >>> (hasName "a" <+> hasName "link")
---                      >>> getAttrValue "href"
---                      >>> arr (\s -> "[" ++ s ++ "]") >>> mkText) pg1
--- xshow converts an xmltree into a string
--- TODO: set the base uri with (setDefaultBaseURI base) -- must be in IO
--- get the nodes rather than strings
--- runLA (hread >>> (css "a" <+> css "link") >>> getAttrValue "href") pg1
--- runLA (hread >>> (css "link" <+> css "a") >>> (getElemName &&& getAttrValue "href")) pg1
--- runLA (hread >>> css "script" >>> getChildren >>> getText) pg1
--- pg1 <- readFile "test/data/pg.swan.html"
-apply :: LA XmlTree XmlTree -> String -> String
-apply arrows = head . runLA (hread >>> arrows >>> writeDocumentToString cfg)
-  where cfg = [withOutputEncoding utf8, withOutputHTML]
-
-applyId :: String -> String
-applyId = apply this
 
 -- |
 -- Perform some cleanup on an html text fragment. The cleanup includes
--- removing script and style tags, making all urls absolute, etc
-sanitize :: String -> String -> String
-sanitize baseUrl =
-  apply (processTopDown removeEntities >>>
-         processTopDown (toAbsoluteUrl baseUrl) >>> removeAllWhiteSpace)
+-- removing script and style tags, making all urls absolute, etc.
+-- Both the feed url and the post base url are required parameters.
+-- This function assumes html fragments as input but can handle full
+-- html documents as well.
+sanitize :: String -> String -> String -> String
+sanitize feedUrl baseUrl =
+  transformTree
+    (feedSpecific feedUrl >>>
+     processTopDown removeEntities >>>
+     processTopDown fixUrls >>> removeAllWhiteSpace)
+  where fixUrls = toAbsoluteUrl baseUrl `when` (hasName "a" <+> hasName "img")
 
--- where isHref = isElem >>> hasName "a" >>> hasAttr "href"
---       isImg = isElem >>> hasName "img"
+transformTree
+  :: LA XmlTree XmlTree -> String -> String
+transformTree arrows =
+  concat .
+  runLA (hread >>> selem "html" [this] >>> arrows >>> writeDocumentToString cfg)
+  where cfg = [withOutputEncoding utf8,withOutputHTML,withRemoveWS yes]
+
 removeByTag :: ArrowXml a
             => String -> a XmlTree XmlTree
 removeByTag tag = filterA $ neg (hasName tag)
@@ -67,17 +60,40 @@ toAbsoluteUrl base =
 mkAbsoluteUrl :: String -> String -> String
 mkAbsoluteUrl base url = fromMaybe url (expandURIString url base)
 
--- TODO: remove
-sanitizeOld :: String -> IO String
-sanitizeOld html = head <$> output
-  where rcfg = [withParseHTML yes,withSubstDTDEntities yes]
-        wcfg = [withIndent yes,withOutputEncoding utf8]
-        output = runX $ readString rcfg html >>> writeDocumentToString wcfg
+feedSpecific :: ArrowXml a
+             => String -> a XmlTree XmlTree
+feedSpecific feedUrl =
+  fromMaybe this ((>>> root [] [this]) <$> lookup feedUrl feedProcessors)
 
--- example of making abs urls for images
--- maybe use expandURIString to avoid being in IO
-mkAbsImageRef :: IOStateArrow s XmlTree XmlTree
-mkAbsImageRef = processAttrl (mkAbsRef `when` hasName "src")
-  where mkAbsRef =
-          replaceChildren
-            (xshow getChildren >>> (mkAbsURI `orElse` this) >>> mkText)
+feedProcessors :: ArrowXml a
+               => [(String,a XmlTree XmlTree)]
+feedProcessors =
+  [("http://alvinalexander.com/taxonomy/term/4787/0/feed",css "#content")
+  ,("http://andrew.gibiansky.com/feed.rss",css "article .entry-content")
+  ,("http://blog.aaronbieber.com/feed.xml",css ".entry-content")
+  ,("http://demosthenes.info/feed.php",css ".entry-content")
+  ,("http://feeds.feedburner.com/TheGeekStuff",css ".post_content")
+  ,("http://feeds.feedburner.com/bocoup",css ".blog-content")
+  ,("http://feeds.feedburner.com/creativebloq/.net",css "#article-body")
+  ,("http://techieme.in/feed/",css ".single_post")
+  ,("http://underscore.io/blog/feed.xml",css "article.blog-post-content")
+  ,("http://www.47deg.com/feed",css ".detail-post")
+  ,("http://www.aaronsw.com/2002/feeds/pgessays.rss",css "table table font")
+  ,("http://www.howardism.org/index.xml",css "#content")
+  ,("http://www.iandevlin.com/blog/feed",css "main")
+  ,("https://bartoszmilewski.com/feed/",css ".post-content")
+  ,("https://benfrain.com/feed",css "article")
+  ,("https://blog.openshift.com/feed/",css "main")
+  ,("https://m.signalvnoise.com/feed",css "article main")
+  ,("https://medium.com/feed/@abhinavchhikara",css "article main")
+  ,("https://medium.com/feed/@azerbike",css "article main")
+  ,("https://medium.com/feed/@bantic",css "article main")
+  ,("https://medium.com/feed/@dustin",css "article main")
+  ,("https://medium.com/feed/@jasonlong",css "article main")
+  ,("https://medium.com/feed/@joshblack",css "article main")
+  ,("https://medium.com/feed/@jtpaasch",css "article main")
+  ,("https://medium.com/feed/@kevindeasis",css "article main")
+  ,("https://medium.com/feed/@markoxvee",css "article main")
+  ,("https://medium.com/feed/@tjholowaychuk",css "article main")
+  ,("https://medium.freecodecamp.com/feed",css "article main")
+  ,("https://strongloop.com/feed/",css ".entry-content")]

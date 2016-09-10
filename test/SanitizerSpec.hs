@@ -17,4 +17,5 @@ main =
      it "fixes urls and removes empty links" $ verify urlInput urlExpected
 
 verify :: String -> String -> Expectation
-verify input expected = sanitize baseUrl input `shouldBe` expected
+verify input expected = sanitize "" baseUrl input `shouldBe` expected
+

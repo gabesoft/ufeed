@@ -35,7 +35,6 @@ data ReadStatus
 
 data Feed =
   Feed {feedAuthor :: Maybe Text
-       ,feedData :: Maybe LastModified
        ,feedDate :: Maybe Date
        ,feedDescription :: Maybe Text
        ,feedFavicon :: Maybe Text
@@ -45,11 +44,11 @@ data Feed =
        ,feedId :: Maybe Text
        ,feedImage :: Maybe Image
        ,feedLanguage :: Maybe Text
+       ,feedLastModified :: Maybe LastModified
        ,feedLastPostDate :: Maybe Date
        ,feedLastReadDate :: Maybe Date
        ,feedLastReadStatus :: Maybe ReadStatus
        ,feedLink :: Maybe Text
-       ,feedOriginalDescription :: Maybe Text
        ,feedPostCount :: Int
        ,feedTitle :: Text
        ,feedUri :: Text}
@@ -58,7 +57,7 @@ data Feed =
 nullFeed :: Text -> Feed
 nullFeed uri =
   Feed {feedAuthor = Nothing
-       ,feedData = Nothing
+       ,feedLastModified = Nothing
        ,feedDate = Nothing
        ,feedDescription = Nothing
        ,feedFavicon = Nothing
@@ -72,7 +71,6 @@ nullFeed uri =
        ,feedLastReadDate = Nothing
        ,feedLastReadStatus = Nothing
        ,feedLink = Nothing
-       ,feedOriginalDescription = Nothing
        ,feedPostCount = 0
        ,feedTitle = empty
        ,feedUri = uri}
@@ -88,7 +86,7 @@ data Post =
        ,postLink :: Text
        ,postPubdate :: Maybe Date
        ,postSummary :: Maybe Text
-       ,postTitle :: Text}
+       ,postTitle :: Maybe Text}
   deriving (Eq,Show)
 
 nullPost :: Post
@@ -103,12 +101,12 @@ nullPost =
        ,postLink = empty
        ,postPubdate = Nothing
        ,postSummary = Nothing
-       ,postTitle = empty}
+       ,postTitle = Nothing}
 
 instance FromJSON Feed where
   parseJSON (Object o) =
     do feedAuthor <- o .:? pack "author"
-       feedData <- o .:? pack "data"
+       feedLastModified <- o .:? pack "data"
        feedDate <- o .: pack "date"
        feedDescription <- o .:? pack "description"
        feedFavicon <- o .:? pack "favicon"
@@ -122,12 +120,27 @@ instance FromJSON Feed where
        feedLastReadDate <- o .:? pack "lastReadDate"
        feedLastReadStatus <- o .:? pack "lastReadStatus"
        feedLink <- o .: pack "link"
-       feedOriginalDescription <- o .:? pack "originalDescription"
        feedPostCount <- o .: pack "postCount"
        feedTitle <- o .: pack "title"
        feedUri <- o .: pack "uri"
        return Feed {..}
   parseJSON _ = fail "Expected an object for Feed"
+
+instance FromJSON Post where
+  parseJSON (Object o) =
+    do postAuthor <- o .:? pack "author"
+       postComments <- o .:? pack "comments"
+       postDate <- o .: pack "date"
+       postDescription <- o .:? pack "description"
+       postFeedId <- o .:? pack "feedid"
+       postGuid <- o .: pack "guid"
+       postImage <- o .:? pack "image"
+       postLink <- o .: pack "link"
+       postPubdate <- o .:? pack "pubdate"
+       postSummary <- o .:? pack "summary"
+       postTitle <- o .:? pack "title"
+       return Post {..}
+  parseJSON _ = fail "Expected an object for Post"
 
 instance FromJSON FeedFormat where
   parseJSON (Object v) =

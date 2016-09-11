@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <category term="emacs" label="/r/emacs"/>
+  <updated>2016-09-11T17:02:27+00:00</updated>
+  <icon>https://www.redditstatic.com/icon.png/</icon>
+  <id>/r/emacs/.rss</id>
+  <link rel="self" href="https://www.reddit.com/r/emacs/.rss" type="application/atom+xml"/>
+  <link rel="alternate" href="https://www.reddit.com/r/emacs/" type="text/html"/>
+  <logo>https://f.thumbs.redditmedia.com/1CBmBnoqVxNCXdVS.png</logo>
+  <subtitle>The extensible, customizable, self-documenting real-time display editor.</subtitle>
+  <title>M-x emacs-reddit</title>
+  <entry>
+    <author>
+      <name>/u/desipenguin</name>
+      <uri>https://www.reddit.com/user/desipenguin</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;They both seem to have similar purpose. But &lt;code&gt;org-journal&lt;/code&gt; looks rich in terms of features. When should I use &lt;code&gt;diary-mode&lt;/code&gt; ?&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/desipenguin"&gt; /u/desipenguin &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/527jg8/what_is_the_difference_between_diary_mode_and/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/527jg8/what_is_the_difference_between_diary_mode_and/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_527jg8</id>
+    <link href="https://www.reddit.com/r/emacs/comments/527jg8/what_is_the_difference_between_diary_mode_and/"/>
+    <updated>2016-09-11T07:33:02+00:00</updated>
+    <title>What is the difference between diary mode and org-journal (when to use which ?)</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/syohex</name>
+      <uri>https://www.reddit.com/user/syohex</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;&lt;a href="https://github.com/syohex/emacs-go-add-tags"&gt;https://github.com/syohex/emacs-go-add-tags&lt;/a&gt;&lt;/p&gt; &lt;p&gt;go-add-tags is inspired by vim-go&amp;#39;s GoAddTags command. It inserts go struct field tag. This is useful for writing struct definition which is bound JSON, YAML, TOML by unmarshal function. You can install go-add-tags from MELPA or MELPA stable. Please report me via github issues if you have any issues or suggesttions.&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/syohex"&gt; /u/syohex &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/5289k8/goaddtags_insert_golang_struct_field_tag/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/5289k8/goaddtags_insert_golang_struct_field_tag/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_5289k8</id>
+    <link href="https://www.reddit.com/r/emacs/comments/5289k8/goaddtags_insert_golang_struct_field_tag/"/>
+    <updated>2016-09-11T12:20:44+00:00</updated>
+    <title>go-add-tags: Insert Golang struct field tag</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/sam217pa</name>
+      <uri>https://www.reddit.com/user/sam217pa</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/sam217pa"&gt; /u/sam217pa &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://sam217pa.github.io/2016/09/11/nuclear-power-editing-via-ivy-and-ag/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/529bzc/nuclear_weapon_multiediting_via_ivy_and_ag/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_529bzc</id>
+    <link href="https://www.reddit.com/r/emacs/comments/529bzc/nuclear_weapon_multiediting_via_ivy_and_ag/"/>
+    <updated>2016-09-11T16:36:34+00:00</updated>
+    <title>Nuclear weapon multi-editing via Ivy and Ag</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/SugaaH</name>
+      <uri>https://www.reddit.com/user/SugaaH</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;In helm-bibtex, is there a way to directly go to the BibTeX entry in the corresponding bib file from the dropdown? This post (&lt;a href="https://nickhigham.wordpress.com/2016/01/06/managing-bibtex-files-with-emacs/"&gt;https://nickhigham.wordpress.com/2016/01/06/managing-bibtex-files-with-emacs/&lt;/a&gt;) says &amp;quot;Hitting tab displays several options, which include options to insert a \cite command for the item under the cursor, to insert a formatted reference for the item under the cursor, and to go to that entry in the bib file. &amp;quot; But hitting &amp;quot;tab&amp;quot; doesn&amp;#39;t do anything for me. &lt;/p&gt; &lt;p&gt;Any hint is appreciated. For example, if I want to jump to the source bib file for the following yoganarasimhan reference&lt;/p&gt; &lt;p&gt;&lt;a href="http://imgur.com/a/2gAUi"&gt;http://imgur.com/a/2gAUi&lt;/a&gt;&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/SugaaH"&gt; /u/SugaaH &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/526tpv/helmbibtex_question_how_to_go_to_the_bibtex_entry/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/526tpv/helmbibtex_question_how_to_go_to_the_bibtex_entry/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_526tpv</id>
+    <link href="https://www.reddit.com/r/emacs/comments/526tpv/helmbibtex_question_how_to_go_to_the_bibtex_entry/"/>
+    <updated>Thu, 25 Aug 2016 07:52:37 GMT</updated>
+    <title>helm-bibtex question: how to go to the BibTeX entry in the bib file from the dropdown</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/csrtwister</name>
+      <uri>https://www.reddit.com/user/csrtwister</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;I want to start using emacs for writing python code and I already have setup &lt;code&gt;anaconda-mode&lt;/code&gt; and &lt;code&gt;company-anaconda&lt;/code&gt;. But, I see that there is a package in MELPA called &lt;code&gt;python-mode&lt;/code&gt; which is a major mode for editing python files. But, the author of the package have not added any &lt;code&gt;readme&lt;/code&gt; to highlight its features nor has he added a wiki page to explain what the package does. &lt;/p&gt; &lt;p&gt;What does the &lt;code&gt;python-mode&lt;/code&gt; package offer over the inbuilt python major mode in emacs ? Should I install this package?&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/csrtwister"&gt; /u/csrtwister &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/5274w8/about_pythonmode_in_melpa/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/5274w8/about_pythonmode_in_melpa/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_5274w8</id>
+    <link href="https://www.reddit.com/r/emacs/comments/5274w8/about_pythonmode_in_melpa/"/>
+    <updated>2016-09-11T05:10:43+00:00</updated>
+    <title>About `python-mode` in MELPA</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/redguardtoo</name>
+      <uri>https://www.reddit.com/user/redguardtoo</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;&lt;a href="https://github.com/redguardtoo/elpa-mirror"&gt;https://github.com/redguardtoo/elpa-mirror&lt;/a&gt;&lt;/p&gt; &lt;p&gt;Create local Emacs package repository.&lt;/p&gt; &lt;p&gt;Change Log:&lt;/p&gt; &lt;ul&gt; &lt;li&gt;support Windows&lt;/li&gt; &lt;/ul&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/redguardtoo"&gt; /u/redguardtoo &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/521uyh/elpamirror_200/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/521uyh/elpamirror_200/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_521uyh</id>
+    <link href="https://www.reddit.com/r/emacs/comments/521uyh/elpamirror_200/"/>
+    <updated>Thu, 22 Jan 2015 00:00:00 -0500</updated>
+    <title>elpa-mirror 2.0.0</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/Eldrik</name>
+      <uri>https://www.reddit.com/user/Eldrik</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;I know that spacemacs has that feature: You type M-x blah and then if blah is bound to a key, it shows the key that blah is bound to. What mode/plugin does that? Thanks in advance.&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/Eldrik"&gt; /u/Eldrik &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/5214pi/i_type_mx_blah_how_to_know_if_blah_is_bound_to_a/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/5214pi/i_type_mx_blah_how_to_know_if_blah_is_bound_to_a/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_5214pi</id>
+    <link href="https://www.reddit.com/r/emacs/comments/5214pi/i_type_mx_blah_how_to_know_if_blah_is_bound_to_a/"/>
+    <updated>2016-09-10T02:34:48+00:00</updated>
+    <title>I type M-x blah. how to know if blah is bound to a key</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/SugaaH</name>
+      <uri>https://www.reddit.com/user/SugaaH</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;have a question about emacs latex. &lt;/p&gt; &lt;p&gt;Is there a way when you enter \cite{ in the Tex document, a helm/ivy reference window opens that you can search for reference and enter to insert?&lt;/p&gt; &lt;p&gt;Currently I use C-c C-[, which is quite slower than sublime text (latextools plugin: whenever you write \cite{, \ref{, etc., the command pallet will prompt a drag down in which you can search for references and enter to insert) &lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/SugaaH"&gt; /u/SugaaH &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51zosz/prompt_for_reference_when_entering_cite/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51zosz/prompt_for_reference_when_entering_cite/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51zosz</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51zosz/prompt_for_reference_when_entering_cite/"/>
+    <updated>2016-09-09T21:07:27+00:00</updated>
+    <title>Prompt for reference when entering \cite{</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/mC_mC_mC_</name>
+      <uri>https://www.reddit.com/user/mC_mC_mC_</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;Much like org-mode, in markdown-mode I can no longer use &amp;lt;M-left&amp;gt; and &amp;lt;M-right&amp;gt; to navigate through text. Instead of left-word and right-word, it now calls markdown-promote and markdown-demote.&lt;br/&gt; How can I change this?&lt;br/&gt; Thanks &lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/mC_mC_mC_"&gt; /u/mC_mC_mC_ &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51zyda/markdown_mode_hijacked_leftword_and_rightword/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51zyda/markdown_mode_hijacked_leftword_and_rightword/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51zyda</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51zyda/markdown_mode_hijacked_leftword_and_rightword/"/>
+    <updated>2016-09-09T22:01:12+00:00</updated>
+    <title>Markdown mode hijacked left-word and right-word</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/stunpix</name>
+      <uri>https://www.reddit.com/user/stunpix</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;Hi guys. I&amp;#39;m running emacs on linux laptop with HiDPI display. I&amp;#39;ve tuned my environment (X and fonts) for this display and all apps are looking nice (emacs also), but Flycheck wavy underlines and error marks are really tiny. This is the only problem. Not fonts, not menus, only underlines and error marks on left bar. Anyone faced same issue? How you fixed it?&lt;/p&gt; &lt;p&gt;I suppose marks and underlines are bitmaps and emacs should be patched with new ones to support HiDPI displays.&lt;/p&gt; &lt;p&gt;PS: I already tried to change styles for underlines, but they have no scaling/size params.&lt;/p&gt; &lt;p&gt;UPD: here is how it looks &lt;a href="https://i.imgur.com/hJ8WiNy.png"&gt;https://i.imgur.com/hJ8WiNy.png&lt;/a&gt;&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/stunpix"&gt; /u/stunpix &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51wm7d/emacs_on_hidpi_displays/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51wm7d/emacs_on_hidpi_displays/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51wm7d</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51wm7d/emacs_on_hidpi_displays/"/>
+    <updated>2016-09-09T09:54:29+00:00</updated>
+    <title>Emacs on HiDPI displays?</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/jpf137</name>
+      <uri>https://www.reddit.com/user/jpf137</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/jpf137"&gt; /u/jpf137 &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51y8ri/is_there_a_package_to_make_latex_includeinput_and/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51y8ri/is_there_a_package_to_make_latex_includeinput_and/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51y8ri</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51y8ri/is_there_a_package_to_make_latex_includeinput_and/"/>
+    <updated>2016-09-09T16:21:56+00:00</updated>
+    <title>Is there a package to make latex "include/input" and python functions/imports clickable (go to file where function was defined/chapter file)?</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/prasannarajaram</name>
+      <uri>https://www.reddit.com/user/prasannarajaram</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;Today I installed the Ubuntu based Bash shell in Windows 10 (after the 1607 or &amp;quot;anniversary update&amp;quot;. &lt;/p&gt; &lt;p&gt;I installed &lt;code&gt;emacs&lt;/code&gt; via the &lt;code&gt;apt-get&lt;/code&gt;. I have the X11 version of Emacs. I&amp;#39;m conversant with using emacs in GUI mode but I have never used in X11 mode. &lt;/p&gt; &lt;p&gt;I want to know how I could increase the font size (read font scaling). I tried using the &lt;code&gt;C-x C-+&lt;/code&gt; command in vain. &lt;/p&gt; &lt;p&gt;How can I increase the font size?&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/prasannarajaram"&gt; /u/prasannarajaram &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51yumn/ubuntu_based_bash_shell_for_windows_10_emacs/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51yumn/ubuntu_based_bash_shell_for_windows_10_emacs/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51yumn</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51yumn/ubuntu_based_bash_shell_for_windows_10_emacs/"/>
+    <updated>2016-09-09T18:20:10+00:00</updated>
+    <title>Ubuntu based Bash Shell for Windows 10 - Emacs installation</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/wizmer</name>
+      <uri>https://www.reddit.com/user/wizmer</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;Hello guys !&lt;/p&gt; &lt;p&gt;I am super happy to announce that I have dropped my first APK release on Github. It is the first iteration of what I called MobileOrg 2.0, an Android Org Mode parser with a Git synchronization. (For the time being I have disabled all other sync mechanism as I want to debug the Git sync but they will be re-enabled in the future)&lt;/p&gt; &lt;p&gt;Besides the fact it uses Git, the major change is the fact than MobileOrg is now standalone. It means you no longer have to interact and use weird commands such as M-x org-mobile-push to synchronize. This implies that the app has to create the agenda file by its own (I am aware the agenda is not functional for the time being).&lt;/p&gt; &lt;p&gt;Quick Start:&lt;/p&gt; &lt;ul&gt; &lt;li&gt;&lt;p&gt;Go &lt;a href="https://github.com/matburt/mobileorg-android/releases/tag/2.0"&gt;here&lt;/a&gt; and download the APK&lt;/p&gt;&lt;/li&gt; &lt;li&gt;&lt;p&gt;Put the APK on your phone and click it to install it (you&amp;#39;ll have to allow unsigned APK to continue)&lt;/p&gt;&lt;/li&gt; &lt;li&gt;&lt;p&gt;When you&amp;#39;ll launch the app for the first time you&amp;#39;ll be asked Git credentials. Here are a 2 examples of how to fill the stuff.&lt;/p&gt;&lt;/li&gt; &lt;li&gt;&lt;p&gt;Sync with a github repo (let&amp;#39;s take mine at &lt;a href="https://github.com/wizmer/OrgNotes"&gt;https://github.com/wizmer/OrgNotes&lt;/a&gt;) As MobileOrg does not support (yet) https, you&amp;#39;ll have to use SSH+private key authentication. In username set: &lt;strong&gt;git&lt;/strong&gt; (not your username !!), select your private key, in absolute path set: wizmer/OrgNotes&lt;strong&gt;.git&lt;/strong&gt; (don&amp;#39;t forget the .git !) and in host: github.com, you can let port blank as port 22 is default.&lt;/p&gt;&lt;/li&gt; &lt;li&gt;&lt;p&gt;Now to sync with you own repo on your own server. Filling the form is straightforward. Just make sure to use the &lt;strong&gt;absolute&lt;/strong&gt; path. But the caveat is that your repository must be in &lt;strong&gt;bare&lt;/strong&gt; mode. Here is a procedure to create a bare repo with the org file you want to synchronize.&lt;/p&gt;&lt;/li&gt; &lt;/ul&gt; &lt;ol&gt; &lt;li&gt;&lt;p&gt;Go on your server&lt;/p&gt;&lt;/li&gt; &lt;li&gt;&lt;p&gt;Create the bare repo: mkdir bareRepo &amp;amp;&amp;amp; cd bareRepo &amp;amp;&amp;amp; git init --bare&lt;/p&gt;&lt;/li&gt; &lt;li&gt;&lt;p&gt;Clone it: cd .. &amp;amp;&amp;amp; git clone bareRepo nonBare&lt;/p&gt;&lt;/li&gt; &lt;li&gt;&lt;p&gt;you will use the nonBare to commit and push your first files: cp *.org nonBare/ &amp;amp;&amp;amp; cd nonBare &amp;amp;&amp;amp; git add *.org &amp;amp;&amp;amp; git commit -m &amp;quot;adding my files&amp;quot; &amp;amp;&amp;amp; git push&lt;/p&gt;&lt;/li&gt; &lt;li&gt;&lt;p&gt;you can now delete the nonBare repo: cd .. &amp;amp;&amp;amp; rm -rf nonBare&lt;/p&gt;&lt;/li&gt; &lt;li&gt;&lt;p&gt;back to MobileOrg and specify the absolute path to the bare repo&lt;/p&gt;&lt;/li&gt; &lt;/ol&gt; &lt;p&gt;Enjoy !&lt;/p&gt; &lt;p&gt;PS: And don&amp;#39;t forget to give me feedbacks !! You can use the &lt;a href="https://github.com/matburt/mobileorg-android/issues"&gt;Github issue tracker&lt;/a&gt;&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/wizmer"&gt; /u/wizmer &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51tqkb/android_mobileorg_20_call_for_tester/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51tqkb/android_mobileorg_20_call_for_tester/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51tqkb</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51tqkb/android_mobileorg_20_call_for_tester/"/>
+    <updated>2016-09-08T21:28:49+00:00</updated>
+    <title>Android MobileOrg 2.0 Call for tester !!</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/chmouelb</name>
+      <uri>https://www.reddit.com/user/chmouelb</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/chmouelb"&gt; /u/chmouelb &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="http://blog.chmouel.com/2016/09/07/dealing-with-yaml-in-emacs/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51sflk/dealing_with_yaml_in_emacs/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51sflk</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51sflk/dealing_with_yaml_in_emacs/"/>
+    <updated>2016-09-08T17:22:22+00:00</updated>
+    <title>Dealing with yaml in Emacs</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/enki</name>
+      <uri>https://www.reddit.com/user/enki</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/enki"&gt; /u/enki &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/lisp/comments/4z3d5p/femtoemacs_tiny_emacs_clone_with_configuring_in/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51ts79/femtoemacs_tiny_emacs_clone_with_configuring_in/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51ts79</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51ts79/femtoemacs_tiny_emacs_clone_with_configuring_in/"/>
+    <updated>2016-09-08T21:37:32+00:00</updated>
+    <title>Femto-Emacs - Tiny emacs clone with configuring in FemtoLisp • /r/lisp</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/NLisa</name>
+      <uri>https://www.reddit.com/user/NLisa</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;I&amp;#39;ve been using Emacs daily for the past ~18 months, for everything from C/C++ and Python Programming, editting wikipages, preparing journal articles in LaTeX, maintaining remote servers with Tramp and generally organising my life in org-mode.&lt;/p&gt; &lt;p&gt;I have been completely enthralled with the Emacsen way of doing things, from syncing all my org-files on my phone with mobile-org, to adopting Emacs keybindings in terminals, to using Conkeror as me default browser.&lt;/p&gt; &lt;p&gt;I understand that the vast majority of proponents of Evil-Mode / &amp;quot;un-Holy&amp;quot; Spacemacs are &amp;#39;rehabilitated&amp;#39; vim-users who have migrated to Emacs. I would like to know from primarily Emacs users that have migrated to Vim-bindings, have they noticed a productivity benefit in doing so?&lt;/p&gt; &lt;p&gt;My knowledge and useage of Vim, is limited to basic sysadmin tasks on barebones servers, i.e. editing config files in vi. So I have an understanding of Vi/Vim modals etc, but would it be considered a worth-while time-investment, migrating to the unholy dark side?&lt;/p&gt; &lt;p&gt;Thank you.&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/NLisa"&gt; /u/NLisa &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51s63h/will_there_be_any_productivity_benefits_for_an/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51s63h/will_there_be_any_productivity_benefits_for_an/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51s63h</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51s63h/will_there_be_any_productivity_benefits_for_an/"/>
+    <updated>2016-09-08T16:30:58+00:00</updated>
+    <title>Will There Be Any Productivity Benefits for An Emacs User Adopting Evil-Mode \ Un-Holy Spacemacs</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/Eldrik</name>
+      <uri>https://www.reddit.com/user/Eldrik</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;I am working behind a proxy so I cannot use melpa fluently directly from my init.el. However, if I open a browser and manually download a dependency, then it works. How can I use this trick together with use package to bootstrap my emacs config behind a proxy? Do I put everything in a folder and set up loadpath? (obs: even this does not work: &lt;a href="https://www.emacswiki.org/emacs/InstallingPackages#toc3"&gt;https://www.emacswiki.org/emacs/InstallingPackages#toc3&lt;/a&gt;)&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/Eldrik"&gt; /u/Eldrik &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51sixp/working_behind_a_proxy_how_do_i_manually_install/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51sixp/working_behind_a_proxy_how_do_i_manually_install/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51sixp</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51sixp/working_behind_a_proxy_how_do_i_manually_install/"/>
+    <updated>2016-09-08T17:39:50+00:00</updated>
+    <title>working behind a proxy. how do I manually install dependencies from melpa</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/prasannarajaram</name>
+      <uri>https://www.reddit.com/user/prasannarajaram</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;I&amp;#39;m creating an &lt;code&gt;elisp&lt;/code&gt; file based on &lt;a href="http://ergoemacs.org/emacs/elisp_syntax_coloring.html"&gt;http://ergoemacs.org/emacs/elisp_syntax_coloring.html&lt;/a&gt; from this site. &lt;/p&gt; &lt;p&gt;My updated code is shown below &amp;lt;!-- language: elisp --&amp;gt; &lt;/p&gt; &lt;pre&gt;&lt;code&gt;;;; MOD5-mode.el --- sample major mode for editing MOD5 code. ;; Copyleft © 2016, by ;; Author: (@gmail.com) ;; Version: 0.0.1 ;; Created: 07-Sep-2016 ;; Keywords: languages ;; Homepage: n/a ;; This file is not part of GNU Emacs. ;;; License: ;; You can redistribute this program and/or modify it under the terms of the GNU General Public License version 2. ;;; Commentary: ;; This elisp file will enable the highlight of the MOD5 code when viewed in Emacs. ;; ********* probably a link will be helpful here - under construction *********** ;;; Code: ;; define several category of keywords (setq MOD5-keywords &amp;#39;(&amp;quot;SEQ_SKEL&amp;quot; &amp;quot;NEMG&amp;quot; &amp;quot;NSDN&amp;quot; &amp;quot;SSTEP&amp;quot; &amp;quot;STEP&amp;quot; &amp;quot;START&amp;quot; &amp;quot;SCU&amp;quot; &amp;quot;LAMP&amp;quot; &amp;quot;HORN&amp;quot; &amp;quot;PRINTER&amp;quot; &amp;quot;MODULE&amp;quot; &amp;quot;END MODULE&amp;quot; &amp;quot;CALL TEMPLATE&amp;quot; &amp;quot;IF&amp;quot; &amp;quot;FOR&amp;quot;) ) (setq MOD5-types &amp;#39;(&amp;quot;AI&amp;quot; &amp;quot;AO&amp;quot; &amp;quot;DI&amp;quot; &amp;quot;DO&amp;quot; &amp;quot;AISIM&amp;quot; &amp;quot;DISIM&amp;quot; &amp;quot;ACO&amp;quot; &amp;quot;AIM&amp;quot; &amp;quot;AOT&amp;quot; &amp;quot;DOT&amp;quot; &amp;quot;AP&amp;quot; &amp;quot;AC&amp;quot; &amp;quot;DC&amp;quot; &amp;quot;DT&amp;quot; &amp;quot;DM&amp;quot; &amp;quot;AK&amp;quot; &amp;quot;AG&amp;quot; &amp;quot;AR&amp;quot; &amp;quot;TA&amp;quot;)) (setq MOD5-constants &amp;#39;(&amp;quot;PFS&amp;quot; &amp;quot;NFS&amp;quot; &amp;quot;IONE&amp;quot; &amp;quot;ZERO&amp;quot;)) (setq MOD5-events &amp;#39;(&amp;quot;WARN&amp;quot; &amp;quot;REQ&amp;quot; &amp;quot;ALT&amp;quot;)) (setq MOD5-functions &amp;#39;(&amp;quot;ALM_DI_DO05B&amp;quot; &amp;quot;IFD03B&amp;quot; &amp;quot;ALM_4S_AX04B&amp;quot; &amp;quot;ALM_DX05B&amp;quot; &amp;quot;ALM_RERING03B&amp;quot; &amp;quot;ALM_DI_DO05B&amp;quot; &amp;quot;IS04B&amp;quot;)) (setq MOD5-operators &amp;#39;(&amp;quot;=&amp;quot; &amp;quot;AND&amp;quot; &amp;quot;OR&amp;quot; &amp;quot;XOR&amp;quot;)) (setq MOD5-acmdb &amp;#39;(&amp;quot;\[(&amp;amp;A-Z0-9_)\]+&amp;quot; &amp;quot;\[(:A-Z0-9_)\]&amp;quot;)) ;; generate regex string for each category of keywords (setq MOD5-keywords-regexp (regexp-opt MOD5-keywords &amp;#39;words)) (setq MOD5-type-regexp (regexp-opt MOD5-types &amp;#39;words)) (setq MOD5-constant-regexp (regexp-opt MOD5-constants &amp;#39;words)) (setq MOD5-event-regexp (regexp-opt MOD5-events &amp;#39;words)) (setq MOD5-functions-regexp (regexp-opt MOD5-functions &amp;#39;words)) (setq MOD5-operators-regexp (regexp-opt MOD5-operators &amp;#39;words)) (setq MOD5-acmdb-regexp (regexp-opt MOD5-acmdb &amp;#39;words)) ;; create the list for font-lock. ;; each category of keyword is given a particular face (setq MOD5-font-lock-keywords `( (,MOD5-type-regexp . font-lock-type-face) (,MOD5-constant-regexp . font-lock-constant-face) (,MOD5-event-regexp . font-lock-builtin-face) (,MOD5-functions-regexp . font-lock-function-name-face) (,MOD5-keywords-regexp . font-lock-keyword-face) (,MOD5-acmdb-regexp . font-lock-variable-name-face) (,MOD5-operators-regexp . font-lock-negation-char-face) ;; note: order above matters, because once colored, that part won&amp;#39;t change. ;; in general, longer words first )) ;;;###autoload (define-derived-mode MOD5-mode fundamental-mode &amp;quot;MOD5 mode&amp;quot; &amp;quot;Major mode for editing MOD5 Dowtran Code…&amp;quot; ;; code for syntax highlighting (setq font-lock-defaults &amp;#39;((MOD5-font-lock-keywords)))) ;; clear memory. no longer needed (setq MOD5-keywords nil) (setq MOD5-types nil) (setq MOD5-constants nil) (setq MOD5-events nil) (setq MOD5-functions nil) (setq MOD5-acmdb nil) (setq MOD5-operators nil) ;; clear memory. no longer needed (setq MOD5-keywords-regexp nil) (setq MOD5-types-regexp nil) (setq MOD5-constants-regexp nil) (setq MOD5-events-regexp nil) (setq MOD5-functions-regexp nil) (setq MOD5-acmdb-regexp nil) (setq MOD5-operators-regexp nil) ;; add the mode to the `features&amp;#39; list (provide &amp;#39;MOD5-mode) ;; Local Variables: ;; coding: utf-8 ;; End: ;;; MOD5-mode.el ends here &lt;/code&gt;&lt;/pre&gt; &lt;p&gt;In the above code, I&amp;#39;m unable to get the following to work: &lt;/p&gt; &lt;pre&gt;&lt;code&gt;(setq MOD5-operators &amp;#39;(&amp;quot;=&amp;quot; &amp;quot;AND&amp;quot; &amp;quot;OR&amp;quot; &amp;quot;XOR&amp;quot;)) (setq MOD5-acmdb &amp;#39;(&amp;quot;\[(&amp;amp;A-Z0-9_)\]+&amp;quot; &amp;quot;\[(:A-Z0-9_)\]&amp;quot;)) &lt;/code&gt;&lt;/pre&gt; &lt;p&gt;What is wrong here? I have copy-pasted the existing code and created the above two lines and for some reason they do not highlight what is within quotes. &lt;/p&gt; &lt;p&gt;And also the regex &lt;code&gt;&amp;quot;\[(&amp;amp;A-Z0-9_)\]+&amp;quot; &amp;quot;\[(:A-Z0-9_)\]&amp;quot;&lt;/code&gt; is intended to match text like &lt;/p&gt; &lt;ol&gt; &lt;li&gt;:ALM_SIP_PROB_123&lt;/li&gt; &lt;li&gt;(:ALM_SIP_PROB_123)&lt;/li&gt; &lt;li&gt;(&amp;amp;:ALM_SIP_PROB_123)&lt;br/&gt;&lt;/li&gt; &lt;li&gt;PIT14501&lt;/li&gt; &lt;/ol&gt; &lt;p&gt;I&amp;#39;m using the following to generate the regex string: &lt;/p&gt; &lt;pre&gt;&lt;code&gt;(setq MOD5-operators-regexp (regexp-opt MOD5-operators &amp;#39;words)) (setq MOD5-acmdb-regexp (regexp-opt MOD5-acmdb &amp;#39;words)) &lt;/code&gt;&lt;/pre&gt; &lt;p&gt;I&amp;#39;m wondering if something could be wrong with this? &lt;/p&gt; &lt;p&gt;&lt;strong&gt;Update&lt;/strong&gt; - Adding a sample program &lt;/p&gt; &lt;p&gt;&lt;a href="http://i.stack.imgur.com/ePW93.png"&gt;!Snapshot of program&lt;/a&gt; &lt;/p&gt; &lt;p&gt;From the above image you can see that the &lt;code&gt;OR&lt;/code&gt;, &lt;code&gt;AND&lt;/code&gt; have not been highlighted.&lt;br/&gt; Also the numbers within parenthesis have not been highlighted &lt;/p&gt; &lt;p&gt;&lt;strong&gt;Update&lt;/strong&gt; - Changed the elisp code - face name updated from &lt;code&gt;font-lock-operator&lt;/code&gt; to &lt;code&gt;font-lock-negation-char-face&lt;/code&gt; &lt;/p&gt; &lt;pre&gt;&lt;code&gt;(,MOD5-operators-regexp . font-lock-negation-char-face) &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/prasannarajaram"&gt; /u/prasannarajaram &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51rklg/syntax_highlighting_using_emacs/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51rklg/syntax_highlighting_using_emacs/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51rklg</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51rklg/syntax_highlighting_using_emacs/"/>
+    <updated>2016-09-08T14:29:38+00:00</updated>
+    <title>Syntax highlighting using Emacs</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/zreeon</name>
+      <uri>https://www.reddit.com/user/zreeon</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;Hi all - &lt;/p&gt; &lt;p&gt;I was wondering if there is a blog post somewhere comparing helm with ivy? I&amp;#39;ve been using helm for a while, but ivy looks neat and I was hoping to see how they compare without going through the hassle of setting ivy...&lt;/p&gt; &lt;p&gt;Or what&amp;#39;s your own experience with them?&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/zreeon"&gt; /u/zreeon &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51lqn9/helm_or_ivy/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51lqn9/helm_or_ivy/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51lqn9</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51lqn9/helm_or_ivy/"/>
+    <updated>2016-09-07T15:13:28+00:00</updated>
+    <title>Helm or ivy?</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/abhinavrk</name>
+      <uri>https://www.reddit.com/user/abhinavrk</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;tl;dr&lt;/p&gt; &lt;p&gt;Emacs noob. SublimeText adept. Wants to get started with Emacs but wants a version thats more like Sublime (possible modifications to Spacemacs), with system-wide default behavior (C-c, C-x, C-v, etc).&lt;/p&gt; &lt;p&gt;Cheers&lt;/p&gt; &lt;hr/&gt; &lt;p&gt;Hey All,&lt;/p&gt; &lt;p&gt;I mainly work in java, python, javascript (HTML and CSS included) and Clojure (Ruby, Bash, and C to a lesser extent).&lt;/p&gt; &lt;p&gt;I usually use eclipse for java (I&amp;#39;m not trying to use that) but end up using sublime for the other stuff (sometimes ATOM).&lt;/p&gt; &lt;p&gt;I have an entire workflow built around sublime (and ofc Ctrl-C, Ctrl-V... I usually have a bunch of code I&amp;#39;ve written in the past lying around and tend to copy and paste functions as needed, especially if it&amp;#39;s a one time thing. DRY has bit me in the ass too many times for me to believe in it).&lt;/p&gt; &lt;p&gt;My main problem with Sublime is that I have no real access to a shell, but the rest of it is really user friendly.&lt;/p&gt; &lt;p&gt;I wanna move to emacs (1) because it&amp;#39;s open source and (2) because I can get a shell from within emacs (great for those ssh sessions and stuff where you&amp;#39;re copying in stuff).&lt;/p&gt; &lt;p&gt;While I&amp;#39;m willing to invest some time into learning some key bindings, I&amp;#39;m mainly interested in hitting the ground running. I&amp;#39;m currently looking at Spacemacs (I got some vim knowledge) but what I really hate is the unintended side effects.&lt;/p&gt; &lt;p&gt;I was wondering if I could make emacs more like sublime text in that there are a small set of commands that work (C-c, C-x, C-v, etc), and the rest are accessible via the command pallet and some fuzzy searching.&lt;/p&gt; &lt;p&gt;Thanks,&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/abhinavrk"&gt; /u/abhinavrk &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51p3hf/emacs_with_familiar_keybindings/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51p3hf/emacs_with_familiar_keybindings/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51p3hf</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51p3hf/emacs_with_familiar_keybindings/"/>
+    <updated>2016-09-08T02:31:02+00:00</updated>
+    <title>Emacs with familiar keybindings?</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/Eldrik</name>
+      <uri>https://www.reddit.com/user/Eldrik</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;I use spacemacs and it&amp;#39;s all fun and games. but I&amp;#39;m trying to build my own config to have a better understanding of the internals. As I understand use-package is integrated inside emacs as of version 24. But el-get is a runner up that is mentioned all the time. What do you use? What should a begginer use? &lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/Eldrik"&gt; /u/Eldrik &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51mbpi/starting_out_own_emacs_config_do_i_use_usepackage/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51mbpi/starting_out_own_emacs_config_do_i_use_usepackage/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51mbpi</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51mbpi/starting_out_own_emacs_config_do_i_use_usepackage/"/>
+    <updated>2016-09-07T17:07:18+00:00</updated>
+    <title>starting out own emacs config. Do I use use-package or el-get? thoughts?</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/DavidWindonlight</name>
+      <uri>https://www.reddit.com/user/DavidWindonlight</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;Hi,&lt;/p&gt; &lt;p&gt;I have been using Emacs for over 2 years and the Spacemacs configuration since a year on OS X. Recently I made the move to Windows 10 to make life challenging...&lt;/p&gt; &lt;p&gt;Installing Emacs was a piece of cake - On the other hand installing Spacemacs has been a disaster. I have reset my computer twice now.&lt;/p&gt; &lt;p&gt;I have used the following strategies: - &lt;a href="http://emacsbinw64.sourceforge.net/"&gt;http://emacsbinw64.sourceforge.net/&lt;/a&gt; - &lt;a href="https://www.youtube.com/watch?v=uaoN1rLfP00"&gt;https://www.youtube.com/watch?v=uaoN1rLfP00&lt;/a&gt;&lt;/p&gt; &lt;p&gt;Every time I am hit with the following error when I add php to the .spacemacs file - &amp;quot;Found 1 new package(s) to install... --&amp;gt; refreshing package archive: gnu... [3/3] --&amp;gt; installing package: &lt;a href="mailto:php-extras@php"&gt;php-extras@php&lt;/a&gt;... [1/1] An error occurred while installing php-extras (error: (wrong-type-argument stringp nil))&amp;quot;&lt;/p&gt; &lt;p&gt;Yes I have also deleted the elpa archive folder.&lt;/p&gt; &lt;p&gt;I need help...Please give me a step by step process of getting this working.&lt;/p&gt; &lt;p&gt;Thanks&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/DavidWindonlight"&gt; /u/DavidWindonlight &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51ptkl/wrongtypeargument_stringp_nil/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51ptkl/wrongtypeargument_stringp_nil/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51ptkl</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51ptkl/wrongtypeargument_stringp_nil/"/>
+    <updated>2016-09-08T05:39:39+00:00</updated>
+    <title>(wrong-type-argument stringp nil)</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/Zeekawla99ii</name>
+      <uri>https://www.reddit.com/user/Zeekawla99ii</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;Is there any difference between using the emacs version to copy/paste, and the keyboard shortcuts &amp;quot;command+V&amp;quot; and &amp;quot;command+C&amp;quot;&lt;/p&gt; &lt;p&gt;Sorry for the n00b question, and thanks for any help!&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/Zeekawla99ii"&gt; /u/Zeekawla99ii &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51o4yn/n00b_question_why_does_one_use_activate_mark_via/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51o4yn/n00b_question_why_does_one_use_activate_mark_via/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51o4yn</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51o4yn/n00b_question_why_does_one_use_activate_mark_via/"/>
+    <updated>2016-09-07T22:59:09+00:00</updated>
+    <title>n00b question: Why does one use "Activate Mark" via C+space in order to copy and paste?</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/ispinfx</name>
+      <uri>https://www.reddit.com/user/ispinfx</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;The icons: &lt;a href="https://github.com/domtronn/all-the-icons.el"&gt;https://github.com/domtronn/all-the-icons.el&lt;/a&gt;&lt;/p&gt; &lt;p&gt;The author&amp;#39;s config: &lt;a href="https://github.com/hlissner/.emacs.d"&gt;https://github.com/hlissner/.emacs.d&lt;/a&gt;&lt;/p&gt; &lt;p&gt;A theme based on the icon package: &lt;a href="https://github.com/hlissner/emacs-doom-theme"&gt;https://github.com/hlissner/emacs-doom-theme&lt;/a&gt;&lt;/p&gt; &lt;p&gt;Screenshots: &lt;a href="https://github.com/hlissner/.emacs.d/tree/screenshots"&gt;https://github.com/hlissner/.emacs.d/tree/screenshots&lt;/a&gt; &lt;/p&gt; &lt;p&gt;It seems that there is too much customizations on the &lt;code&gt;mode-line&lt;/code&gt; in the author&amp;#39;s emacs config but I failed to make it work on my machine.&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/ispinfx"&gt; /u/ispinfx &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51jvai/making_modern_emacs_themes/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51jvai/making_modern_emacs_themes/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51jvai</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51jvai/making_modern_emacs_themes/"/>
+    <updated>2016-09-07T06:14:17+00:00</updated>
+    <title>Making modern emacs themes ?</title>
+  </entry>
+  <entry>
+    <author>
+      <name>/u/hicksy994</name>
+      <uri>https://www.reddit.com/user/hicksy994</uri>
+    </author>
+    <category term="emacs" label="/r/emacs"/>
+    <content type="html">&lt;!-- SC_OFF --&gt;&lt;div class="md"&gt;&lt;p&gt;If a brace or parentheses is on the very start of the line, and it becomes highlighted by highlight-parentheses-mode, the line number that is sitting right next to the brace/parentheses becomes bold.&lt;/p&gt; &lt;p&gt;It only happens if the brace/parentheses is right at the start of the line. &lt;/p&gt; &lt;p&gt;Does anyone know how to stop the line number from becoming bold?&lt;/p&gt; &lt;/div&gt;&lt;!-- SC_ON --&gt; &amp;#32; submitted by &amp;#32; &lt;a href="https://www.reddit.com/user/hicksy994"&gt; /u/hicksy994 &lt;/a&gt; &lt;br/&gt; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51kuj5/anyone_know_how_to_solve_this_theming_issue_with/"&gt;[link]&lt;/a&gt;&lt;/span&gt; &amp;#32; &lt;span&gt;&lt;a href="https://www.reddit.com/r/emacs/comments/51kuj5/anyone_know_how_to_solve_this_theming_issue_with/"&gt;[comments]&lt;/a&gt;&lt;/span&gt;</content>
+    <id>t3_51kuj5</id>
+    <link href="https://www.reddit.com/r/emacs/comments/51kuj5/anyone_know_how_to_solve_this_theming_issue_with/"/>
+    <updated>2016-09-07T11:48:46+00:00</updated>
+    <title>Anyone know how to solve this theming issue with line numbers and highlight-parentheses?</title>
+  </entry>
+</feed>

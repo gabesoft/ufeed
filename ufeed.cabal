@@ -21,6 +21,7 @@ library
                      , Converter
                      , Converter.Atom
                      , Converter.RSS
+                     , FeedConfig
                      , FeedReader
                      , FeedUpdater
                      , Sanitizer

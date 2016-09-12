@@ -1,5 +1,7 @@
 -- | Tests for FeedUpdater
-module Main (main) where
+module Main
+  ( main
+  ) where
 
 import Control.Arrow
 import Control.Lens
@@ -15,24 +17,22 @@ import Test.Hspec
 import Types
 
 main :: IO ()
-main =
-  do bytes <- BL.readFile "test/data/atom1.0.sample5.xml"
-     now <- getCurrentTime
-     let initState = UpdateState now initFeed initPosts []
-         res =
-           processFeed initState
-                       (bytes,M.modified)
-         updatedState = either (const initState) id res
-     hspec $
-       describe "process feeds" $
-       do it "sets the last modified date" $ verifyModified updatedState
-          it "sets the last updated date" $ verifyUpdated updatedState now
-          it "sets the last post date" $ verifyLastPostDate updatedState
-          it "sets the post count" $ verifyLastPostCount updatedState
-          it "sets the feed uri" $ verifyFeedUri updatedState
-          it "sets the read status" $ verifyReadStatus updatedState
-          it "extracts all the new posts" $ verifyNewPostCount updatedState
-          it "formats all dates to ISO8601" $ verifyNewPostDates updatedState
+main = do
+  bytes <- BL.readFile "test/data/atom1.0.sample5.xml"
+  now <- getCurrentTime
+  let initState = UpdateState now initFeed initPosts []
+      res = processFeed initState (bytes, M.modified)
+      updatedState = either (const initState) id res
+  hspec $
+    describe "process feeds" $
+    do it "sets the last modified date" $ verifyModified updatedState
+       it "sets the last updated date" $ verifyUpdated updatedState now
+       it "sets the last post date" $ verifyLastPostDate updatedState
+       it "sets the post count" $ verifyLastPostCount updatedState
+       it "sets the feed uri" $ verifyFeedUri updatedState
+       it "sets the read status" $ verifyReadStatus updatedState
+       it "extracts all the new posts" $ verifyNewPostCount updatedState
+       it "formats all dates to ISO8601" $ verifyNewPostDates updatedState
 
 verifyReadStatus :: UpdateState -> Expectation
 verifyReadStatus state =
@@ -54,26 +54,34 @@ verifyLastPostDate state =
 
 verifyNewPostDates :: UpdateState -> Expectation
 verifyNewPostDates state = length (catMaybes dates) `shouldBe` count
-  where dates = parseISO8601 . unpack . postDate <$> newPosts state
-        count = state ^. to newPosts ^. to length
+  where
+    dates = parseISO8601 . unpack . postDate <$> newPosts state
+    count = state ^. to newPosts ^. to length
 
 verifyNewPostCount :: UpdateState -> Expectation
 verifyNewPostCount state = count `shouldBe` length M.posts - length initPosts
-  where count = state ^. to newPosts ^. to length
+  where
+    count = state ^. to newPosts ^. to length
 
-verifyUpdated
-  :: UpdateState -> UTCTime -> Expectation
+verifyUpdated :: UpdateState -> UTCTime -> Expectation
 verifyUpdated state now = actual `shouldBe` Just (formatJsDate now)
-  where actual = state ^. to updateFeed ^. to feedLastReadDate
+  where
+    actual = state ^. to updateFeed ^. to feedLastReadDate
 
 verifyModified :: UpdateState -> Expectation
 verifyModified state = actual `shouldBe` Just M.modified
-  where actual = state ^. to updateFeed ^. to feedLastModified
+  where
+    actual = state ^. to updateFeed ^. to feedLastModified
 
 initFeed :: Feed
-initFeed = feed {feedId = feedId M.feed}
-  where feed = nullFeed (feedUri M.feed)
+initFeed =
+  feed
+  { feedId = feedId M.feed
+  }
+  where
+    feed = nullFeed (feedUri M.feed)
 
 initPosts :: PostMap
 initPosts = Map.fromList $ (postGuid &&& id) <$> posts
-  where posts = take 2 M.posts
+  where
+    posts = take 2 M.posts

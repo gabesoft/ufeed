@@ -33,8 +33,8 @@ fetchFeed'
 fetchFeed' uri modified =
   do res <- getWith (modifiedHeaders defaults modified) uri
      let body = res ^. responseBody
-     let et = res ^? responseHeader hETag
-     let lm = res ^? responseHeader hLastModified
+         et = res ^? responseHeader hETag
+         lm = res ^? responseHeader hLastModified
      return (body
             ,LastModified (decodeUtf8 <$> et)
                           (decodeUtf8 <$> lm))

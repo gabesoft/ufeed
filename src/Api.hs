@@ -47,6 +47,11 @@ saveFeed host feed =
     Just _ -> try (patchFeed host feed)
 
 -- |
+-- Save a list of posts
+savePosts :: String -> [Post] -> IO (Either SomeException [Post])
+savePosts host posts = try (savePosts' host posts)
+
+-- |
 -- Save a new feed
 postFeed :: String -> Feed -> IO Feed
 postFeed host = saveFeed' post (host ++ "/feeds")
@@ -64,6 +69,12 @@ saveFeed' :: (String -> Value -> IO (Response ByteString))
           -> IO Feed
 saveFeed' method url feed =
   (^. responseBody) <$> (method url (toJSON feed) >>= asJSON)
+
+savePosts' :: String -> [Post] -> IO [Post]
+savePosts' host posts =
+  (^. responseBody) <$> (post url (toJSON posts) >>= asJSON)
+  where
+    url = host ++ "/bulk/posts"
 
 fetchFeeds' :: String -> Int -> IO [Feed]
 fetchFeeds' host limit = (^. responseBody) <$> (getWith opts url >>= asJSON)

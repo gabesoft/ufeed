@@ -80,23 +80,26 @@ fetchFeedData state = do
     feed = updateFeed state
     modified = fromMaybe nullLastModified (feedLastModified feed)
 
+-- TODO: use this in update and follow with sanitize
 fetchPostsContent :: UpdateState -> IO (Either SomeException UpdateState)
 fetchPostsContent state =
   if inlineRequired $ unpack (feedUri $ updateFeed state)
-    then fetchContent state
+    then fmap updateState <$> fetchContent (latestPosts state)
     else return (Right state)
-
-fetchContent :: UpdateState -> IO (Either SomeException UpdateState)
-fetchContent state = do
-  contents <- mapConcurrently fetchPost links
-  let posts = updatePost <$> zip (latestPosts state) contents
-  return $
-    Right
+  where
+    updateState posts =
       state
       { latestPosts = posts
       }
+
+fetchContent :: [Post] -> IO (Either SomeException [Post])
+fetchContent posts = do
+  contents <- run
+  return $ fmap updatePost <$> (zip posts <$> contents)
   where
-    links = unpack . postLink <$> latestPosts state
+    run :: IO (Either SomeException [Either SomeException ByteString])
+    run = try (mapConcurrently fetchPost links)
+    links = unpack . postLink <$> posts
     updatePost (post, Left e) =
       post
       { postInlineStatus = Just $ ReadFailure (pack $ show e)
@@ -104,6 +107,7 @@ fetchContent state = do
     updatePost (post, Right b) =
       post
       { postDescription = Just (toStrict $ decodeUtf8 b)
+      , postInlineStatus = Just ReadSuccess
       }
 
 processFeed :: UpdateState

@@ -12,7 +12,6 @@ import Data.Text (pack, unpack)
 import Data.ByteString.Lazy (ByteString)
 import Data.Maybe
 import Network.Wreq
-import Network.Wreq.Types
 import Types
 
 data PostSearchParams = PostSearchParams

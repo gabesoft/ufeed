@@ -33,6 +33,11 @@ main = do
        it "sets the read status" $ verifyReadStatus updatedState
        it "extracts all the new posts" $ verifyNewPostCount updatedState
        it "formats all dates to ISO8601" $ verifyNewPostDates updatedState
+       it "resets the failed attempts to 0" $ verifyFailedAttempts updatedState
+
+verifyFailedAttempts :: UpdateState -> Expectation
+verifyFailedAttempts state =
+  state ^. to updateFeed ^. to feedFailedAttempts `shouldBe` 0
 
 verifyReadStatus :: UpdateState -> Expectation
 verifyReadStatus state =
@@ -55,13 +60,13 @@ verifyLastPostDate state =
 verifyNewPostDates :: UpdateState -> Expectation
 verifyNewPostDates state = length (catMaybes dates) `shouldBe` count
   where
-    dates = parseISO8601 . unpack . postDate <$> newPosts state
-    count = state ^. to newPosts ^. to length
+    dates = parseISO8601 . unpack . postDate <$> latestPosts state
+    count = state ^. to latestPosts ^. to length
 
 verifyNewPostCount :: UpdateState -> Expectation
 verifyNewPostCount state = count `shouldBe` length M.posts - length initPosts
   where
-    count = state ^. to newPosts ^. to length
+    count = state ^. to latestPosts ^. to length
 
 verifyUpdated :: UpdateState -> UTCTime -> Expectation
 verifyUpdated state now = actual `shouldBe` Just (formatJsDate now)
@@ -77,6 +82,7 @@ initFeed :: Feed
 initFeed =
   feed
   { feedId = feedId M.feed
+  , feedFailedAttempts = 5
   }
   where
     feed = nullFeed (feedUri M.feed)

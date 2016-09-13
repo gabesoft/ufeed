@@ -38,6 +38,7 @@ data Feed = Feed
   { feedAuthor :: Maybe Text
   , feedDate :: Maybe Date
   , feedDescription :: Maybe Text
+  , feedFailedAttempts :: Int
   , feedFavicon :: Maybe Text
   , feedFormat :: Maybe FeedFormat
   , feedGenerator :: Maybe Text
@@ -62,6 +63,7 @@ nullFeed uri =
   , feedLastModified = Nothing
   , feedDate = Nothing
   , feedDescription = Nothing
+  , feedFailedAttempts = 0
   , feedFavicon = Nothing
   , feedFormat = Nothing
   , feedGenerator = Nothing
@@ -86,6 +88,7 @@ data Post = Post
   , postFeedId :: Maybe Text
   , postGuid :: Text
   , postImage :: Maybe Image
+  , postInlineStatus :: Maybe ReadStatus
   , postLink :: Text
   , postPubdate :: Maybe Date
   , postSummary :: Maybe Text
@@ -102,6 +105,7 @@ nullPost =
   , postFeedId = Nothing
   , postGuid = empty
   , postImage = Nothing
+  , postInlineStatus = Nothing
   , postLink = empty
   , postPubdate = Nothing
   , postSummary = Nothing
@@ -114,6 +118,7 @@ instance FromJSON Feed where
     feedLastModified <- o .:? "data"
     feedDate <- o .: "date"
     feedDescription <- o .:? "description"
+    feedFailedAttempts <- fromMaybe 0 <$> (o .:? "failedAttempts")
     feedFavicon <- o .:? "favicon"
     feedFormat <- o .:? "feedFormat"
     feedGenerator <- o .:? "generator"
@@ -141,6 +146,7 @@ instance ToJSON Feed where
       , "data" .= feedLastModified o
       , "date" .= feedDate o
       , "description" .= feedDescription o
+      , "failedAttempts" .= feedFailedAttempts o
       , "favicon" .= feedFavicon o
       , "feedFormat" .= feedFormat o
       , "generator" .= feedGenerator o
@@ -166,6 +172,7 @@ instance FromJSON Post where
     postFeedId <- o .:? "feedid"
     postGuid <- o .: "guid"
     postImage <- o .:? "image"
+    postInlineStatus <- o .:? "inlineStatus"
     postLink <- o .: "link"
     postPubdate <- o .:? "pubdate"
     postSummary <- o .:? "summary"
@@ -186,6 +193,7 @@ instance ToJSON Post where
       , "feedid" .= postFeedId o
       , "guid" .= postGuid o
       , "image" .= postImage o
+      , "inlineStatus" .= postInlineStatus o
       , "link" .= postLink o
       , "pubdate" .= postPubdate o
       , "summary" .= postSummary o

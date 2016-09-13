@@ -8,6 +8,7 @@ module FeedUpdater where
 import Api
 import Control.Applicative ((<|>))
 import Control.Arrow
+import Control.Concurrent.Async
 import Control.Exception
 import Converter
 import Data.ByteString.Lazy (ByteString)
@@ -15,10 +16,13 @@ import qualified Data.Map as Map
 import Data.Maybe
 import qualified Data.Set as Set
 import Data.Text (Text, empty, pack, unpack)
+import Data.Text.Lazy (toStrict)
+import Data.Text.Lazy.Encoding (decodeUtf8)
 import Data.Time (UTCTime, getCurrentTime)
 import Data.Time.Format
        (defaultTimeLocale, parseTimeM, rfc822DateFormat)
 import Data.Time.ISO8601 (formatISO8601Javascript, parseISO8601)
+import FeedConfig
 import FeedReader
 import Types
 
@@ -37,10 +41,10 @@ data UpdateState = UpdateState
   { updateTime :: UTCTime
   , updateFeed :: Feed
   , existingPosts :: PostMap
-  , newPosts :: [Post]
+  , latestPosts :: [Post]
   } deriving (Eq, Show)
 
--- Monad stack : IO ReaderT StateT EitherT
+-- Monad stack : StateT EitherT IO
 update :: UpdateEnv -> Feed -> IO (Either SomeException (Feed, [Post]))
 update env feed = do
   ut <- getCurrentTime
@@ -50,8 +54,17 @@ update env feed = do
     Right posts -> do
       st <- fetchFeedData (UpdateState ut feed posts [])
       case st of
-        Left e -> return $ Left e -- TODO: save feed to db with an error last read status
-        Right s -> return $ Right (updateFeed s, newPosts s)
+        Left e -> do
+          _ <-
+            saveFeed
+              (apiHost env)
+              (feed
+               { feedFailedAttempts = 1 + feedFailedAttempts feed
+               , feedLastReadDate = Just (formatJsDate ut)
+               , feedLastReadStatus = Just $ ReadFailure (pack $ show e)
+               })
+          return $ Left e
+        Right s -> return $ Right (updateFeed s, latestPosts s)
 
 readExistingPosts :: String -> Maybe String -> IO (Either SomeException PostMap)
 readExistingPosts _ Nothing = return (Right Map.empty)
@@ -67,43 +80,62 @@ fetchFeedData state = do
     feed = updateFeed state
     modified = fromMaybe nullLastModified (feedLastModified feed)
 
+fetchPostsContent :: UpdateState -> IO (Either SomeException UpdateState)
+fetchPostsContent state =
+  if inlineRequired $ unpack (feedUri $ updateFeed state)
+    then fetchContent state
+    else return (Right state)
+
+fetchContent :: UpdateState -> IO (Either SomeException UpdateState)
+fetchContent state = do
+  contents <- mapConcurrently fetchPost links
+  let posts = updatePost <$> zip (latestPosts state) contents
+  return $
+    Right
+      state
+      { latestPosts = posts
+      }
+  where
+    links = unpack . postLink <$> latestPosts state
+    updatePost (post, Left e) =
+      post
+      { postInlineStatus = Just $ ReadFailure (pack $ show e)
+      }
+    updatePost (post, Right b) =
+      post
+      { postDescription = Just (toStrict $ decodeUtf8 b)
+      }
+
 processFeed :: UpdateState
             -> (ByteString, LastModified)
             -> Either SomeException UpdateState
 processFeed state (bytes, modified) = do
-  (updated, posts) <- extract
+  (newFeed, ps) <- extractFeedAndPosts bytes
+  let newPosts = filter (isNew $ Map.keysSet existing) ps
+      (posts, dates) = sequenceT $ normalizePostDates (updateTime state) <$> newPosts
+      lastDate = formatJsDate <$> maximumDate (catMaybes dates)
   return
     state
-    { newPosts = posts
+    { latestPosts = posts
     , updateFeed =
-      updated
-      { feedLastReadDate = Just now
+      newFeed
+      { feedFailedAttempts = 0
+      , feedGuid = feedGuid feed <|> feedGuid newFeed
+      , feedId = feedId feed
+      , feedLastModified = Just modified
+      , feedLastPostDate = lastDate <|> feedLastPostDate feed
+      , feedLastReadDate = Just $ formatJsDate (updateTime state)
+      , feedLastReadStatus = Just ReadSuccess
+      , feedLink = feedGuid newFeed <|> feedGuid feed
+      , feedPostCount = Map.size existing + length posts
+      , feedUri = feedUri feed
       }
     }
   where
     feed = updateFeed state
-    now = formatJsDate (updateTime state)
     existing = existingPosts state
     isNew guids post = not $ Set.member (postGuid post) guids
     sequenceT = fmap fst &&& fmap snd
-    extract = do
-      (f, ps) <- extractFeedAndPosts bytes
-      let newps = filter (isNew $ Map.keysSet existing) ps
-          (posts, dates) =
-            sequenceT $ normalizePostDates (updateTime state) <$> newps
-          lastd = formatJsDate <$> maximumDate (catMaybes dates)
-      return
-        ( f
-          { feedGuid = feedGuid feed <|> feedGuid f
-          , feedId = feedId feed
-          , feedLastModified = Just modified
-          , feedLastPostDate = lastd <|> feedLastPostDate feed
-          , feedLastReadStatus = Just ReadSuccess
-          , feedLink = feedGuid f <|> feedGuid feed
-          , feedPostCount = Map.size existing + length posts
-          , feedUri = feedUri feed
-          }
-        , posts)
 
 maximumDate :: [UTCTime] -> Maybe UTCTime
 maximumDate [] = Nothing

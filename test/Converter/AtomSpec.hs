@@ -1,7 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | Tests for Query.Atom
-module Main (main) where
+module Main
+  ( main
+  ) where
 
 import Converter.Atom
 import Mocks.Atom
@@ -13,5 +15,6 @@ main =
   hspec $
   do describe "extract feed data" $ mapM_ runFeed feedCases
      describe "extract post data" $ mapM_ runPosts postsCases
-  where runFeed (f,e) = it f $ extractAndVerifyFeed extractFeed f e
-        runPosts (f,e) = it f $ extractAndVerifyPosts extractPosts f e
+  where
+    runFeed (f, e) = it f $ extractAndVerify extractFeed f e
+    runPosts (f, e) = it f $ extractAndVerify extractPosts f e

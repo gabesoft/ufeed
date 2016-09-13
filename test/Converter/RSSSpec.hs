@@ -1,7 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | Tests for Query.RSS
-module Main (main) where
+module Main
+  ( main
+  ) where
 
 import Converter.RSS
 import Mocks.RSS
@@ -13,5 +15,6 @@ main =
   hspec $
   do describe "extract feed data" $ mapM_ runFeed feedCases
      describe "extract post data" $ mapM_ runPosts postsCases
-  where runFeed (f,e) = it f $ extractAndVerifyFeed extractFeed f e
-        runPosts (f,e) = it f $ extractAndVerifyPosts extractPosts f e
+  where
+    runFeed (f, e) = it f $ extractAndVerify extractFeed f e
+    runPosts (f, e) = it f $ extractAndVerify extractPosts f e

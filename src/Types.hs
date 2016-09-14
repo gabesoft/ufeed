@@ -88,6 +88,7 @@ data Post = Post
   , postFeedId :: Maybe Text
   , postGuid :: Text
   , postImage :: Maybe Image
+  , postId :: Maybe Text
   , postInlineStatus :: Maybe ReadStatus
   , postLink :: Text
   , postPubdate :: Maybe Date
@@ -104,6 +105,7 @@ nullPost =
   , postDescription = Nothing
   , postFeedId = Nothing
   , postGuid = empty
+  , postId = Nothing
   , postImage = Nothing
   , postInlineStatus = Nothing
   , postLink = empty
@@ -167,13 +169,14 @@ instance FromJSON Post where
   parseJSON (Object o) = do
     postAuthor <- o .:? "author"
     postComments <- o .:? "comments"
-    postDate <- o .: "date"
+    postDate <- fromMaybe empty <$> (o .:? "date")
     postDescription <- o .:? "description"
     postFeedId <- o .:? "feedid"
-    postGuid <- o .: "guid"
+    postGuid <- fromMaybe empty <$> (o .:? "guid")
+    postId <- o .:? "id"
     postImage <- o .:? "image"
     postInlineStatus <- o .:? "inlineStatus"
-    postLink <- o .: "link"
+    postLink <- fromMaybe empty <$> (o .:? "link")
     postPubdate <- o .:? "pubdate"
     postSummary <- o .:? "summary"
     postTitle <- o .:? "title"
@@ -190,8 +193,9 @@ instance ToJSON Post where
       , "comments" .= postComments o
       , "date" .= postDate o
       , "description" .= postDescription o
-      , "feedid" .= postFeedId o
+      , "feedId" .= postFeedId o
       , "guid" .= postGuid o
+      , "id" .= postId o
       , "image" .= postImage o
       , "inlineStatus" .= postInlineStatus o
       , "link" .= postLink o

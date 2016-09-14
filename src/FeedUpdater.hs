@@ -5,7 +5,7 @@
 -- and indexing the new posts with the search engine
 module FeedUpdater where
 
-import Api
+import qualified Api as Api
 import Control.Applicative ((<|>))
 import Control.Arrow
 import Control.Concurrent.Async
@@ -24,6 +24,7 @@ import Data.Time.Format
 import Data.Time.ISO8601 (formatISO8601Javascript, parseISO8601)
 import FeedConfig
 import FeedReader
+import Sanitizer
 import Types
 
 type ApiHost = String
@@ -56,7 +57,7 @@ update env feed = do
       case st of
         Left e -> do
           _ <-
-            saveFeed
+            Api.saveFeed
               (apiHost env)
               (feed
                { feedFailedAttempts = 1 + feedFailedAttempts feed
@@ -64,12 +65,53 @@ update env feed = do
                , feedLastReadStatus = Just $ ReadFailure (pack $ show e)
                })
           return $ Left e
-        Right s -> return $ Right (updateFeed s, latestPosts s)
+        Right s -> do
+          updatedSt <- fetchPostsContent s
+          case updatedSt of
+            Left e -> return $ Left e
+            Right s' -> do
+              let st' = sanitizePosts s'
+              saved <- Api.saveFeed (apiHost env) (updateFeed st')
+              case saved of
+                Left e -> return $ Left e
+                Right fs -> do
+                  let ps = updateFeedId fs <$> latestPosts st'
+                  ps' <- Api.savePosts (apiHost env) ps
+                  case ps' of
+                    Left e -> return $ Left e
+                    Right ps'' -> do
+                      let st'' = st' { updateFeed = fs , latestPosts = ps'' }
+                      return $ Right (fs, latestPosts st'')
+
+-- TODO: fetch subscriptions
+--       index feed if it has new posts
+
+updateFeedId :: Feed -> Post -> Post
+updateFeedId feed post =
+  post
+  { postFeedId = feedId feed
+  }
+
+sanitizePosts :: UpdateState -> UpdateState
+sanitizePosts state =
+  state
+  { latestPosts = sanitizePost (updateFeed state) <$> latestPosts state
+  }
+
+sanitizePost :: Feed -> Post -> Post
+sanitizePost feed post =
+  post
+  { postDescription = sanitizeHtml (postDescription post)
+  }
+  where
+    feedUrl = unpack (feedUri feed)
+    baseUrl = unpack (postLink post)
+    sanitizeHtml html = pack . sanitize feedUrl baseUrl . unpack <$> html
 
 readExistingPosts :: String -> Maybe String -> IO (Either SomeException PostMap)
 readExistingPosts _ Nothing = return (Right Map.empty)
 readExistingPosts host (Just fid) = do
-  posts <- fetchPosts host fid
+  posts <- Api.fetchPosts host fid
   return $ Map.fromList . fmap (postGuid &&& id) <$> posts
 
 fetchFeedData :: UpdateState -> IO (Either SomeException UpdateState)
@@ -80,7 +122,6 @@ fetchFeedData state = do
     feed = updateFeed state
     modified = fromMaybe nullLastModified (feedLastModified feed)
 
--- TODO: use this in update and follow with sanitize
 fetchPostsContent :: UpdateState -> IO (Either SomeException UpdateState)
 fetchPostsContent state =
   if inlineRequired $ unpack (feedUri $ updateFeed state)
@@ -93,9 +134,7 @@ fetchPostsContent state =
       }
 
 fetchContent :: [Post] -> IO (Either SomeException [Post])
-fetchContent posts = do
-  contents <- run
-  return $ fmap updatePost <$> (zip posts <$> contents)
+fetchContent posts = fmap (fmap updatePost . zip posts) <$> run
   where
     run :: IO (Either SomeException [Either SomeException ByteString])
     run = try (mapConcurrently fetchPost links)

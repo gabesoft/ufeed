@@ -171,7 +171,7 @@ instance FromJSON Post where
     postComments <- o .:? "comments"
     postDate <- fromMaybe empty <$> (o .:? "date")
     postDescription <- o .:? "description"
-    postFeedId <- o .:? "feedid"
+    postFeedId <- o .:? "feedId"
     postGuid <- fromMaybe empty <$> (o .:? "guid")
     postId <- o .:? "id"
     postImage <- o .:? "image"
@@ -201,6 +201,7 @@ instance ToJSON Post where
       , "link" .= postLink o
       , "pubdate" .= postPubdate o
       , "summary" .= postSummary o
+      , "title" .= postTitle o
       ]
 
 instance FromJSON FeedFormat where

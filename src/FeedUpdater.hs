@@ -26,6 +26,9 @@ import FeedConfig
 import FeedReader
 import Sanitizer
 import Types
+import Control.Monad.Trans.Except
+import Control.Monad.Trans.Class
+import Control.Monad.IO.Class
 
 type ApiHost = String
 
@@ -45,6 +48,105 @@ data UpdateState = UpdateState
   , latestPosts :: [Post]
   } deriving (Eq, Show)
 
+-- TODO: find a better name for this
+--       also rename all ..T methods
+type UpdateT = ExceptT SomeException IO UpdateState
+
+-- |
+-- Creates an environment to be used when updating all feeds
+envForUpdate :: String -> UpdateEnv
+envForUpdate host = UpdateEnv host False
+
+-- |
+-- Creates an environment to be used when adding a new feed
+envForAddNew :: String -> UpdateEnv
+envForAddNew host = UpdateEnv host True
+
+updateT :: UpdateEnv -> Feed -> IO (Either SomeException (Feed, [Post]))
+updateT env feed = do
+  st0 <- initStateT feed
+  st1 <- runExceptT $ processFeedT env st0
+  case st1 of
+    Left e -> fmap (flip (,) []) <$> saveFailedFeed env st0 e
+    Right st2 ->
+      fmap results <$> runExceptT (processPostsT env st2 >>= indexPostsT env)
+  where
+    results state = (updateFeed state, latestPosts state)
+
+indexPostsT :: UpdateEnv -> UpdateState -> UpdateT
+indexPostsT = undefined
+
+initStateT :: Feed -> IO UpdateState
+initStateT feed = do
+  time <- liftIO getCurrentTime
+  return $ UpdateState time feed Map.empty []
+
+saveFailedFeed :: UpdateEnv
+               -> UpdateState
+               -> SomeException
+               -> IO (Either SomeException Feed)
+saveFailedFeed env state err =
+  Api.saveFeed
+    (apiHost env)
+    feed
+    { feedFailedAttempts = 1 + feedFailedAttempts feed
+    , feedLastReadDate = Just (formatJsDate time)
+    , feedLastReadStatus = Just $ ReadFailure (pack $ show err)
+    }
+  where
+    feed = updateFeed state
+    time = updateTime state
+
+saveFeedT :: UpdateEnv -> UpdateState -> UpdateT
+saveFeedT env state = do
+  feed <- ExceptT $ Api.saveFeed (apiHost env) (updateFeed state)
+  return $
+    state
+    { updateFeed = feed
+    }
+
+processPostsT :: UpdateEnv -> UpdateState -> UpdateT
+processPostsT env state = undefined
+
+processFeedT :: UpdateEnv -> UpdateState -> UpdateT
+processFeedT env state =
+  readExistingPostsT env state >>= fetchFeedDataT >>= fetchPostsContentT >>=
+  saveFeedT env
+
+readExistingPostsT :: UpdateEnv -> UpdateState -> UpdateT
+readExistingPostsT env state =
+  case feedId (updateFeed state) of
+    Nothing -> return $ set Map.empty
+    Just fid -> do
+      posts <- ExceptT $ Api.fetchPosts host (unpack fid)
+      return $ set . Map.fromList . fmap (postGuid &&& id) $ posts
+  where
+    host = apiHost env
+    set e =
+      state
+      { existingPosts = e
+      }
+
+fetchFeedDataT :: UpdateState -> UpdateT
+fetchFeedDataT state = do
+  fd <- liftIO $ fetchFeed (unpack $ feedUri feed) modified
+  ExceptT $ return (fd >>= processFeed state)
+  where
+    feed = updateFeed state
+    modified = fromMaybe nullLastModified (feedLastModified feed)
+
+fetchPostsContentT :: UpdateState -> UpdateT
+fetchPostsContentT state =
+  if inlineRequired $ unpack (feedUri $ updateFeed state)
+    then ExceptT $ fmap set <$> fetchContent (latestPosts state)
+    else return state
+  where
+    set posts =
+      state
+      { latestPosts = posts
+      }
+
+--------------------------------------------------------------------------------
 -- Monad stack : StateT EitherT IO
 update :: UpdateEnv -> Feed -> IO (Either SomeException (Feed, [Post]))
 update env feed = do
@@ -80,12 +182,21 @@ update env feed = do
                   case ps' of
                     Left e -> return $ Left e
                     Right ps'' -> do
-                      let st'' = st' { updateFeed = fs , latestPosts = ps'' }
+                      let st'' =
+                            st'
+                            { updateFeed = fs
+                            , latestPosts = ps''
+                            }
                       return $ Right (fs, latestPosts st'')
+
+readExistingPosts :: String -> Maybe String -> IO (Either SomeException PostMap)
+readExistingPosts _ Nothing = return (Right Map.empty)
+readExistingPosts host (Just fid) = do
+  posts <- Api.fetchPosts host fid
+  return $ Map.fromList . fmap (postGuid &&& id) <$> posts
 
 -- TODO: fetch subscriptions
 --       index feed if it has new posts
-
 updateFeedId :: Feed -> Post -> Post
 updateFeedId feed post =
   post
@@ -107,12 +218,6 @@ sanitizePost feed post =
     feedUrl = unpack (feedUri feed)
     baseUrl = unpack (postLink post)
     sanitizeHtml html = pack . sanitize feedUrl baseUrl . unpack <$> html
-
-readExistingPosts :: String -> Maybe String -> IO (Either SomeException PostMap)
-readExistingPosts _ Nothing = return (Right Map.empty)
-readExistingPosts host (Just fid) = do
-  posts <- Api.fetchPosts host fid
-  return $ Map.fromList . fmap (postGuid &&& id) <$> posts
 
 fetchFeedData :: UpdateState -> IO (Either SomeException UpdateState)
 fetchFeedData state = do

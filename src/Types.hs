@@ -34,6 +34,11 @@ data ReadStatus
   | ReadFailure Text
   deriving (Eq, Show)
 
+data FeedSubscription = FeedSubscription
+  { subscriptionId :: Text
+  , subscriptionFeedId :: Text
+  } deriving (Eq, Show)
+
 data Feed = Feed
   { feedAuthor :: Maybe Text
   , feedDate :: Maybe Date
@@ -113,6 +118,10 @@ nullPost =
   , postSummary = Nothing
   , postTitle = Nothing
   }
+
+instance FromJSON FeedSubscription where
+  parseJSON (Object o) = FeedSubscription <$> o .: "id" <*> o .: "feedId"
+  parseJSON _ = fail "Expected an object for FeedSubscription"
 
 instance FromJSON Feed where
   parseJSON (Object o) = do

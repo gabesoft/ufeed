@@ -8,32 +8,59 @@ import Control.Exception (SomeException, try)
 import Control.Lens ((&), (.~), (^.))
 import Data.Aeson (ToJSON, object, toJSON, (.=))
 import Data.Aeson.Types (Value)
-import Data.Text (pack, unpack)
 import Data.ByteString.Lazy (ByteString)
+import Data.Functor (void)
 import Data.Maybe
+import Data.Text (pack, unpack)
 import Network.Wreq
 import Types
 
-data PostSearchParams = PostSearchParams
+data SearchParams = SearchParams
   { postFields :: [String]
   , queryFeedId :: String
   } deriving (Eq, Show)
 
-instance ToJSON PostSearchParams where
+data IndexParams = IndexParams
+  { indexPostIds :: [String]
+  , indexReadFlag :: Bool
+  } deriving (Eq, Show)
+
+instance ToJSON SearchParams where
   toJSON p =
     object
       [ "fields" .= unwords (postFields p)
       , "query" .= object ["feedId" .= queryFeedId p]
       ]
 
+instance ToJSON IndexParams where
+  toJSON p =
+    object
+      [ "postIds" .= indexPostIds p
+      , "data" .= object ["read" .= indexReadFlag p]
+      ]
+
+-- |
+-- Get all subscriptions for a feed
+fetchSubscriptions :: String
+                   -> String
+                   -> IO (Either SomeException [FeedSubscription])
+fetchSubscriptions host feedId = try (fetchSubscriptions' host feedId)
+
+-- |
+-- Index a list of posts
+indexPosts :: String
+           -> [Post]
+           -> Bool
+           -> FeedSubscription
+           -> IO (Either SomeException ())
+indexPosts host posts readFlag subscription =
+  try (indexPosts' host posts readFlag subscription)
+
 -- |
 -- Get a number of feeds from the api server according to a specified limit
 -- A value of 0 for limit causes all feeds to be returned
 fetchFeeds :: String -> Int -> IO (Either SomeException [Feed])
 fetchFeeds host limit = try (fetchFeeds' host limit)
-
-fetchFeed :: String -> String -> IO (Either SomeException Feed)
-fetchFeed host feedId = try (fetchFeed' host feedId)
 
 -- |
 -- Get all posts for a feed specified by a feed id
@@ -52,6 +79,11 @@ saveFeed host feed =
 -- Save a list of posts
 savePosts :: String -> [Post] -> IO (Either SomeException [Post])
 savePosts host posts = try (savePosts' host posts)
+
+-- |
+-- Get a feed by id
+fetchFeed :: String -> String -> IO (Either SomeException Feed)
+fetchFeed host feedId = try (fetchFeed' host feedId)
 
 -- |
 -- Save a new feed
@@ -79,6 +111,14 @@ savePosts' host posts = do
   where
     url = host ++ "/bulk/posts"
 
+fetchSubscriptions' :: String -> String -> IO [FeedSubscription]
+fetchSubscriptions' host feedId =
+  (^. responseBody) <$> (post url (toJSON query) >>= asJSON)
+  where
+    url = host ++ "/search/feed-subscriptions"
+    fields = ["feedId"]
+    query = SearchParams fields feedId
+
 fetchFeed' :: String -> String -> IO Feed
 fetchFeed' host feedId = (^. responseBody) <$> (get url >>= asJSON)
   where
@@ -91,9 +131,16 @@ fetchFeeds' host limit = (^. responseBody) <$> (getWith opts url >>= asJSON)
     opts = defaults & param "limit" .~ [pack $ show limit]
 
 fetchPosts' :: String -> String -> IO [Post]
-fetchPosts' host fid =
+fetchPosts' host feedId =
   (^. responseBody) <$> (post url (toJSON query) >>= asJSON)
   where
     url = host ++ "/search/posts"
     fields = ["guid", "date", "link"]
-    query = PostSearchParams fields fid
+    query = SearchParams fields feedId
+
+indexPosts' :: String -> [Post] -> Bool -> FeedSubscription -> IO ()
+indexPosts' host posts readFlag subscription = void $ post url (toJSON args)
+  where
+    url = host ++ "/bulk/user-posts/" ++ unpack (subscriptionId subscription)
+    ids = unpack . fromJust . postId <$> posts
+    args = IndexParams ids readFlag

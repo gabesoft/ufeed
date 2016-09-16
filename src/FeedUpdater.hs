@@ -5,7 +5,7 @@
 -- and indexing the new posts with the search engine
 module FeedUpdater where
 
-import qualified Api as Api
+import qualified Api
 import Control.Applicative ((<|>))
 import Control.Arrow
 import Control.Concurrent.Async
@@ -67,14 +67,25 @@ updateT env feed = do
   st0 <- initStateT feed
   st1 <- runExceptT $ processFeedT env st0
   case st1 of
-    Left e -> fmap (flip (,) []) <$> saveFailedFeed env st0 e
-    Right st2 ->
-      fmap results <$> runExceptT (processPostsT env st2 >>= indexPostsT env)
+    Left e -> do
+      _ <- fmap (flip (,) []) <$> saveFailedFeed env st0 e
+      return $ Left e
+    Right st2 -> do
+      st3 <- runExceptT (processPostsT env st2 >>= indexPostsT env)
+      return (results <$> st3)
   where
     results state = (updateFeed state, latestPosts state)
 
 indexPostsT :: UpdateEnv -> UpdateState -> UpdateT
-indexPostsT = undefined
+indexPostsT env state = do
+  subs <-
+    ExceptT $
+    Api.fetchSubscriptions (apiHost env) (unpack . fromJust $ feedId feed)
+  const state <$> (ExceptT $ try (mapConcurrently index subs))
+  where
+    feed = updateFeed state
+    posts = latestPosts state
+    index = Api.indexPosts (apiHost env) posts (readFlag env)
 
 initStateT :: Feed -> IO UpdateState
 initStateT feed = do
@@ -106,7 +117,18 @@ saveFeedT env state = do
     }
 
 processPostsT :: UpdateEnv -> UpdateState -> UpdateT
-processPostsT env state = undefined
+processPostsT env state = do
+  let nextState = (updateFeedId . sanitizePosts) state
+  saved <- ExceptT $ Api.savePosts (apiHost env) (latestPosts nextState)
+  return $
+    nextState
+    { latestPosts = saved
+    }
+  where
+    updateFeedId st =
+      st
+      { latestPosts = updatePostFeedId (updateFeed st) <$> latestPosts st
+      }
 
 processFeedT :: UpdateEnv -> UpdateState -> UpdateT
 processFeedT env state =
@@ -177,7 +199,7 @@ update env feed = do
               case saved of
                 Left e -> return $ Left e
                 Right fs -> do
-                  let ps = updateFeedId fs <$> latestPosts st'
+                  let ps = updatePostFeedId fs <$> latestPosts st'
                   ps' <- Api.savePosts (apiHost env) ps
                   case ps' of
                     Left e -> return $ Left e
@@ -195,10 +217,8 @@ readExistingPosts host (Just fid) = do
   posts <- Api.fetchPosts host fid
   return $ Map.fromList . fmap (postGuid &&& id) <$> posts
 
--- TODO: fetch subscriptions
---       index feed if it has new posts
-updateFeedId :: Feed -> Post -> Post
-updateFeedId feed post =
+updatePostFeedId :: Feed -> Post -> Post
+updatePostFeedId feed post =
   post
   { postFeedId = feedId feed
   }

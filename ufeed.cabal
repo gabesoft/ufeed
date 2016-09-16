@@ -10,9 +10,6 @@ maintainer:          gabesoft@gmail.com
 copyright:           2016 Gabriel Adomnicai
 category:            Web
 build-type:          Simple
-extra-source-files:  test/Mocks/Atom.hs
-                   , test/Mocks/RSS.hs
-                   , test/TestHelper.hs
 cabal-version:       >=1.10
 
 library
@@ -54,35 +51,29 @@ executable ufeed-exe
                      , ufeed
   default-language:    Haskell2010
 
-test-suite query-atom
+test-suite converter-atom
   type:                exitcode-stdio-1.0
-  hs-source-dirs:      test, test/Converter, test/Mocks
-  main-is:             AtomSpec.hs
+  hs-source-dirs:      test
+  main-is:             ConverterAtomSpec.hs
   build-depends:       base
                      , bytestring
                      , ufeed
                      , hspec
                      , text >= 1.2
                      , xml-conduit
-  other-modules:       Mocks.Atom
-                     , Mocks.RSS
-                     , TestHelper
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
-test-suite query-rss
+test-suite converter-rss
   type:                exitcode-stdio-1.0
-  hs-source-dirs:      test, test/Converter, test/Mocks
-  main-is:             RSSSpec.hs
+  hs-source-dirs:      test
+  main-is:             ConverterRssSpec.hs
   build-depends:       base
                      , bytestring
                      , ufeed
                      , hspec
                      , text >= 1.2
                      , xml-conduit
-  other-modules:       Mocks.Atom
-                     , Mocks.RSS
-                     , TestHelper
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 

@@ -27,6 +27,8 @@ import FeedReader
 import Sanitizer
 import Types
 import Control.Monad.Trans.Except
+import Control.Monad.Trans.Reader
+import Control.Monad.Trans.State
 import Control.Monad.Trans.Class
 import Control.Monad.IO.Class
 
@@ -36,13 +38,14 @@ type ReadFlag = Bool
 
 type PostMap = Map.Map Text Post
 
+-- TODO: rename to Env and State and do not expose outside this module
 data UpdateEnv = UpdateEnv
   { apiHost :: String
   , readFlag :: Bool
   } deriving (Eq, Show)
 
 data UpdateState = UpdateState
-  { updateTime :: UTCTime
+  { updateTime :: Maybe UTCTime
   , updateFeed :: Feed
   , existingPosts :: PostMap
   , latestPosts :: [Post]
@@ -52,19 +55,39 @@ data UpdateState = UpdateState
 --       also rename all ..T methods
 type UpdateT = ExceptT SomeException IO UpdateState
 
+-- use () for a
+type Update2T a = ReaderT UpdateEnv (ExceptT SomeException (StateT UpdateState IO)) a
+
 -- |
--- Creates an environment to be used when updating all feeds
+-- Creates an initial state
+nullState :: Feed -> UpdateState
+nullState feed = UpdateState Nothing feed Map.empty []
+
+-- |
+-- Create an environment to be used when updating all feeds
 envForUpdate :: String -> UpdateEnv
 envForUpdate host = UpdateEnv host False
 
 -- |
--- Creates an environment to be used when adding a new feed
+-- Create an environment to be used when adding a new feed
 envForAddNew :: String -> UpdateEnv
 envForAddNew host = UpdateEnv host True
 
+initState :: Feed -> IO UpdateState
+initState feed = do
+  time <- getCurrentTime
+  return (UpdateState (Just time) feed Map.empty [])
+
+runUpdate2
+  :: UpdateEnv
+  -> UpdateState
+  -> Update2T a
+  -> IO (Either SomeException a, UpdateState)
+runUpdate2 env st ev = runStateT (runExceptT (runReaderT ev env)) st
+
 updateT :: UpdateEnv -> Feed -> IO (Either SomeException (Feed, [Post]))
 updateT env feed = do
-  st0 <- initStateT feed
+  st0 <- initState feed
   st1 <- runExceptT $ processFeedT env st0
   case st1 of
     Left e -> do
@@ -78,19 +101,12 @@ updateT env feed = do
 
 indexPostsT :: UpdateEnv -> UpdateState -> UpdateT
 indexPostsT env state = do
-  subs <-
-    ExceptT $
-    Api.fetchSubscriptions (apiHost env) (unpack . fromJust $ feedId feed)
+  subs <- ExceptT $ Api.fetchSubscriptions (apiHost env) fId
   const state <$> (ExceptT $ try (mapConcurrently index subs))
   where
-    feed = updateFeed state
+    fId = unpack . fromJust . feedId . updateFeed $ state
     posts = latestPosts state
     index = Api.indexPosts (apiHost env) posts (readFlag env)
-
-initStateT :: Feed -> IO UpdateState
-initStateT feed = do
-  time <- liftIO getCurrentTime
-  return $ UpdateState time feed Map.empty []
 
 saveFailedFeed :: UpdateEnv
                -> UpdateState
@@ -101,7 +117,7 @@ saveFailedFeed env state err =
     (apiHost env)
     feed
     { feedFailedAttempts = 1 + feedFailedAttempts feed
-    , feedLastReadDate = Just (formatJsDate time)
+    , feedLastReadDate = formatJsDate <$> time
     , feedLastReadStatus = Just $ ReadFailure (pack $ show err)
     }
   where
@@ -177,7 +193,7 @@ update env feed = do
   case ep of
     Left e -> return $ Left e
     Right posts -> do
-      st <- fetchFeedData (UpdateState ut feed posts [])
+      st <- fetchFeedData (UpdateState (Just ut) feed posts [])
       case st of
         Left e -> do
           _ <-
@@ -280,7 +296,8 @@ processFeed :: UpdateState
 processFeed state (bytes, modified) = do
   (newFeed, ps) <- extractFeedAndPosts bytes
   let newPosts = filter (isNew $ Map.keysSet existing) ps
-      (posts, dates) = sequenceT $ normalizePostDates (updateTime state) <$> newPosts
+      (posts, dates) =
+        sequenceT $ normalizePostDates (fromJust $ updateTime state) <$> newPosts
       lastDate = formatJsDate <$> maximumDate (catMaybes dates)
   return
     state
@@ -292,7 +309,7 @@ processFeed state (bytes, modified) = do
       , feedId = feedId feed
       , feedLastModified = Just modified
       , feedLastPostDate = lastDate <|> feedLastPostDate feed
-      , feedLastReadDate = Just $ formatJsDate (updateTime state)
+      , feedLastReadDate = formatJsDate <$> updateTime state
       , feedLastReadStatus = Just ReadSuccess
       , feedLink = feedGuid newFeed <|> feedGuid feed
       , feedPostCount = Map.size existing + length posts

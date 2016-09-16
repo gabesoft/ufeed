@@ -20,9 +20,9 @@ main :: IO ()
 main = do
   bytes <- BL.readFile "test/data/atom1.0.sample5.xml"
   now <- getCurrentTime
-  let initState = UpdateState now initFeed initPosts []
-      res = processFeed initState (bytes, M.modified)
-      updatedState = either (const initState) id res
+  let state = UpdateState (Just now) initFeed initPosts []
+      res = processFeed state (bytes, M.modified)
+      updatedState = either (const state) id res
   hspec $
     describe "process feeds" $
     do it "sets the last modified date" $ verifyModified updatedState

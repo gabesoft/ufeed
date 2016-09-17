@@ -45,6 +45,6 @@ runUpdate fId = do
   maybeFeed <- Api.fetchFeed (apiHost env) fId
   case maybeFeed of
     Left e -> return (Left e)
-    Right feed -> updateT env feed
+    Right feed -> update2T env feed
   where
     env = envForUpdate sampleHost

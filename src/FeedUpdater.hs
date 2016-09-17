@@ -10,6 +10,13 @@ import Control.Applicative ((<|>))
 import Control.Arrow
 import Control.Concurrent.Async
 import Control.Exception
+import Control.Monad (when,void)
+import Control.Monad.IO.Class
+import Control.Monad.Trans.Class
+import Control.Monad.Trans.Except
+import Control.Monad.Trans.Reader
+import Control.Monad.Trans.State
+       (StateT, runStateT, get, put, modify, gets)
 import Converter
 import Data.ByteString.Lazy (ByteString)
 import qualified Data.Map as Map
@@ -26,11 +33,6 @@ import FeedConfig
 import FeedReader
 import Sanitizer
 import Types
-import Control.Monad.Trans.Except
-import Control.Monad.Trans.Reader
-import Control.Monad.Trans.State
-import Control.Monad.Trans.Class
-import Control.Monad.IO.Class
 
 type ApiHost = String
 
@@ -73,17 +75,140 @@ envForUpdate host = UpdateEnv host False
 envForAddNew :: String -> UpdateEnv
 envForAddNew host = UpdateEnv host True
 
-initState :: Feed -> IO UpdateState
-initState feed = do
-  time <- getCurrentTime
-  return (UpdateState (Just time) feed Map.empty [])
-
 runUpdate2
   :: UpdateEnv
   -> UpdateState
   -> Update2T a
   -> IO (Either SomeException a, UpdateState)
 runUpdate2 env st ev = runStateT (runExceptT (runReaderT ev env)) st
+
+update2T :: UpdateEnv -> Feed -> IO (Either SomeException (Feed, [Post]))
+update2T env feed = do
+  results <- runUpdate2 env (nullState feed) update2T'
+  let state = snd results
+  case fst results of
+    Left e -> do
+      _ <- saveFailedFeed env state e
+      return $ Left e
+    Right _ -> return $ Right (updateFeed state, latestPosts state)
+
+update2T' :: Update2T ()
+update2T' = do
+  _ <- initTime
+  _ <- readExistingPosts2T
+  _ <- fetchFeedData2T
+  _ <- fetchPostsContent2T
+  _ <- saveFeed2T
+  _ <- processPosts2T
+  _ <- indexPosts2T
+  return ()
+
+readExistingPosts2T :: Update2T ()
+readExistingPosts2T = do
+  host <- apiHost <$> ask
+  feed <- lift . lift $ gets updateFeed
+  case feedId feed of
+    Nothing -> lift . lift $ modify (set Map.empty)
+    Just fid -> do
+      posts <- wrap $ Api.fetchPosts host (unpack fid)
+      lift . lift $ modify (set $ toMap posts)
+  return ()
+  where
+    toMap = Map.fromList . fmap (postGuid &&& id)
+    set e s =
+      s
+      { existingPosts = e
+      }
+
+processPosts2T :: Update2T ()
+processPosts2T = do
+  host <- asks apiHost
+  _ <- lift . lift $ modify (updateFeedId . sanitizePosts)
+  posts <- lift . lift $ gets latestPosts
+  saved <- wrap $ Api.savePosts host posts
+  lift . lift $ modify (set saved)
+  where
+    updateFeedId s =
+      s
+      { latestPosts = updatePostFeedId (updateFeed s) <$> latestPosts s
+      }
+    set posts s =
+      s
+      { latestPosts = posts
+      }
+
+indexPosts2T :: Update2T ()
+indexPosts2T = do
+  host <- asks apiHost
+  fid <- lift . lift $ gets (unpack . fromJust . feedId . updateFeed)
+  subs <- wrap $ Api.fetchSubscriptions host fid
+  posts <- lift . lift $ gets latestPosts
+  rf <- asks readFlag
+  void $ wrap $ try (mapConcurrently (Api.indexPosts host posts rf) subs)
+
+fetchFeedData2T :: Update2T ()
+fetchFeedData2T = do
+  feed <- lift . lift $ gets updateFeed
+  fdata <- wrap $ fetchFeed (unpack $ feedUri feed) (modified feed)
+  processFeed2T fdata
+  where
+    modified feed = fromMaybe nullLastModified (feedLastModified feed)
+
+processFeed2T :: (ByteString, LastModified) -> Update2T ()
+processFeed2T (bytes, modified) = do
+  state <- lift . lift $ get
+  next <- either (lift . throwE) return (processFeed state (bytes, modified))
+  lift . lift $ modify (const next)
+  return ()
+
+fetchPostsContent2T :: Update2T ()
+fetchPostsContent2T = do
+  uri <- lift . lift $ gets (unpack . feedUri . updateFeed)
+  latest <- lift . lift $ gets latestPosts
+  when (inlineRequired uri) $
+    do posts <- wrap $ fetchContent latest
+       lift . lift $ modify (set posts)
+  where
+    set p s =
+      s
+      { latestPosts = p
+      }
+
+saveFeed2T :: Update2T ()
+saveFeed2T = do
+  feed <- lift . lift $ gets updateFeed
+  host <- asks apiHost
+  saved <- wrap $ Api.saveFeed host feed
+  lift . lift $ modify (set saved)
+  where
+    set f s =
+      s
+      { updateFeed = f
+      }
+
+wrap :: IO (Either SomeException a) -> Update2T a
+wrap action = do
+  result <- liftIO action
+  either (lift . throwE) return result
+
+fetchPostsT :: String -> Text -> ExceptT SomeException IO [Post]
+fetchPostsT host fid = ExceptT $ Api.fetchPosts host (unpack fid)
+
+initTime :: Update2T ()
+initTime = do
+  time <- liftIO getCurrentTime
+  lift . lift $ modify (set time)
+  return ()
+  where
+    set time st =
+      st
+      { updateTime = Just time
+      }
+
+initState :: Feed -> IO UpdateState
+initState feed = do
+  time <- getCurrentTime
+  return (UpdateState (Just time) feed Map.empty [])
 
 updateT :: UpdateEnv -> Feed -> IO (Either SomeException (Feed, [Post]))
 updateT env feed = do
@@ -185,7 +310,6 @@ fetchPostsContentT state =
       }
 
 --------------------------------------------------------------------------------
--- Monad stack : StateT EitherT IO
 update :: UpdateEnv -> Feed -> IO (Either SomeException (Feed, [Post]))
 update env feed = do
   ut <- getCurrentTime

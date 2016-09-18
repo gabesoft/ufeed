@@ -5,6 +5,7 @@ module TestHelper where
 
 import qualified Api
 import Control.Exception (SomeException)
+import Control.Lens
 import Data.ByteString.Lazy as BS (readFile)
 import Data.Either (rights)
 import FeedUpdater
@@ -42,9 +43,9 @@ sampleHost = "http://localhost:8006"
 
 runUpdate :: String -> IO (Either SomeException (Feed, [Post]))
 runUpdate fId = do
-  maybeFeed <- Api.fetchFeed (apiHost env) fId
+  maybeFeed <- Api.fetchFeed (env ^. apiHost) fId
   case maybeFeed of
     Left e -> return (Left e)
-    Right feed -> update2T env feed
+    Right feed -> update env feed
   where
     env = envForUpdate sampleHost

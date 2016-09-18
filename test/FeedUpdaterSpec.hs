@@ -21,8 +21,8 @@ main = do
   bytes <- BL.readFile "test/data/atom1.0.sample5.xml"
   now <- getCurrentTime
   let state = UpdateState (Just now) initFeed initPosts []
-      res = processFeed state (bytes, M.modified)
-      updatedState = either (const state) id res
+  (_,st) <- runUpdateM (envForUpdate "") state $ processFeed (bytes, M.modified)
+  let updatedState = st
   hspec $
     describe "process feeds" $
     do it "sets the last modified date" $ verifyModified updatedState
@@ -37,46 +37,46 @@ main = do
 
 verifyFailedAttempts :: UpdateState -> Expectation
 verifyFailedAttempts state =
-  state ^. to updateFeed ^. to feedFailedAttempts `shouldBe` 0
+  state ^. updateFeed ^. to feedFailedAttempts `shouldBe` 0
 
 verifyReadStatus :: UpdateState -> Expectation
 verifyReadStatus state =
-  state ^. to updateFeed ^. to feedLastReadStatus `shouldBe` Just ReadSuccess
+  state ^. updateFeed ^. to feedLastReadStatus `shouldBe` Just ReadSuccess
 
 verifyFeedUri :: UpdateState -> Expectation
 verifyFeedUri state =
-  state ^. to updateFeed ^. to feedUri `shouldBe`
+  state ^. updateFeed ^. to feedUri `shouldBe`
   pack "https://www.reddit.com/r/emacs/.rss"
 
 verifyLastPostCount :: UpdateState -> Expectation
 verifyLastPostCount state =
-  state ^. to updateFeed ^. to feedPostCount `shouldBe` length M.posts
+  state ^. updateFeed ^. to feedPostCount `shouldBe` length M.posts
 
 verifyLastPostDate :: UpdateState -> Expectation
 verifyLastPostDate state =
-  state ^. to updateFeed ^. to feedLastPostDate `shouldBe`
+  state ^. updateFeed ^. to feedLastPostDate `shouldBe`
   Just (pack "2016-09-11T16:36:34.000Z")
 
 verifyNewPostDates :: UpdateState -> Expectation
 verifyNewPostDates state = length (catMaybes dates) `shouldBe` count
   where
-    dates = parseISO8601 . unpack . postDate <$> latestPosts state
-    count = state ^. to latestPosts ^. to length
+    dates = parseISO8601 . unpack . postDate <$> _latestPosts state
+    count = state ^. latestPosts ^. to length
 
 verifyNewPostCount :: UpdateState -> Expectation
 verifyNewPostCount state = count `shouldBe` length M.posts - length initPosts
   where
-    count = state ^. to latestPosts ^. to length
+    count = state ^. latestPosts ^. to length
 
 verifyUpdated :: UpdateState -> UTCTime -> Expectation
 verifyUpdated state now = actual `shouldBe` Just (formatJsDate now)
   where
-    actual = state ^. to updateFeed ^. to feedLastReadDate
+    actual = state ^. updateFeed ^. to feedLastReadDate
 
 verifyModified :: UpdateState -> Expectation
 verifyModified state = actual `shouldBe` Just M.modified
   where
-    actual = state ^. to updateFeed ^. to feedLastModified
+    actual = state ^. updateFeed ^. to feedLastModified
 
 initFeed :: Feed
 initFeed =

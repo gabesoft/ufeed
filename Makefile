@@ -20,3 +20,6 @@ run: build
 # sample call: make test-only test=funct-tests
 test-only: clean-tix
 	stack build --test hapro:$$test
+
+update:
+	stack exec updater -- +RTS -N

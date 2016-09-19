@@ -9,6 +9,7 @@ module FeedUpdater
   ( update
   , PostMap
   , UpdateState(..)
+  , UpdateEnv(..)
   , envForAddNew
   , envForUpdate
   , latestPosts
@@ -68,7 +69,7 @@ type UpdateM a = ReaderT UpdateEnv (ExceptT SomeException (StateT UpdateState IO
 wrapM :: IO (Either SomeException a) -> UpdateM a
 wrapM action = do
   result <- liftIO action
-  either throw return result
+  either throwError return result
 
 -- |
 -- Run an UpdateM action
@@ -186,14 +187,6 @@ fetchFeedData = do
   where
     modified feed = fromMaybe nullLastModified (feedLastModified feed)
 
-fetchPostsContent :: UpdateM ()
-fetchPostsContent = do
-  uri <- gets (unpack . feedUri . _updateFeed)
-  latest <- gets _latestPosts
-  when (inlineRequired uri) $
-    do posts <- wrapM $ fetchContent latest
-       latestPosts .= posts
-
 saveFeed :: UpdateM ()
 saveFeed = do
   feed <- gets _updateFeed
@@ -205,6 +198,14 @@ initTime :: UpdateM ()
 initTime = do
   time <- liftIO getCurrentTime
   updateTime .= Just time
+
+fetchPostsContent :: UpdateM ()
+fetchPostsContent = do
+  uri <- gets (unpack . feedUri . _updateFeed)
+  latest <- gets _latestPosts
+  when (inlineRequired uri) $
+    do posts <- wrapM $ fetchContent latest
+       latestPosts .= posts
 
 fetchContent :: [Post] -> IO (Either SomeException [Post])
 fetchContent posts = fmap (fmap updatePost . zip posts) <$> run

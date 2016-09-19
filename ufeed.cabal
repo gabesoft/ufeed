@@ -44,12 +44,14 @@ library
                      , xml-conduit >= 1.3.5
   default-language:    Haskell2010
 
-executable ufeed-exe
+executable updater
   hs-source-dirs:      app
   main-is:             Main.hs
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
                      , ufeed
+                     , async >= 2.1
+                     , text >= 1.2
   default-language:    Haskell2010
 
 test-suite converter-atom

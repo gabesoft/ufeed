@@ -127,7 +127,7 @@ instance FromJSON Feed where
   parseJSON (Object o) = do
     feedAuthor <- o .:? "author"
     feedLastModified <- o .:? "data"
-    feedDate <- o .: "date"
+    feedDate <- o .:? "date"
     feedDescription <- o .:? "description"
     feedFailedAttempts <- fromMaybe 0 <$> (o .:? "failedAttempts")
     feedFavicon <- o .:? "favicon"

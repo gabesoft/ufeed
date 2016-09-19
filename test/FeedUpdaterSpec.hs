@@ -3,18 +3,19 @@ module Main
   ( main
   ) where
 
-import Control.Arrow
-import Control.Lens
+import           Control.Arrow
+import           Control.Lens
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.Map as Map
-import Data.Maybe
-import Data.Text (unpack, pack)
-import Data.Time
-import Data.Time.ISO8601 (parseISO8601)
-import FeedUpdater
+import           Data.Maybe
+import           Data.Text (unpack, pack)
+import           Data.Time
+import           Data.Time.ISO8601 (parseISO8601)
+import           FeedUpdater
 import qualified Mocks.FeedUpdater as M
-import Test.Hspec
-import Types
+import           Test.Hspec
+import           Types
+import           Util
 
 main :: IO ()
 main = do

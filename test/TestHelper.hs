@@ -43,9 +43,7 @@ sampleHost = "http://localhost:8006"
 
 runUpdate :: String -> IO (Either SomeException (Feed, [Post]))
 runUpdate fId = do
-  maybeFeed <- Api.fetchFeed (env ^. apiHost) fId
+  maybeFeed <- Api.fetchFeed sampleHost fId
   case maybeFeed of
     Left e -> return (Left e)
-    Right feed -> update env feed
-  where
-    env = envForUpdate sampleHost
+    Right feed -> update (envForUpdate sampleHost) feed

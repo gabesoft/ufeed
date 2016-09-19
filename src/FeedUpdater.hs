@@ -5,7 +5,17 @@
 -- Updating a feed consists of fetching the latest feed data,
 -- uploading the updated feed and any new posts to database,
 -- and indexing the new posts with the search engine
-module FeedUpdater where
+module FeedUpdater
+  ( update
+  , PostMap
+  , UpdateState(..)
+  , envForAddNew
+  , envForUpdate
+  , latestPosts
+  , processFeed
+  , runUpdateM
+  , updateFeed
+  ) where
 
 import qualified Api
 import Control.Applicative ((<|>))
@@ -25,13 +35,11 @@ import Data.Text (Text, empty, pack, unpack)
 import Data.Text.Lazy (toStrict)
 import Data.Text.Lazy.Encoding (decodeUtf8)
 import Data.Time (UTCTime, getCurrentTime)
-import Data.Time.Format
-       (defaultTimeLocale, parseTimeM, rfc822DateFormat)
-import Data.Time.ISO8601 (formatISO8601Javascript, parseISO8601)
 import FeedConfig
 import FeedReader
 import Sanitizer
 import Types
+import Util
 
 type ApiHost = String
 
@@ -40,11 +48,9 @@ type ReadFlag = Bool
 type PostMap = Map.Map Text Post
 
 data UpdateEnv = UpdateEnv
-  { _apiHost :: String
-  , _readFlag :: Bool
+  { _apiHost :: ApiHost
+  , _readFlag :: ReadFlag
   } deriving (Eq, Show)
-
-makeLenses ''UpdateEnv
 
 data UpdateState = UpdateState
   { _updateTime :: Maybe UTCTime
@@ -52,6 +58,8 @@ data UpdateState = UpdateState
   , _existingPosts :: PostMap
   , _latestPosts :: [Post]
   } deriving (Eq, Show)
+
+makeLenses ''UpdateEnv
 
 makeLenses ''UpdateState
 
@@ -88,6 +96,9 @@ envForUpdate host = UpdateEnv host False
 envForAddNew :: String -> UpdateEnv
 envForAddNew host = UpdateEnv host True
 
+-- |
+-- Updates a feed by reading the latest posts, saving them to a persistent
+-- store and indexing them
 update :: UpdateEnv -> Feed -> IO (Either SomeException (Feed, [Post]))
 update env feed = do
   (result, state) <- runUpdateM env (nullState feed) updateM
@@ -130,7 +141,7 @@ readExistingPosts = do
     Nothing -> modify (existingPosts .~ Map.empty)
     Just fid -> do
       posts <- wrapM $ Api.fetchPosts host (unpack fid)
-      modify (existingPosts .~ toMap posts)
+      existingPosts .= toMap posts
   return ()
   where
     toMap = Map.fromList . fmap (postGuid &&& id)
@@ -139,16 +150,25 @@ processPosts :: UpdateM ()
 processPosts = do
   host <- asks _apiHost
   feed <- gets _updateFeed
-  _ <- modify (updatePostsFeedId feed . sanitizePosts)
   posts <- gets _latestPosts
-  saved <- wrapM $ Api.savePosts host posts
-  modify (latestPosts .~ saved)
+  saved <- wrapM $ Api.savePosts host (prepare feed <$> posts)
+  latestPosts .= saved
   where
-    updatePostsFeedId feed = latestPosts %~ fmap (setPostFeedId feed)
+    prepare feed = setPostFeedId feed . sanitizePost feed
     setPostFeedId feed post =
       post
       { postFeedId = feedId feed
       }
+
+sanitizePost :: Feed -> Post -> Post
+sanitizePost feed post =
+  post
+  { postDescription = sanitizeHtml (postDescription post)
+  }
+  where
+    feedUrl = unpack (feedUri feed)
+    baseUrl = unpack (postLink post)
+    sanitizeHtml html = pack . sanitize feedUrl baseUrl . unpack <$> html
 
 indexPosts :: UpdateM ()
 indexPosts = do
@@ -156,8 +176,10 @@ indexPosts = do
   fid <- gets (unpack . fromJust . feedId . _updateFeed)
   subs <- wrapM $ Api.fetchSubscriptions host fid
   posts <- gets _latestPosts
-  rf <- asks _readFlag
-  void $ wrapM $ try (mapConcurrently (Api.indexPosts host posts rf) subs)
+  markAsRead <- asks _readFlag
+  void $ wrapM $ try (mapConcurrently (idx host posts markAsRead) subs)
+  where
+    idx = Api.indexPosts
 
 fetchFeedData :: UpdateM ()
 fetchFeedData = do
@@ -173,56 +195,19 @@ fetchPostsContent = do
   latest <- gets _latestPosts
   when (inlineRequired uri) $
     do posts <- wrapM $ fetchContent latest
-       modify (set posts)
-  where
-    set p s =
-      s
-      { _latestPosts = p
-      }
+       latestPosts .= posts
 
 saveFeed :: UpdateM ()
 saveFeed = do
   feed <- gets _updateFeed
   host <- asks _apiHost
   saved <- wrapM $ Api.saveFeed host feed
-  modify (set saved)
-  where
-    set f s =
-      s
-      { _updateFeed = f
-      }
+  updateFeed .= saved
 
 initTime :: UpdateM ()
 initTime = do
   time <- liftIO getCurrentTime
-  modify (set time)
-  return ()
-  where
-    set time st =
-      st
-      { _updateTime = Just time
-      }
-
-initState :: Feed -> IO UpdateState
-initState feed = do
-  time <- getCurrentTime
-  return (UpdateState (Just time) feed Map.empty [])
-
-sanitizePosts :: UpdateState -> UpdateState
-sanitizePosts state =
-  state
-  { _latestPosts = sanitizePost (_updateFeed state) <$> _latestPosts state
-  }
-
-sanitizePost :: Feed -> Post -> Post
-sanitizePost feed post =
-  post
-  { postDescription = sanitizeHtml (postDescription post)
-  }
-  where
-    feedUrl = unpack (feedUri feed)
-    baseUrl = unpack (postLink post)
-    sanitizeHtml html = pack . sanitize feedUrl baseUrl . unpack <$> html
+  updateTime .= Just time
 
 fetchContent :: [Post] -> IO (Either SomeException [Post])
 fetchContent posts = fmap (fmap updatePost . zip posts) <$> run
@@ -242,42 +227,33 @@ fetchContent posts = fmap (fmap updatePost . zip posts) <$> run
 
 processFeed :: (ByteString, LastModified) -> UpdateM ()
 processFeed (bytes, modified) = do
-  state <- get
-  (newFeed, ps) <- wrapM . return $ extractFeedAndPosts bytes
-  let feed = _updateFeed state
-      existing = _existingPosts state
-      newPosts = filter (isNew $ Map.keysSet existing) ps
-      (posts, dates) =
-        sequenceT $ normalizePostDates (fromJust $ _updateTime state) <$> newPosts
-      lastDate = formatJsDate <$> maximumDate (catMaybes dates)
-  modify $
-    const
-      state
-      { _latestPosts = posts
-      , _updateFeed =
-        newFeed
-        { feedFailedAttempts = 0
-        , feedGuid = feedGuid feed <|> feedGuid newFeed
-        , feedId = feedId feed
-        , feedLastModified = Just modified
-        , feedLastPostDate = lastDate <|> feedLastPostDate feed
-        , feedLastReadDate = formatJsDate <$> _updateTime state
-        , feedLastReadStatus = Just ReadSuccess
-        , feedLink = feedGuid newFeed <|> feedGuid feed
-        , feedPostCount = Map.size existing + length posts
-        , feedUri = feedUri feed
-        }
-      }
+  origFeed <- gets _updateFeed
+  existing <- gets _existingPosts
+  time <- gets _updateTime
+  results <- wrapM . return $ extractFeedAndPosts bytes
+  let posts = filter (isNew $ Map.keysSet existing) (snd results)
+      (nextPosts, dates) = sequenceT $ normalizePostDates (fromJust time) <$> posts
+      lastDate = formatJsDate <$> maxDate (catMaybes dates)
+      feed = fst results
+  latestPosts .= nextPosts
+  updateFeed .=
+    feed
+    { feedFailedAttempts = 0
+    , feedGuid = feedGuid origFeed <|> feedGuid feed
+    , feedId = feedId origFeed
+    , feedLastModified = Just modified
+    , feedLastPostDate = lastDate <|> feedLastPostDate origFeed
+    , feedLastReadDate = formatJsDate <$> time
+    , feedLastReadStatus = Just ReadSuccess
+    , feedLink = feedGuid feed <|> feedGuid origFeed
+    , feedPostCount = Map.size existing + length nextPosts
+    , feedUri = feedUri origFeed
+    }
   where
     isNew guids post = not $ Set.member (postGuid post) guids
     sequenceT = fmap fst &&& fmap snd
-
-maximumDate :: [UTCTime] -> Maybe UTCTime
-maximumDate [] = Nothing
-maximumDate xs = Just (maximum xs)
-
-formatJsDate :: UTCTime -> Text
-formatJsDate = pack . formatISO8601Javascript
+    maxDate [] = Nothing
+    maxDate xs = Just (maximum xs)
 
 normalizePostDates :: UTCTime -> Post -> (Post, Maybe UTCTime)
 normalizePostDates now post =
@@ -289,14 +265,3 @@ normalizePostDates now post =
   where
     (t1, d1) = normalizeDate now (postDate post)
     (t2, _) = normalizeDate now (fromMaybe empty (postPubdate post))
-
-normalizeDate :: UTCTime -> Text -> (Maybe Text, Maybe UTCTime)
-normalizeDate now input = (formatJsDate <$> date, date)
-  where
-    date = (`min` now) <$> parseJsDate (unpack input)
-
-parseJsDate :: String -> Maybe UTCTime
-parseJsDate input = parseISO8601 input <|> parseRFC822 input
-
-parseRFC822 :: String -> Maybe UTCTime
-parseRFC822 = parseTimeM True defaultTimeLocale rfc822DateFormat

@@ -4,7 +4,8 @@
 -- Interaction with the api server
 module Api where
 
-import Control.Exception (SomeException, try)
+import Control.Exception
+       (Exception, SomeException, try, toException, throw)
 import Control.Lens ((&), (.~), (^.))
 import Data.Aeson (ToJSON, object, toJSON, (.=))
 import Data.Aeson.Types (Value)
@@ -15,9 +16,16 @@ import Data.Text (pack, unpack)
 import Network.Wreq
 import Types
 
+data SearchException =
+  NoResultsException String
+  deriving (Eq, Ord, Show)
+
+instance Exception SearchException
+
 data SearchParams = SearchParams
-  { postFields :: [String]
-  , queryFeedId :: String
+  { queryFields :: [String]
+  , queryFeedId :: Maybe String
+  , queryFeedUri :: Maybe String
   } deriving (Eq, Show)
 
 data IndexParams = IndexParams
@@ -28,8 +36,8 @@ data IndexParams = IndexParams
 instance ToJSON SearchParams where
   toJSON p =
     object
-      [ "fields" .= unwords (postFields p)
-      , "query" .= object ["feedId" .= queryFeedId p]
+      [ "fields" .= queryFields p
+      , "query" .= object ["feedId" .= queryFeedId p, "uri" .= queryFeedUri p]
       ]
 
 instance ToJSON IndexParams where
@@ -86,6 +94,17 @@ fetchFeed :: String -> String -> IO (Either SomeException Feed)
 fetchFeed host feedId = try (fetchFeed' host feedId)
 
 -- |
+-- Get a feed by uri
+fetchFeedByUri :: String -> String -> IO (Either SomeException Feed)
+fetchFeedByUri host uri = do
+  feeds <- try (fetchFeedByUri' host uri)
+  return $
+    case feeds of
+      Left e -> Left e
+      Right [] -> Left $ noResultsError ("No feed found matching uri " ++ uri)
+      Right (x:_) -> Right x
+
+-- |
 -- Save a new feed
 postFeed :: String -> Feed -> IO Feed
 postFeed host = saveFeed' post (host ++ "/feeds")
@@ -117,12 +136,19 @@ fetchSubscriptions' host feedId =
   where
     url = host ++ "/search/feed-subscriptions"
     fields = ["feedId"]
-    query = SearchParams fields feedId
+    query = SearchParams fields (Just feedId) Nothing
 
 fetchFeed' :: String -> String -> IO Feed
 fetchFeed' host feedId = (^. responseBody) <$> (get url >>= asJSON)
   where
     url = host ++ "/feeds/" ++ feedId
+
+fetchFeedByUri' :: String -> String -> IO [Feed]
+fetchFeedByUri' host uri =
+  (^. responseBody) <$> (post url (toJSON query) >>= asJSON)
+  where
+    url = host ++ "/search/feeds"
+    query = SearchParams [] Nothing (Just uri)
 
 fetchFeeds' :: String -> Int -> IO [Feed]
 fetchFeeds' host limit = (^. responseBody) <$> (getWith opts url >>= asJSON)
@@ -136,7 +162,7 @@ fetchPosts' host feedId =
   where
     url = host ++ "/search/posts"
     fields = ["guid", "date", "link"]
-    query = SearchParams fields feedId
+    query = SearchParams fields (Just feedId) Nothing
 
 indexPosts' :: String -> [Post] -> Bool -> FeedSubscription -> IO ()
 indexPosts' host posts readFlag subscription = void $ post url (toJSON args)
@@ -144,3 +170,6 @@ indexPosts' host posts readFlag subscription = void $ post url (toJSON args)
     url = host ++ "/bulk/user-posts/" ++ unpack (subscriptionId subscription)
     ids = unpack . fromJust . postId <$> posts
     args = IndexParams ids readFlag
+
+noResultsError :: String -> SomeException
+noResultsError msg = toException (NoResultsException msg)

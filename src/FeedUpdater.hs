@@ -41,14 +41,12 @@ import Sanitizer
 import Types
 import Util
 
-type ApiHost = String
-
 type ReadFlag = Bool
 
 type PostMap = Map.Map Text Post
 
 data UpdateEnv = UpdateEnv
-  { _apiHost :: ApiHost
+  { _apiHost :: Api.ApiHost
   , _readFlag :: ReadFlag
   } deriving (Eq, Show)
 
@@ -126,21 +124,20 @@ saveFailedFeed env state err =
     (env ^. apiHost)
     feed
     { feedFailedAttempts = 1 + feedFailedAttempts feed
-    , feedLastReadDate = formatJsDate <$> time
+    , feedLastReadDate = formatJsDate <$> _updateTime state
     , feedLastReadStatus = Just $ ReadFailure (pack $ show err)
     }
   where
     feed = _updateFeed state
-    time = _updateTime state
 
 readExistingPosts :: UpdateM ()
 readExistingPosts = do
   host <- _apiHost <$> ask
   feed <- gets _updateFeed
   case feedId feed of
-    Nothing -> modify (existingPosts .~ Map.empty)
+    Nothing -> existingPosts .= Map.empty
     Just fid -> do
-      posts <- wrapM $ Api.fetchPosts host (unpack fid)
+      posts <- wrapM $ Api.fetchPosts host fid
       existingPosts .= toMap posts
   return ()
   where
@@ -173,7 +170,7 @@ sanitizePost feed post =
 indexPosts :: UpdateM ()
 indexPosts = do
   host <- asks _apiHost
-  fid <- gets (unpack . fromJust . feedId . _updateFeed)
+  fid <- gets (fromJust . feedId . _updateFeed)
   subs <- wrapM $ Api.fetchSubscriptions host fid
   posts <- gets _latestPosts
   markAsRead <- asks _readFlag

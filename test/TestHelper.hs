@@ -4,15 +4,16 @@
 module TestHelper where
 
 import qualified Api
-import Control.Exception (SomeException)
-import Control.Lens
-import Data.ByteString.Lazy as BS (readFile)
-import Data.Either (rights)
-import FeedUpdater
-import Test.Hspec
-import Text.XML
-import Text.XML.Cursor
-import Types
+import           Control.Exception    (SomeException)
+import           Control.Lens
+import           Data.ByteString.Lazy as BS (readFile)
+import           Data.Either          (rights)
+import           Data.Text            (Text)
+import           FeedUpdater
+import           Test.Hspec
+import           Text.XML
+import           Text.XML.Cursor
+import           Types
 
 readXml :: String -> IO (Either SomeException Document)
 readXml file = do
@@ -31,7 +32,7 @@ docSample = do
   let h = head $ rights [d]
   return (h, fromDocument h)
 
-sampleFeedIds :: [String]
+sampleFeedIds :: [Text]
 sampleFeedIds =
   [ "566e6d7213415194b8df8008" -- https://www.reddit.com/r/vim/.rss
   , "566e72068e864928ba4f291c" -- https://www.reddit.com/r/programming/.rss
@@ -41,7 +42,7 @@ sampleFeedIds =
 sampleHost :: String
 sampleHost = "http://localhost:8006"
 
-runUpdate :: String -> IO (Either SomeException (Feed, [Post]))
+runUpdate :: Text -> IO (Either SomeException (Feed, [Post]))
 runUpdate fId = do
   maybeFeed <- Api.fetchFeed sampleHost fId
   case maybeFeed of

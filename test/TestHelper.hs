@@ -38,6 +38,7 @@ sampleFeeds =
   , "https://www.reddit.com/r/programming/.rss" -- "566e72068e864928ba4f291c"
   , "https://www.reddit.com/r/emacs/.rss" -- "566e6d8b13415194b8df8024"
   , "http://alexyoung.org/feed.rss"
+  , "http://demosthenes.info/feed.php"
   ]
 
 sampleHost :: String

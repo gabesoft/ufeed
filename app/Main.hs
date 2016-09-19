@@ -8,6 +8,7 @@ import Control.Monad
 import Data.Text (unpack)
 import FeedUpdater
 import Types
+import Text.Show.Pretty
 
 host :: String
 host = "http://localhost:8006"
@@ -26,7 +27,9 @@ updateAllFeeds = do
   putStrLn "Starting feeds update"
   results <- Api.fetchFeeds host 0
   case results of
-    Left e -> putStrLn "Failed to fetch feeds" >> print e
+    Left e -> do
+      putStrLn "Failed to fetch feeds"
+      pPrint e
     Right feeds -> do
       putStrLn $ "Found " ++ show (length feeds) ++ " feeds"
       mapM_ updateFeedItem feeds
@@ -44,7 +47,7 @@ display :: [Either SomeException (Feed, [Post])] -> IO ()
 display = mapM_ displayItem
 
 displayItem :: Either SomeException (Feed, [Post]) -> IO ()
-displayItem (Left e) = print e
+displayItem (Left e) = pPrint e
 displayItem (Right (f, ps)) = do
   putStrLn ("Feed updated " ++ unpack (feedUri f))
   putStrLn ("New posts found " ++ show (length ps))

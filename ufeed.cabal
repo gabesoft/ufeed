@@ -52,12 +52,15 @@ executable updater
                      , ufeed
                      , async >= 2.1
                      , text >= 1.2
+                     , pretty-show
   default-language:    Haskell2010
 
 test-suite converter-atom
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             ConverterAtomSpec.hs
+  other-modules:       Mocks.Atom
+                     , TestHelper
   build-depends:       base
                      , bytestring
                      , hspec
@@ -72,6 +75,8 @@ test-suite converter-rss
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             ConverterRssSpec.hs
+  other-modules:       Mocks.Atom
+                     , TestHelper
   build-depends:       base
                      , bytestring
                      , hspec

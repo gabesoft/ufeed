@@ -26,7 +26,6 @@ feedProcessors =
   , ("http://feeds.feedburner.com/bocoup", css ".blog-content")
   , ("http://feeds.feedburner.com/creativebloq/.net", css "#article-body")
   , ("http://techieme.in/feed/", css ".single_post")
-    -- TODO fix this
   , ("http://demosthenes.info/feed.php", css ".entry-content")
   , ("http://thenewcode.com/feed.php", css ".entry-content")
   , ("http://underscore.io/blog/feed.xml", css "article.blog-post-content")
@@ -50,4 +49,5 @@ feedProcessors =
   , ("https://medium.com/feed/@tjholowaychuk", css "article main")
   , ("https://medium.freecodecamp.com/feed", css "article main")
   , ("https://strongloop.com/feed/", css ".entry-content")
+  , ("http://sample.for.test/feed", css ".entry-content")
   ]

@@ -6,9 +6,10 @@ import Control.Concurrent.Async
 import Control.Exception
 import Control.Monad
 import Data.Text (unpack)
+import Data.Time
 import FeedUpdater
-import Types
 import Text.Show.Pretty
+import Types
 
 host :: String
 host = "http://localhost:8006"
@@ -24,7 +25,9 @@ main = forever updateAllFeeds
 
 updateAllFeeds :: IO ()
 updateAllFeeds = do
-  putStrLn "Starting feeds update"
+  startTime <- getCurrentTime
+  startTimeL <- utcToLocalZonedTime startTime
+  putStrLn $ show startTimeL ++ " Starting feeds update"
   results <- Api.fetchFeeds host 0
   case results of
     Left e -> do
@@ -34,7 +37,10 @@ updateAllFeeds = do
       putStrLn $ "Found " ++ show (length feeds) ++ " feeds"
       mapM_ updateFeedItem feeds
   --  void $ mapConcurrently updateFeedItem feeds
-  putStrLn "All feeds updated. Going to sleep for 1 hour"
+  endTime <- getCurrentTime
+  endTimeL <- utcToLocalZonedTime endTime
+  putStrLn $ show endTimeL ++ " All feeds updated. Going to sleep for 1 hour"
+  putStrLn $ show (diffUTCTime endTime startTime) ++ " total time"
   threadDelay delay
 
 updateFeedItem :: Feed -> IO ()

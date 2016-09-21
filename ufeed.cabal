@@ -53,6 +53,7 @@ executable updater
                      , ufeed
                      , async >= 2.1
                      , text >= 1.2
+                     , time >= 1.5
                      , pretty-show
   default-language:    Haskell2010
 

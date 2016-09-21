@@ -159,7 +159,7 @@ instance ToJSON Feed where
       , "description" .= feedDescription o
       , "failedAttempts" .= feedFailedAttempts o
       , "favicon" .= feedFavicon o
-      , "feedFormat" .= feedFormat o
+      , "format" .= feedFormat o
       , "generator" .= feedGenerator o
       , "guid" .= feedGuid o
       , "id" .= feedId o

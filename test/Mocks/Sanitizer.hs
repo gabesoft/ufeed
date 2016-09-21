@@ -6,7 +6,7 @@ module Mocks.Sanitizer where
 import Text.RawString.QQ
 
 baseUrl :: String
-baseUrl = "http://mypost.com"
+baseUrl = "http://blog.example.com"
 
 iframeExpected :: String
 iframeExpected = "<html><div></div></html>"
@@ -39,8 +39,8 @@ stylesheetInput :: String
 stylesheetInput =
   [r|
 <html>
-  <link href="main.css" rel="stylesheet"/>
-  <link href="other.css" rel="stylesheet"/>
+  <link href="main.css" rel="stylesheet">
+  <link href="other.css" rel="stylesheet">
   <div></div>
 </html>
 |]
@@ -61,7 +61,7 @@ styleInput =
 
 imageExpected :: String
 imageExpected =
-  [r|<img width="230" src="http://mypost.com/u/2937359?v=3&amp;s=460"/><img width="230" src="http://mypost.com/2937359?v=3&amp;s=460"/><img width="230" src="http://placehold.it/350x150"/><div></div>|]
+  [r|<img width="230" src="http://blog.example.com/u/2937359?v=3&amp;s=460"/><img width="230" src="http://blog.example.com/2937359?v=3&amp;s=460"/><img width="230" src="http://placehold.it/350x150"/><div></div>|]
 
 imageInput :: String
 imageInput =
@@ -72,9 +72,32 @@ imageInput =
   <div></div>
 |]
 
+srcsetExpected :: String
+srcsetExpected = [r|<img class="aligncenter wp-image-12866 size-full" src="http://blog.example.com/wp-content/uploads/2016/09/image00.png" alt="GitHub Project Header" width="1013" height="395" srcset="http://blog.example.com/wp-content/uploads/2016/09/image00.png 1013w, http://blog.example.com/wp-content/uploads/2016/09/image00-470x183.png 470w, http://blog.example.com/wp-content/uploads/2016/09/image00-768x299.png 768w, http://blog.example.com/wp-content/uploads/2016/09/image00-970x378.png 970w" sizes="(max-width: 1013px) 100vw, 1013px"/><img class="aligncenter wp-image-12866 size-full" src="http://blog.example.com/wp-content/uploads/2016/09/image00.png" alt="GitHub Project Header" width="1013" height="395" srcset="http://blog.example.com/wp-content/uploads/2016/09/image00.png 1013w, http://blog.other.com/wp-content/uploads/2016/09/image00-470x183.png 470w, http://blog.example.com/wp-content/uploads/2016/09/image00-768x299.png 768w, http://blog.example.com/wp-content/uploads/2016/09/image00-970x378.png 970w" sizes="(max-width: 1013px) 100vw, 1013px"/>|]
+
+srcsetInput :: String
+srcsetInput = [r|
+<img class="aligncenter wp-image-12866 size-full"
+     src="http://blog.example.com/wp-content/uploads/2016/09/image00.png"
+     alt="GitHub Project Header" width="1013" height="395"
+     srcset="http://blog.example.com/wp-content/uploads/2016/09/image00.png 1013w,
+             http://blog.example.com/wp-content/uploads/2016/09/image00-470x183.png 470w,
+             http://blog.example.com/wp-content/uploads/2016/09/image00-768x299.png 768w,
+             http://blog.example.com/wp-content/uploads/2016/09/image00-970x378.png 970w"
+     sizes="(max-width: 1013px) 100vw, 1013px">
+<img class="aligncenter wp-image-12866 size-full"
+     src="/wp-content/uploads/2016/09/image00.png"
+     alt="GitHub Project Header" width="1013" height="395"
+     srcset="/wp-content/uploads/2016/09/image00.png 1013w,
+             http://blog.other.com/wp-content/uploads/2016/09/image00-470x183.png 470w,
+             /wp-content/uploads/2016/09/image00-768x299.png 768w,
+             /wp-content/uploads/2016/09/image00-970x378.png 970w"
+     sizes="(max-width: 1013px) 100vw, 1013px">
+|]
+
 urlExpected :: String
 urlExpected =
-  [r|<html><a href="http://mypost.com/u/2937359?v=3&amp;s=460">Link</a><a href="http://mypost.com/2937359?v=3&amp;s=460">Link</a><a href="http://placehold.it/350x150">Link</a><div><a href="http://mypost.com/about.com">hello</a></div></html>|]
+  [r|<html><a href="http://blog.example.com/u/2937359?v=3&amp;s=460">Link</a><a href="http://blog.example.com/2937359?v=3&amp;s=460">Link</a><a href="http://placehold.it/350x150">Link</a><div><a href="http://blog.example.com/about.com">hello</a></div></html>|]
 
 urlInput :: String
 urlInput =
@@ -88,6 +111,18 @@ urlInput =
     <a href="http://hello.com"></a>
     <a href="about.com">hello</a>
   </div>
+</html>
+|]
+
+shareExpected :: String
+shareExpected = "<html><div>some text</div></html>"
+
+shareInput :: String
+shareInput = [r|
+<html>
+  <div>some text</div>
+  <div class="feedflare"><span>test1</span></div>
+  <div class="footer mediafed_ad other"><span>test2</span></div>
 </html>
 |]
 

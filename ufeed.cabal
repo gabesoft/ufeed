@@ -36,6 +36,7 @@ library
                      , lens >= 4.13
                      , mtl >= 2.2
                      , raw-strings-qq
+                     , tagsoup
                      , text >= 1.2
                      , time >= 1.5
                      , transformers >= 0.4

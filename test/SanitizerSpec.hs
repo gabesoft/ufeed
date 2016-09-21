@@ -19,6 +19,8 @@ main =
      it "fixes urls and removes empty links" $ verify urlInput urlExpected
      it "can extract content" $ verifyContent validContentInput validContentExpected
      it "can handle malformed html" $ verifyContent malformedHtmlInput malformedHtmlExpected
+     it "fixes image srcset" $ verify srcsetInput srcsetExpected
+     it "removes share links" $ verify shareInput shareExpected
 
 verify :: String -> String -> Expectation
 verify input expected = sanitize "" baseUrl input `shouldBe` expected

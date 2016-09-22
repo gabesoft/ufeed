@@ -1,8 +1,11 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
 import qualified Api
+import qualified Data.Text as T
+import qualified Data.List as L
 import Control.Concurrent
-import Control.Concurrent.Async
 import Control.Exception
 import Control.Monad
 import Data.Text (unpack)
@@ -49,14 +52,29 @@ updateMultipleFeeds host = do
       putStrLn "Failed to fetch feeds"
       pPrint e
     Right feeds -> do
+      let (toRun, toSkip) = partitionFeeds feeds
       putStrLn $ "Found " ++ show (length feeds) ++ " feeds"
-      mapM_ (updateSingleFeed host) feeds
+      putStrLn $ "Skipped feeds " ++ show (length toSkip)
+      mapM_ displaySkippedFeed toSkip
+      putStrLn $ "Feeds to be run " ++ show (length toRun)
+      mapM_ (updateSingleFeed host) toRun
+
+partitionFeeds :: [Feed] -> ([Feed], [Feed])
+partitionFeeds = L.partition (not . with404 . feedLastReadStatus)
+  where
+    with404 Nothing = False
+    with404 (Just ReadSuccess) = False
+    with404 (Just (ReadFailure txt)) = T.isInfixOf "statusCode = 404" txt
 
 updateSingleFeed :: String -> Feed -> IO ()
 updateSingleFeed host feed = do
   putStrLn $ "Starting feed update " ++ unpack (feedUri feed)
   result <- update (env host) feed
   displayItem result
+
+displaySkippedFeed :: Feed -> IO ()
+displaySkippedFeed feed =
+  putStrLn $ show (feedId feed) ++ " " ++ show (feedUri feed)
 
 displayItem :: Either SomeException (Feed, [Post]) -> IO ()
 displayItem (Left e) = pPrint e

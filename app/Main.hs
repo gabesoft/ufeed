@@ -8,26 +8,41 @@ import Control.Monad
 import Data.Text (unpack)
 import Data.Time
 import FeedUpdater
+import System.Environment (getArgs)
+import System.Exit
 import Text.Show.Pretty
 import Types
-
-host :: String
-host = "http://localhost:8006"
 
 delay :: Int
 delay = 3600000000 -- 1 hour in microseconds
 
-env :: UpdateEnv
-env = envForUpdate host
+env :: String -> UpdateEnv
+env = envForUpdate
+
+usage :: String
+usage = "updater <api-host>"
 
 main :: IO ()
-main = forever updateAllFeeds
+main = do
+  args <- getArgs
+  case args of
+    [] -> putStrLn usage >> exitFailure
+    (h:_) -> forever (updateFeeds h)
 
-updateAllFeeds :: IO ()
-updateAllFeeds = do
+updateFeeds :: String -> IO ()
+updateFeeds host = do
   startTime <- getCurrentTime
   startTimeL <- utcToLocalZonedTime startTime
   putStrLn $ show startTimeL ++ " Starting feeds update"
+  updateMultipleFeeds host
+  endTime <- getCurrentTime
+  endTimeL <- utcToLocalZonedTime endTime
+  putStrLn $ show endTimeL ++ " All feeds updated. Going to sleep for 1 hour"
+  putStrLn $ show (diffUTCTime endTime startTime) ++ " total time"
+  threadDelay delay
+
+updateMultipleFeeds :: String -> IO ()
+updateMultipleFeeds host = do
   results <- Api.fetchFeeds host 0
   case results of
     Left e -> do
@@ -35,22 +50,13 @@ updateAllFeeds = do
       pPrint e
     Right feeds -> do
       putStrLn $ "Found " ++ show (length feeds) ++ " feeds"
-      mapM_ updateFeedItem feeds
-  --  void $ mapConcurrently updateFeedItem feeds
-  endTime <- getCurrentTime
-  endTimeL <- utcToLocalZonedTime endTime
-  putStrLn $ show endTimeL ++ " All feeds updated. Going to sleep for 1 hour"
-  putStrLn $ show (diffUTCTime endTime startTime) ++ " total time"
-  threadDelay delay
+      mapM_ (updateSingleFeed host) feeds
 
-updateFeedItem :: Feed -> IO ()
-updateFeedItem feed = do
+updateSingleFeed :: String -> Feed -> IO ()
+updateSingleFeed host feed = do
   putStrLn $ "Starting feed update " ++ unpack (feedUri feed)
-  result <- update env feed
+  result <- update (env host) feed
   displayItem result
-
-display :: [Either SomeException (Feed, [Post])] -> IO ()
-display = mapM_ displayItem
 
 displayItem :: Either SomeException (Feed, [Post]) -> IO ()
 displayItem (Left e) = pPrint e

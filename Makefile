@@ -13,13 +13,9 @@ build: clean-tix
 test: clean-tix
 	stack build --test
 
-# sample call: make run exe=hit-counter arg="http://"
-run: build
-	@stack exec $$exe -- $$arg
-
 # sample call: make test-only test=funct-tests
 test-only: clean-tix
 	stack build --test hapro:$$test
 
-update:
-	stack exec updater -- +RTS -N
+update: build
+	stack exec updater -- "http://localhost:8006" +RTS -N

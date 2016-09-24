@@ -88,7 +88,7 @@ nullFeed uri =
 data Post = Post
   { postAuthor :: Maybe Text
   , postComments :: Maybe Text
-  , postDate :: Date
+  , postDate :: Maybe Date
   , postDescription :: Maybe Text
   , postFeedId :: Maybe Text
   , postGuid :: Text
@@ -106,7 +106,7 @@ nullPost =
   Post
   { postAuthor = Nothing
   , postComments = Nothing
-  , postDate = empty
+  , postDate = Nothing
   , postDescription = Nothing
   , postFeedId = Nothing
   , postGuid = empty
@@ -178,7 +178,7 @@ instance FromJSON Post where
   parseJSON (Object o) = do
     postAuthor <- o .:? "author"
     postComments <- o .:? "comments"
-    postDate <- fromMaybe empty <$> (o .:? "date")
+    postDate <- o .:? "date"
     postDescription <- o .:? "description"
     postFeedId <- o .:? "feedId"
     postGuid <- fromMaybe empty <$> (o .:? "guid")

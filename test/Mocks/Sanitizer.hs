@@ -126,6 +126,29 @@ shareInput = [r|
 </html>
 |]
 
+codeBlockExpected :: String
+codeBlockExpected = "<pre><code class=\"language-js hljs javascript\"><a class=\"btn-icon btn-code lang-button\" data-reactroot=\"\" data-reactid=\"1\" data-react-checksum=\"-1753538731\">javascript</a><span class=\"hljs-comment\">// We&rsquo;ll import our dependencies</span><span class=\"hljs-keyword\">import</span> { Component } <span class=\"hljs-keyword\">from</span><span class=\"hljs-string\">'@angular/core'</span>;\n      @Component({\n        selector: <span class=\"hljs-string\">'simple-form'</span>,\n        <span class=\"hljs-comment\">// We&rsquo;ll inline the template of our form</span>\n        template : <span class=\"hljs-string\">`\n          &lt;h1>Simple Form&lt;/h1>\n        `</span>\n      })\n    <span class=\"hljs-keyword\">export</span><span class=\"hljs-class\"><span class=\"hljs-keyword\">class</span><span class=\"hljs-title\">SimpleFormComponent</span></span>{\n    }\n  </code></pre>"
+
+codeBlockInput :: String
+codeBlockInput = [r|
+<pre>
+  <code class="language-js hljs javascript">
+    <a class="btn-icon btn-code lang-button" data-reactroot="" data-reactid="1" data-react-checksum="-1753538731">javascript</a>
+    <span class="hljs-comment">// We’ll import our dependencies</span>
+    <span class="hljs-keyword">import</span> { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+      @Component({
+        selector: <span class="hljs-string">'simple-form'</span>,
+        <span class="hljs-comment">// We’ll inline the template of our form</span>
+        template : <span class="hljs-string">`
+          &lt;h1&gt;Simple Form&lt;/h1&gt;
+        `</span>
+      })
+    <span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleFormComponent</span> </span>{
+    }
+  </code>
+</pre>
+|]
+
 validContentExpected :: String
 validContentExpected  = [r|<div itemprop="articleBody" class="entry-content"><p>first paragraph</p><p>second paragraph</p><div>more stuff</div></div>|]
 

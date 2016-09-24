@@ -49,7 +49,7 @@ findPosts = fmap findPost
 findPost :: Cursor -> Post
 findPost cursor =
   post {postAuthor = get findAuthor
-       ,postDate = fromJust $ get findPubDate
+       ,postDate = get findPubDate
        ,postDescription = get findContent <|> get findDescription
        ,postGuid = fromJust (guid <|> link)
        ,postLink = fromJust (link <|> guid)

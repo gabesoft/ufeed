@@ -61,7 +61,7 @@ verifyLastPostDate state =
 verifyNewPostDates :: UpdateState -> Expectation
 verifyNewPostDates state = length (catMaybes dates) `shouldBe` count
   where
-    dates = parseISO8601 . unpack . postDate <$> _latestPosts state
+    dates = fmap (parseISO8601 . unpack) . postDate <$> _latestPosts state
     count = state ^. latestPosts ^. to length
 
 verifyNewPostCount :: UpdateState -> Expectation

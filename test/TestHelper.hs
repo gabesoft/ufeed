@@ -5,7 +5,6 @@ module TestHelper where
 
 import qualified Api
 import Control.Exception (SomeException)
-import Control.Lens
 import Data.ByteString.Lazy as BS (readFile)
 import Data.Either (rights)
 import Data.Text (Text)
@@ -39,6 +38,7 @@ sampleFeeds =
   , "https://www.reddit.com/r/emacs/.rss" -- "566e6d8b13415194b8df8024"
   , "http://alexyoung.org/feed.rss"
   , "http://demosthenes.info/feed.php"
+  , "http://antirez.com/rss"
   ]
 
 sampleHost :: String

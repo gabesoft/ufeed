@@ -21,6 +21,7 @@ main =
      it "can handle malformed html" $ verifyContent malformedHtmlInput malformedHtmlExpected
      it "fixes image srcset" $ verify srcsetInput srcsetExpected
      it "removes share links" $ verify shareInput shareExpected
+     it "does not alter code blocks" $ verify codeBlockInput codeBlockExpected
 
 verify :: String -> String -> Expectation
 verify input expected = sanitize "" baseUrl input `shouldBe` expected

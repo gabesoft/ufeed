@@ -256,10 +256,10 @@ processFeed (bytes, modified) = do
 normalizePostDates :: UTCTime -> Post -> (Post, Maybe UTCTime)
 normalizePostDates now post =
   ( post
-    { postDate = fromJust (t1 <|> Just (postDate post))
+    { postDate = t1 <|> postDate post
     , postPubdate = t2 <|> postPubdate post
     }
   , d1)
   where
-    (t1, d1) = normalizeDate now (postDate post)
-    (t2, _) = normalizeDate now (fromMaybe empty (postPubdate post))
+    (t1, d1) = normalizeDate now (fromMaybe empty $ postDate post)
+    (t2, _) = normalizeDate now (fromMaybe empty $ postPubdate post)

@@ -45,7 +45,7 @@ findPosts = fmap findPost
 findPost :: Cursor -> Post
 findPost cursor =
   post {postAuthor = get findAuthor
-       ,postDate = fromJust $ get findUpdated
+       ,postDate = get findUpdated
        ,postDescription = get findContent
        ,postGuid = fromJust $ get findId
        ,postLink = fromJust link

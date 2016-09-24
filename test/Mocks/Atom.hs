@@ -83,7 +83,7 @@ posts :: [[Post]]
 posts =
   [ [ nullPost
       { postAuthor = Nothing
-      , postDate = "2003-12-13T18:30:02Z"
+      , postDate = Just "2003-12-13T18:30:02Z"
       , postDescription = Nothing
       , postGuid = "urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a"
       , postLink = "http://example.org/2003/12/13/atom03"
@@ -94,7 +94,7 @@ posts =
     ]
   , [ nullPost
       { postAuthor = Just "Mark Pilgrim"
-      , postDate = "2005-07-31T12:29:29Z"
+      , postDate = Just "2005-07-31T12:29:29Z"
       , postDescription = Just ""
       , postGuid = "tag:example.org,2003:3.2397"
       , postLink = "http://example.org/2005/04/02/atom"

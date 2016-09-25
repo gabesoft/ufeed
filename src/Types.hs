@@ -131,7 +131,7 @@ instance FromJSON Feed where
     feedDescription <- o .:? "description"
     feedFailedAttempts <- fromMaybe 0 <$> (o .:? "failedAttempts")
     feedFavicon <- o .:? "favicon"
-    feedFormat <- o .:? "feedFormat"
+    feedFormat <- o .:? "format"
     feedGenerator <- o .:? "generator"
     feedGuid <- o .:? "guid"
     feedId <- o .:? "id"
@@ -214,9 +214,9 @@ instance ToJSON Post where
       ]
 
 instance FromJSON FeedFormat where
-  parseJSON (Object v) = v .: "format" >>= format
+  parseJSON (String v) = format v
     where
-      format :: String -> Parser FeedFormat
+      format :: Text -> Parser FeedFormat
       format f =
         case f of
           "rss-2.0" -> return RSS2
@@ -225,7 +225,7 @@ instance FromJSON FeedFormat where
   parseJSON _ = fail "Expected an object of FeedFormat"
 
 instance ToJSON FeedFormat where
-  toJSON o = object ["format" .= format o]
+  toJSON o = String (format o)
     where
       format :: FeedFormat -> Text
       format RSS2 = "rss-2.0"

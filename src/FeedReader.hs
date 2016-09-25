@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- | Functions for fetching feeds data
 module FeedReader where
 
@@ -33,8 +35,14 @@ fetchPost uri = try $ (^. responseBody) <$> get uri
 
 fetchFeed' :: String -> LastModified -> IO (ByteString, LastModified)
 fetchFeed' uri modified = do
-  res <- getWith (modifiedHeaders defaults modified) uri
+  res <- getWith (addUserAgent $ modifiedHeaders defaults modified) uri
   let body = res ^. responseBody
       et = res ^? responseHeader hETag
       lm = res ^? responseHeader hLastModified
   return (body, LastModified (decodeUtf8 <$> et) (decodeUtf8 <$> lm))
+
+addUserAgent :: Options -> Options
+addUserAgent opts =
+  opts & header hUserAgent .~
+  [ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.89 Safari/537.36"
+  ]

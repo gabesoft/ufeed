@@ -39,6 +39,9 @@ sampleFeeds =
   , "http://alexyoung.org/feed.rss"
   , "http://demosthenes.info/feed.php"
   , "http://antirez.com/rss"
+  , "http://simplyaccessible.com/?feed=rss2"
+  , "http://simplyaccessible.com/feed/"
+  , "https://www.youtube.com/feeds/videos.xml?channel_id=UC8BtBl8PNgd3vWKtm2yJ7aA"
   ]
 
 sampleHost :: String

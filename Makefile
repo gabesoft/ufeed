@@ -19,3 +19,7 @@ test-only: clean-tix
 
 update: build
 	stack exec updater -- "http://localhost:8006" +RTS -N
+
+serve: export RUN_ENV = development
+serve: build
+	stack exec server -- 8008 "http://localhost:8006" +RTS -N

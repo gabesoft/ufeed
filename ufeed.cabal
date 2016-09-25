@@ -25,13 +25,13 @@ library
                      , Types
                      , Util
   build-depends:       aeson >= 0.11
+                     , HandsomeSoup
                      , async >= 2.1
                      , base >= 4.7 && < 5
                      , bytestring >= 0.10
                      , containers >= 0.5
                      , http-types >= 0.9
                      , hxt
-                     , HandsomeSoup
                      , iso8601-time >= 0.1
                      , lens >= 4.13
                      , mtl >= 2.2
@@ -57,6 +57,30 @@ executable updater
                      , pretty-show
   default-language:    Haskell2010
 
+executable server
+  hs-source-dirs:      app
+  main-is:             Server.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , aeson >= 0.11
+                     , async >= 2.1
+                     , blaze-builder >= 0.4
+                     , blaze-html >= 0.8
+                     , bytestring >= 0.10
+                     , http-client >= 0.4
+                     , http-types >= 0.9
+                     , pretty-show
+                     , shakespeare
+                     , text >= 1.2
+                     , time >= 1.5
+                     , ufeed
+                     , utf8-string >= 1.0
+                     , wai
+                     , wai-extra
+                     , warp
+  default-language:    Haskell2010
+
+
 test-suite converter-atom
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
@@ -77,7 +101,7 @@ test-suite converter-rss
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             ConverterRssSpec.hs
-  other-modules:       Mocks.Atom
+  other-modules:       Mocks.RSS
                      , TestHelper
   build-depends:       base
                      , bytestring

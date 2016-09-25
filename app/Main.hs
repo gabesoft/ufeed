@@ -23,7 +23,7 @@ env :: String -> UpdateEnv
 env = envForUpdate
 
 usage :: String
-usage = "updater <api-host>"
+usage = "Usage: updater <api-host>"
 
 main :: IO ()
 main = do

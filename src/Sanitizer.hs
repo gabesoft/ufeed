@@ -5,7 +5,7 @@ module Sanitizer
   , fixSrcset
   ) where
 
-import Data.List (intercalate,isInfixOf)
+import Data.List (intercalate, isInfixOf)
 import Data.Char (isSpace)
 import Data.Maybe
 import FeedConfig
@@ -72,7 +72,8 @@ removeShare =
   filterA $
   neg
     (hasAttrValue "class" (isInfixOf "feedflare") <+>
-     hasAttrValue "class" (isInfixOf "mediafed_ad"))
+     hasAttrValue "class" (isInfixOf "mediafed_ad") <+>
+     hasAttrValue "id" (isInfixOf "jp-post-flair"))
 
 toAbsoluteUrl
   :: ArrowXml a

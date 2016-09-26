@@ -60,11 +60,12 @@ updateMultipleFeeds host = do
       mapM_ (updateSingleFeed host) toRun
 
 partitionFeeds :: [Feed] -> ([Feed], [Feed])
-partitionFeeds = L.partition (not . with404 . feedLastReadStatus)
+partitionFeeds = L.partition (not . unreachable . feedLastReadStatus)
   where
-    with404 Nothing = False
-    with404 (Just ReadSuccess) = False
-    with404 (Just (ReadFailure txt)) = T.isInfixOf "statusCode = 404" txt
+    unreachable Nothing = False
+    unreachable (Just ReadSuccess) = False
+    unreachable (Just (ReadFailure txt)) =
+      T.isInfixOf "statusCode = 404" txt || T.isInfixOf "statusCode = 410" txt
 
 updateSingleFeed :: String -> Feed -> IO ()
 updateSingleFeed host feed = do

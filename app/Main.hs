@@ -8,7 +8,7 @@ import qualified Data.List as L
 import Control.Concurrent
 import Control.Exception
 import Control.Monad
-import Data.Text (unpack)
+import Data.Text (unpack, pack)
 import Data.Time
 import FeedUpdater
 import System.Environment (getArgs)
@@ -60,12 +60,13 @@ updateMultipleFeeds host = do
       mapM_ (updateSingleFeed host) toRun
 
 partitionFeeds :: [Feed] -> ([Feed], [Feed])
-partitionFeeds = L.partition (not . unreachable . feedLastReadStatus)
+partitionFeeds = L.partition (reachable . feedLastReadStatus)
   where
-    unreachable Nothing = False
-    unreachable (Just ReadSuccess) = False
-    unreachable (Just (ReadFailure txt)) =
-      T.isInfixOf "statusCode = 404" txt || T.isInfixOf "statusCode = 410" txt
+    hasStatus status = T.isInfixOf (pack $ "statusCode = " ++ status)
+    reachable Nothing = True
+    reachable (Just ReadSuccess) = True
+    reachable (Just (ReadFailure err)) =
+      not (hasStatus "404" err || hasStatus "410" err)
 
 updateSingleFeed :: String -> Feed -> IO ()
 updateSingleFeed host feed = do

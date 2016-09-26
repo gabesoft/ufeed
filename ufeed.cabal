@@ -25,11 +25,14 @@ library
                      , Types
                      , Util
   build-depends:       aeson >= 0.11
-                     , HandsomeSoup
                      , async >= 2.1
                      , base >= 4.7 && < 5
                      , bytestring >= 0.10
                      , containers >= 0.5
+                     , connection >= 0.2
+                     , HandsomeSoup
+                     , http-client >= 0.4
+                     , http-client-tls >= 0.2
                      , http-types >= 0.9
                      , hxt
                      , iso8601-time >= 0.1
@@ -48,7 +51,7 @@ library
 executable updater
   hs-source-dirs:      app
   main-is:             Main.hs
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N -O2
   build-depends:       base
                      , ufeed
                      , async >= 2.1
@@ -60,7 +63,7 @@ executable updater
 executable server
   hs-source-dirs:      app
   main-is:             Server.hs
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N -O2
   build-depends:       base
                      , aeson >= 0.11
                      , async >= 2.1

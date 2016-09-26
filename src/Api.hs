@@ -5,7 +5,7 @@
 module Api where
 
 import Control.Exception
-       (Exception, SomeException, try, toException, throw)
+       (Exception, SomeException, try, toException, throw, fromException)
 import Control.Lens ((&), (.~), (^.))
 import Data.Aeson (ToJSON, object, toJSON, (.=))
 import Data.Aeson.Types (Value)
@@ -104,7 +104,7 @@ fetchFeedByUri host uri = do
     case feeds of
       Left e -> Left e
       Right [] ->
-        Left $ noResultsError ("No feed found matching uri " ++ unpack uri)
+        Left $ mkNoResultsError ("No feed found matching uri " ++ unpack uri)
       Right (x:_) -> Right x
 
 -- |
@@ -174,5 +174,11 @@ indexPosts' host posts readFlag subscription = void $ post url (toJSON args)
     ids = fromJust . postId <$> posts
     args = IndexParams ids readFlag
 
-noResultsError :: String -> SomeException
-noResultsError msg = toException (NoResultsException msg)
+mkNoResultsError :: String -> SomeException
+mkNoResultsError msg = toException (NoResultsException msg)
+
+isNoResultsError :: SomeException -> Bool
+isNoResultsError err =
+  case (fromException err :: Maybe Api.SearchException) of
+    Just (Api.NoResultsException _) -> True
+    _ -> False

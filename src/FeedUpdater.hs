@@ -29,6 +29,7 @@ import Control.Monad.Reader
 import Control.Monad.State hiding (state)
 import Converter
 import Data.ByteString.Lazy (ByteString)
+import Data.Functor ((<$))
 import qualified Data.Map as Map
 import Data.Maybe
 import qualified Data.Set as Set
@@ -102,7 +103,10 @@ update :: UpdateEnv -> Feed -> IO (Either SomeException (Feed, [Post]))
 update env feed = do
   (result, state) <- runUpdateM env (nullState feed) updateM
   case result of
-    Left e -> saveFailedFeed env state e >> return (Left e)
+    Left e ->
+      if notModifiedError e
+        then fmap (flip (,) []) <$> saveUnmodifiedFeed env state e
+        else Left e <$ saveFailedFeed env state e
     Right _ -> return $ Right (state ^. updateFeed, state ^. latestPosts)
 
 updateM :: UpdateM ()
@@ -115,21 +119,6 @@ updateM = do
   _ <- processPosts
   _ <- indexPosts
   return ()
-
-saveFailedFeed :: UpdateEnv
-               -> UpdateState
-               -> SomeException
-               -> IO (Either SomeException Feed)
-saveFailedFeed env state err =
-  Api.saveFeed
-    (env ^. apiHost)
-    feed
-    { feedFailedAttempts = 1 + feedFailedAttempts feed
-    , feedLastReadDate = formatJsDate <$> _updateTime state
-    , feedLastReadStatus = Just $ ReadFailure (pack $ show err)
-    }
-  where
-    feed = _updateFeed state
 
 readExistingPosts :: UpdateM ()
 readExistingPosts = do
@@ -263,3 +252,36 @@ normalizePostDates now post =
   where
     (t1, d1) = normalizeDate now (fromMaybe empty $ postDate post)
     (t2, _) = normalizeDate now (fromMaybe empty $ postPubdate post)
+
+saveUnmodifiedFeed :: UpdateEnv
+                   -> UpdateState
+                   -> SomeException
+                   -> IO (Either SomeException Feed)
+saveUnmodifiedFeed = saveFeedWithError True
+
+saveFailedFeed :: UpdateEnv
+               -> UpdateState
+               -> SomeException
+               -> IO (Either SomeException Feed)
+saveFailedFeed = saveFeedWithError False
+
+saveFeedWithError
+  :: Bool
+  -> UpdateEnv
+  -> UpdateState
+  -> SomeException
+  -> IO (Either SomeException Feed)
+saveFeedWithError clearFailedAttempts env state err =
+  Api.saveFeed
+    (env ^. apiHost)
+    feed
+    { feedFailedAttempts = fcount
+    , feedLastReadDate = formatJsDate <$> (state ^. updateTime)
+    , feedLastReadStatus = Just $ ReadFailure (pack $ show err)
+    }
+  where
+    feed = state ^. updateFeed
+    fcount =
+      if clearFailedAttempts
+        then 0
+        else 1 + feedFailedAttempts feed

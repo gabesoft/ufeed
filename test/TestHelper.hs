@@ -33,15 +33,20 @@ docSample = do
 
 sampleFeeds :: [Text]
 sampleFeeds =
-  [ "https://www.reddit.com/r/vim/.rss" -- "566e6d7213415194b8df8008"
-  , "https://www.reddit.com/r/programming/.rss" -- "566e72068e864928ba4f291c"
-  , "https://www.reddit.com/r/emacs/.rss" -- "566e6d8b13415194b8df8024"
-  , "http://alexyoung.org/feed.rss"
-  , "http://demosthenes.info/feed.php"
-  , "http://antirez.com/rss"
-  , "http://simplyaccessible.com/?feed=rss2"
-  , "http://simplyaccessible.com/feed/"
-  , "https://www.youtube.com/feeds/videos.xml?channel_id=UC8BtBl8PNgd3vWKtm2yJ7aA"
+  [ "https://www.reddit.com/r/vim/.rss"                                            -- 0
+  , "https://www.reddit.com/r/programming/.rss"                                    -- 1
+  , "https://www.reddit.com/r/emacs/.rss"                                          -- 2
+  , "http://alexyoung.org/feed.rss"                                                -- 3
+  , "http://demosthenes.info/feed.php"                                             -- 4
+  , "http://antirez.com/rss"                                                       -- 5
+  , "http://simplyaccessible.com/?feed=rss2"                                       -- 6
+  , "http://simplyaccessible.com/feed/"                                            -- 7
+  , "http://dev.af83.com/atom.xml"                                                 -- 8
+  , "http://feeds.feedblitz.com/sethsblog&x=1"                                     -- 9
+  , "http://engineering.wingify.com/atom.xml"                                      -- 10
+  , "https://www.youtube.com/feeds/videos.xml?channel_id=UC8BtBl8PNgd3vWKtm2yJ7aA" -- 11
+  , "http://www.youtube.com/feeds/videos.xml?channel_id=UC8BtBl8PNgd3vWKtm2yJ7aA"  -- 12
+  , "http://www.nathantypanski.com/atom.xml"                                       -- 13
   ]
 
 sampleHost :: String

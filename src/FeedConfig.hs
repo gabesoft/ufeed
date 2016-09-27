@@ -40,6 +40,7 @@ feedProcessors =
   , ("https://m.signalvnoise.com/feed", css "article main")
   , ("https://medium.com/feed/@abhinavchhikara", css "article main")
   , ("https://medium.com/feed/@azerbike", css "article main")
+  , ("http://una.im/feed.xml", css "article")
   , ("https://medium.com/feed/@bantic", css "article main")
   , ("https://medium.com/feed/@dustin", css "article main")
   , ("https://medium.com/feed/@jasonlong", css "article main")

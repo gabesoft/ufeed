@@ -7,7 +7,7 @@ repl:
 build:
 	stack build
 
-deploy:
+install:
 	stack build --copy-bins
 
 watch:
@@ -24,8 +24,8 @@ test-only:
 	stack build --test hapro:$$test
 
 update: build
-	stack exec updater -- "http://localhost:8006" +RTS -N
+	stack exec ufeed-updater -- "http://localhost:8006" +RTS -N
 
 serve: export RUN_ENV = development
 serve: build
-	stack exec server -- 8008 "http://localhost:8006" +RTS -N
+	stack exec ufeed-server -- 8008 "http://localhost:8006" +RTS -N

@@ -4,17 +4,23 @@ TIX := $(shell find . -name "*.tix")
 repl:
 	stack ghci --ghc-options "-package ghci-pretty"
 
-clean-tix:
-	@$(RM) $(TIX)
-
-build: clean-tix
+build:
 	stack build
 
-test: clean-tix
+deploy:
+	stack build --copy-bins
+
+watch:
+	stack build --file-watch
+
+test-watch:
+	stack build --file-watch --test
+
+test:
 	stack build --test
 
 # sample call: make test-only test=funct-tests
-test-only: clean-tix
+test-only:
 	stack build --test hapro:$$test
 
 update: build

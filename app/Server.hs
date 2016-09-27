@@ -123,7 +123,7 @@ indexHtml =
 $doctype 5
 <html>
   <head>
-    <title>Index
+    <title>Methods Index
   <body>
     <h4>Feed reader
     <h5>Fetch a feed and it's posts, store and index it, and return it as json

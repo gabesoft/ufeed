@@ -16,8 +16,11 @@ import System.Exit
 import Text.Show.Pretty
 import Types
 
-delay :: Int
-delay = 3600000000 -- 1 hour in microseconds
+contDelay :: Int
+contDelay = 3600000000 -- 1 hour in microseconds
+
+initDelay :: Int
+initDelay = 300000000 -- 5 minutes in microseconds
 
 env :: String -> UpdateEnv
 env = envForUpdate
@@ -28,6 +31,9 @@ usage = "Usage: updater <api-host>"
 main :: IO ()
 main = do
   args <- getArgs
+  putStrLn ("Input arguments: " ++ show args)
+  putStrLn "Waiting a few minutes"
+  threadDelay initDelay
   case args of
     [] -> putStrLn usage >> exitFailure
     (h:_) -> forever (updateFeeds h)
@@ -42,7 +48,7 @@ updateFeeds host = do
   endTimeL <- utcToLocalZonedTime endTime
   putStrLn $ show endTimeL ++ " All feeds updated. Going to sleep for 1 hour"
   putStrLn $ show (diffUTCTime endTime startTime) ++ " total time"
-  threadDelay delay
+  threadDelay contDelay
 
 updateMultipleFeeds :: String -> IO ()
 updateMultipleFeeds host = do

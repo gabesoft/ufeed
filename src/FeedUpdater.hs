@@ -232,7 +232,7 @@ processFeed (bytes, modified) = do
     , feedLastPostDate = lastDate <|> feedLastPostDate origFeed
     , feedLastReadDate = formatJsDate <$> time
     , feedLastReadStatus = Just ReadSuccess
-    , feedLink = feedGuid feed <|> feedGuid origFeed
+    , feedLink = feedGuid feed <|> feedGuid origFeed <|> Just (feedUri origFeed)
     , feedPostCount = Map.size existing + length nextPosts
     , feedUri = feedUri origFeed
     }

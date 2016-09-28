@@ -47,6 +47,9 @@ sampleFeeds =
   , "https://www.youtube.com/feeds/videos.xml?channel_id=UC8BtBl8PNgd3vWKtm2yJ7aA" -- 11
   , "http://www.youtube.com/feeds/videos.xml?channel_id=UC8BtBl8PNgd3vWKtm2yJ7aA"  -- 12
   , "http://www.nathantypanski.com/atom.xml"                                       -- 13
+  , "http://www.yesodweb.com/feed"                                                 -- 14
+  , "http://degoes.net/feed.xml"                                                   -- 15 (empty link causes a mongo error)
+  , "http://feeds.feedburner.com/Fsharpforfunandprofit?format=xml"                 -- 16 (utf error)
   ]
 
 sampleHost :: String

@@ -33,6 +33,7 @@ library
                      , HandsomeSoup
                      , http-client >= 0.4
                      , http-client-tls >= 0.2
+                     , http-media
                      , http-types >= 0.9
                      , hxt
                      , iso8601-time >= 0.1

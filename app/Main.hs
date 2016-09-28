@@ -72,7 +72,7 @@ partitionFeeds = L.partition (reachable . feedLastReadStatus)
     reachable Nothing = True
     reachable (Just ReadSuccess) = True
     reachable (Just (ReadFailure err)) =
-      not (hasStatus "403" err || hasStatus "404" err || hasStatus "410" err)
+      not (hasStatus "404" err || hasStatus "410" err)
 
 updateSingleFeed :: String -> Feed -> IO ()
 updateSingleFeed host feed = do

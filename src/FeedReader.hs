@@ -4,23 +4,27 @@
 module FeedReader where
 
 import Control.Exception (SomeException, try)
-import Network.Connection
 import Control.Lens ((&), (.~), (^.), (^?))
-import Data.ByteString.Lazy (ByteString)
-import Data.Maybe (fromMaybe)
-import Data.Text as T (empty)
-import Data.Text.Encoding (decodeUtf8, encodeUtf8)
+import Control.Monad (join)
+import qualified Data.ByteString as BS
+import qualified Data.ByteString.Lazy as BL
+import Data.Maybe (fromMaybe, isJust)
+import Data.Text as T (Text, empty)
+import Data.Text.Encoding (decodeLatin1, decodeUtf8, encodeUtf8)
+import Network.Connection
+import Network.HTTP.Client.TLS
+import Network.HTTP.Media
 import Network.HTTP.Types.Header
 import Network.Wreq
-import Network.HTTP.Client.TLS
 import Types
 
 -- |
 -- Fetch a feed and all its posts that are newer than
 -- the specified last modified information
-fetchFeed :: String
-          -> LastModified
-          -> IO (Either SomeException (ByteString, LastModified))
+fetchFeed
+  :: String
+  -> LastModified
+  -> IO (Either SomeException (BL.ByteString, LastModified))
 fetchFeed uri modified = try (fetchFeed' uri modified)
 
 -- |
@@ -32,16 +36,34 @@ modifiedHeaders opts modified = foldr step opts (fs <*> [modified])
     step (h, v) d = d & header h .~ [(encodeUtf8 . fromMaybe empty) v]
 
 -- | Fetch the html of a feed entry
-fetchPost :: String -> IO (Either SomeException ByteString)
-fetchPost uri = try $ (^. responseBody) <$> get uri
+fetchPost :: String -> IO (Either SomeException BL.ByteString)
+fetchPost uri = try $ extractBody <$> get uri
 
-fetchFeed' :: String -> LastModified -> IO (ByteString, LastModified)
+fetchFeed' :: String -> LastModified -> IO (BL.ByteString, LastModified)
 fetchFeed' uri modified = do
   res <- getWith (setTlsSettings $ modifiedHeaders defaults modified) uri
-  let body = res ^. responseBody
-      et = res ^? responseHeader hETag
+  let et = res ^? responseHeader hETag
       lm = res ^? responseHeader hLastModified
-  return (body, LastModified (decodeUtf8 <$> et) (decodeUtf8 <$> lm))
+  return (extractBody res, LastModified (decodeUtf8 <$> et) (decodeUtf8 <$> lm))
+
+extractBody :: Response BL.ByteString -> BL.ByteString
+extractBody res
+  | isoEncoded = toUTF8 bodyRaw
+  | otherwise = bodyRaw
+  where
+    isoEncoded = res ^? responseHeader hContentType & isLatin1
+    bodyRaw = res ^. responseBody
+
+toUTF8 :: BL.ByteString -> BL.ByteString
+toUTF8 = BL.fromStrict . encodeUtf8 . decodeLatin1 . BL.toStrict
+
+isLatin1 :: Maybe BS.ByteString -> Bool
+isLatin1 Nothing = False
+isLatin1 (Just contentType) = isJust (matchQuality accept <$> quality)
+  where
+    accept = media <$> ["xml", "html", "plain", "json"]
+    media t = BS.concat ["text/", t, ";iso-8859-1"]
+    quality = parseQuality contentType
 
 addUserAgent :: Options -> Options
 addUserAgent opts =

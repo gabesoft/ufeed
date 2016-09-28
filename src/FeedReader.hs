@@ -37,7 +37,7 @@ modifiedHeaders opts modified = foldr step opts (fs <*> [modified])
 
 -- | Fetch the html of a feed entry
 fetchPost :: String -> IO (Either SomeException BL.ByteString)
-fetchPost uri = try $ (^. responseBody) <$> get uri
+fetchPost uri = try $ extractBody <$> get uri
 
 fetchFeed' :: String -> LastModified -> IO (BL.ByteString, LastModified)
 fetchFeed' uri modified = do
@@ -51,7 +51,7 @@ extractBody res
   | isoEncoded = toUTF8 bodyRaw
   | otherwise = bodyRaw
   where
-    isoEncoded = res ^? responseHeader hContentType & isLatin1
+    isoEncoded = (res ^? responseHeader hContentType) & isLatin1
     bodyRaw = res ^. responseBody
 
 toUTF8 :: BL.ByteString -> BL.ByteString
@@ -59,9 +59,10 @@ toUTF8 = BL.fromStrict . encodeUtf8 . decodeLatin1 . BL.toStrict
 
 isLatin1 :: Maybe BS.ByteString -> Bool
 isLatin1 Nothing = False
-isLatin1 (Just contentType) = isJust (matchQuality accept <$> quality)
+isLatin1 (Just contentType) = isJust (join $ matchQuality accept <$> quality)
   where
-    accept = ["text/xml;iso-8859-1" :: BS.ByteString]
+    accept = media <$> ["xml", "html", "plain", "json"]
+    media t = "text" // t /: ("charset", "iso-8859-1")
     quality = parseQuality contentType
 
 addUserAgent :: Options -> Options

@@ -8,7 +8,7 @@ build:
 	stack build
 
 install:
-	stack build --copy-bins --force-dirty
+	stack build --copy-bins
 
 watch:
 	stack build --file-watch

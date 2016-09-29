@@ -4,7 +4,10 @@ TIX := $(shell find . -name "*.tix")
 repl:
 	stack ghci --ghc-options "-package ghci-pretty"
 
-build:
+setup:
+	stack setup
+
+build: setup
 	stack build
 
 install:

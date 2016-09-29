@@ -36,6 +36,7 @@ feedProcessors =
   , ("http://www.aaronsw.com/2002/feeds/pgessays.rss", css "table table font")
   , ("http://www.howardism.org/index.xml", css "#content")
   , ("http://www.iandevlin.com/blog/feed", css "main")
+  , ("http://www.martinfowler.com/feed.atom", css ".paperBody")
   , ("https://bartoszmilewski.com/feed/", css ".post-content")
   , ("https://benfrain.com/feed", css "article")
   , ("https://blog.openshift.com/feed/", css "main")
@@ -52,4 +53,5 @@ feedProcessors =
   , ("https://medium.com/feed/@tjholowaychuk", css "article main")
   , ("https://medium.freecodecamp.com/feed", css "article main")
   , ("https://strongloop.com/feed/", css ".entry-content")
+  , ("https://webresourcesdepot.com/feed/", css "article.post")
   ]

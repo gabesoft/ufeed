@@ -3,9 +3,9 @@
   <category term="emacs" label="/r/emacs"/>
   <updated>2016-09-11T17:02:27+00:00</updated>
   <icon>https://www.redditstatic.com/icon.png/</icon>
-  <id>/r/emacs/.rss</id>
+  <id>/guid/r/emacs/.rss</id>
   <link rel="self" href="https://www.reddit.com/r/emacs/.rss" type="application/atom+xml"/>
-  <link rel="alternate" href="https://www.reddit.com/r/emacs/" type="text/html"/>
+  <link rel="alternate" href="https://www.reddit.com/r/emacs/alt" type="text/html"/>
   <logo>https://f.thumbs.redditmedia.com/1CBmBnoqVxNCXdVS.png</logo>
   <subtitle>The extensible, customizable, self-documenting real-time display editor.</subtitle>
   <title>M-x emacs-reddit</title>

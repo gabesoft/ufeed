@@ -1,33 +1,40 @@
 -- |
 -- Converter for atom 1.0 feeds
-module Converter.Atom (extractFeed, extractPosts, isAtom) where
+module Converter.Atom
+  ( extractFeed
+  , extractPosts
+  , isAtom
+  ) where
 
+import Control.Applicative ((<|>))
 import Data.Maybe (listToMaybe, fromMaybe, fromJust)
 import Data.Text (Text, pack, strip, empty)
-import Types
 import Text.XML
 import Text.XML.Cursor
+import Types
 
 atomNS :: String
 atomNS = "http://www.w3.org/2005/Atom"
 
 extractFeed :: Document -> Feed
 extractFeed doc =
-  feed {feedAuthor = get findAuthor
-       ,feedDate = get findUpdated
-       ,feedDescription = get findSubtitle
-       ,feedFavicon = get findIcon
-       ,feedFormat = Just Atom1
-       ,feedGenerator = get findGenerator
-       ,feedGuid = get findId
-       ,feedImage = Image empty <$> get findLogo
-       ,feedLink = link
-       ,feedPostCount = 0
-       ,feedTitle = fromMaybe empty $ get findTitle}
-  where cursor = fromDocument doc
-        link = get findAltLink
-        get f = f cursor
-        feed = nullFeed empty
+  feed
+  { feedAuthor = get findAuthor
+  , feedDate = get findUpdated
+  , feedDescription = get findSubtitle
+  , feedFavicon = get findIcon
+  , feedFormat = Just Atom1
+  , feedGenerator = get findGenerator
+  , feedGuid = get findId
+  , feedImage = Image empty <$> get findLogo
+  , feedLink = get findAltLink
+  , feedPostCount = 0
+  , feedTitle = fromMaybe empty $ get findTitle
+  }
+  where
+    cursor = fromDocument doc
+    get f = f cursor
+    feed = nullFeed empty
 
 extractPosts :: Document -> [Post]
 extractPosts doc = findPosts (fromDocument doc $/ axis "entry")
@@ -36,26 +43,30 @@ extractPosts doc = findPosts (fromDocument doc $/ axis "entry")
 -- Determine whether a document is an atom feed
 isAtom :: Document -> Bool
 isAtom doc = name == ns "feed"
-  where root = documentRoot doc
-        name = elementName root
+  where
+    root = documentRoot doc
+    name = elementName root
 
 findPosts :: [Cursor] -> [Post]
 findPosts = fmap findPost
 
 findPost :: Cursor -> Post
 findPost cursor =
-  post {postAuthor = get findAuthor
-       ,postDate = get findUpdated
-       ,postDescription = get findContent
-       ,postGuid = fromJust $ get findId
-       ,postLink = fromJust link
-       ,postPubdate = get findPublished
-       ,postSummary = get findSummary
-       ,postTitle = get findTitle}
-  where get f = f cursor
-        link = listToMaybe (href <$> findLinks cursor)
-        href (h,_,_) = h
-        post = nullPost
+  post
+  { postAuthor = get findAuthor
+  , postDate = get findUpdated
+  , postDescription = get findContent
+  , postGuid = fromJust $ get findId
+  , postLink = fromJust link
+  , postPubdate = get findPublished
+  , postSummary = get findSummary
+  , postTitle = get findTitle
+  }
+  where
+    get f = f cursor
+    link = listToMaybe (href <$> findLinks cursor)
+    href (h, _, _) = h
+    post = nullPost
 
 findContent :: Cursor -> Maybe Text
 findContent = childContent "content"
@@ -92,25 +103,25 @@ findLogo :: Cursor -> Maybe Text
 findLogo = childContent "logo"
 
 findAltLink :: Cursor -> Maybe Text
-findAltLink = findLinkByRel (/= Just (pack "self"))
+findAltLink cursor =
+  findLinkByRel (== Just (pack "alternate")) cursor <|>
+  findLinkByRel (/= Just (pack "self")) cursor
 
-findLinks
-  :: Cursor -> [(Text,Maybe Text,Maybe Text)]
+findLinks :: Cursor -> [(Text, Maybe Text, Maybe Text)]
 findLinks cursor = at <$> ls
-  where ls = cursor $/ axis "link"
-        at e =
-          (Prelude.head $ attribute (nm "href") e
-          ,listToMaybe $ attribute (nm "rel") e
-          ,listToMaybe $ attribute (nm "type") e)
+  where
+    ls = cursor $/ axis "link"
+    at e =
+      ( Prelude.head $ attribute (nm "href") e
+      , listToMaybe $ attribute (nm "rel") e
+      , listToMaybe $ attribute (nm "type") e)
 
-findLinkByRel
-  :: (Maybe Text -> Bool) -> Cursor -> Maybe Text
+findLinkByRel :: (Maybe Text -> Bool) -> Cursor -> Maybe Text
 findLinkByRel f cursor = listToMaybe (href <$> es)
-  where es =
-          Prelude.filter (f . rel)
-                         (findLinks cursor)
-        rel (_,r,_) = r
-        href (h,_,_) = h
+  where
+    es = Prelude.filter (f . rel) (findLinks cursor)
+    rel (_, r, _) = r
+    href (h, _, _) = h
 
 childContent :: String -> Cursor -> Maybe Text
 childContent name cursor = maybeFirstText (cursor $/ axis name &/ content)
@@ -121,10 +132,7 @@ maybeFirstText = fmap strip . listToMaybe
 -- |
 -- Create a name-spaced name with the given local name
 ns :: String -> Name
-ns name =
-  Name (pack name)
-       (Just $ pack atomNS)
-       Nothing
+ns name = Name (pack name) (Just $ pack atomNS) Nothing
 
 -- |
 -- Create an non name-spaced name with the given local name

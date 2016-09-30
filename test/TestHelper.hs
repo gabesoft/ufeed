@@ -50,6 +50,7 @@ sampleFeeds =
   , "http://www.yesodweb.com/feed"                                                 -- 14
   , "http://degoes.net/feed.xml"                                                   -- 15 (empty link causes a mongo error)
   , "http://feeds.feedburner.com/Fsharpforfunandprofit?format=xml"                 -- 16 (utf error)
+  , "http://feeds.feedburner.com/LinkedInBlog"                                     -- 17
   ]
 
 sampleHost :: String

@@ -6,7 +6,7 @@ module Mocks.Sanitizer where
 import Text.RawString.QQ
 
 baseUrl :: String
-baseUrl = "http://blog.example.com"
+baseUrl = "http://blog.example.com/feed.xml"
 
 iframeExpected :: String
 iframeExpected = "<html><div></div></html>"

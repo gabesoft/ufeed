@@ -1,6 +1,12 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- |
 -- Converter for RSS 2.0 feeds
-module Converter.RSS (extractFeed, extractPosts, isRSS) where
+module Converter.RSS
+  ( extractFeed
+  , extractPosts
+  , isRSS
+  ) where
 
 import Control.Applicative ((<|>))
 import Control.Monad (join)
@@ -19,62 +25,65 @@ contentNS = "http://purl.org/rss/1.0/modules/content/"
 
 extractFeed :: Document -> Feed
 extractFeed doc =
-  feed {feedAuthor = get findEditor
-       ,feedDate = get findUpdated
-       ,feedDescription = get findDescription
-       ,feedFormat = Just RSS2
-       ,feedGenerator = get findGenerator
-       ,feedGuid = get findLink
-       ,feedImage = get findImage
-       ,feedLanguage = get findLanguage
-       ,feedLink = get findLink
-       ,feedPostCount = 0
-       ,feedTitle = fromJust $ get findTitle}
-  where cursor = (fromDocument doc $/ axis "channel") & head
-        get f = f cursor
-        feed = nullFeed empty
+  feed
+  { feedAuthor = get findEditor
+  , feedDate = get findUpdated
+  , feedDescription = get findDescription
+  , feedFormat = Just RSS2
+  , feedGenerator = get findGenerator
+  , feedGuid = get findLink
+  , feedImage = get findImage
+  , feedLanguage = get findLanguage
+  , feedLink = get findLink
+  , feedPostCount = 0
+  , feedTitle = fromMaybe "Untitled" $ get findTitle
+  }
+  where
+    cursor = (fromDocument doc $/ axis "channel") & head
+    get f = f cursor
+    feed = nullFeed empty
 
 findImage :: Cursor -> Maybe Image
 findImage cursor = join $ listToMaybe (img <$> cs)
-  where cs = cursor $/ axis "image"
-        img c = Image <$> childContent "title" c <*> childContent "url" c
+  where
+    cs = cursor $/ axis "image"
+    img c = Image <$> childContent "title" c <*> childContent "url" c
 
 extractPosts :: Document -> [Post]
-extractPosts doc =
-  findPosts (fromDocument doc $/ axis "channel" &/ axis "item")
+extractPosts doc = findPosts (fromDocument doc $/ axis "channel" &/ axis "item")
 
 findPosts :: [Cursor] -> [Post]
 findPosts = fmap findPost
 
 findPost :: Cursor -> Post
 findPost cursor =
-  post {postAuthor = get findAuthor
-       ,postDate = get findPubDate
-       ,postDescription = get findContent <|> get findDescription
-       ,postGuid = fromJust (guid <|> link)
-       ,postLink = fromJust (link <|> guid)
-       ,postPubdate = get findPubDate
-       ,postSummary = get findDescription
-       ,postTitle = get findTitle}
-  where get f = f cursor
-        link = get findLink
-        guid = get findGuid -- TODO: if no guid is found create an md5 hash from title and description
-        post = nullPost
+  post
+  { postAuthor = get findAuthor
+  , postDate = get findPubDate
+  , postDescription = get findContent <|> get findDescription
+  , postGuid = fromJust (guid <|> link)
+  , postLink = fromJust (link <|> guid)
+  , postPubdate = get findPubDate
+  , postSummary = get findDescription
+  , postTitle = get findTitle
+  }
+  where
+    get f = f cursor
+    link = get findLink
+    guid = get findGuid -- TODO: if no guid is found create an md5 hash from title and description
+    post = nullPost
 
 findLanguage :: Cursor -> Maybe Text
-findLanguage cursor =
-  childContent "language" cursor <|> childContent "lang" cursor
+findLanguage cursor = childContent "language" cursor <|> childContent "lang" cursor
 
 findPubDate :: Cursor -> Maybe Text
-findPubDate cursor =
-  childContent "pubDate" cursor <|> childContent "date" cursor
+findPubDate cursor = childContent "pubDate" cursor <|> childContent "date" cursor
 
 findAuthor :: Cursor -> Maybe Text
 findAuthor cursor =
   childContent "author" cursor <|> childContent "creator" cursor <|> dcCreator
-  where dcCreator =
-          childContentNS (ns dcNS "creator")
-                         cursor
+  where
+    dcCreator = childContentNS (ns dcNS "creator") cursor
 
 findEditor :: Cursor -> Maybe Text
 findEditor cursor =
@@ -114,16 +123,14 @@ maybeFirstText = fmap strip . listToMaybe
 -- Determine whether a document is an RSS feed
 isRSS :: Document -> Bool
 isRSS doc = name == nm "rss"
-  where root = documentRoot doc
-        name = elementName root
+  where
+    root = documentRoot doc
+    name = elementName root
 
 -- |
 -- Create a name-spaced name with the given local name
 ns :: String -> String -> Name
-ns nspace name =
-  Name (pack name)
-       (Just $ pack nspace)
-       Nothing
+ns nspace name = Name (pack name) (Just $ pack nspace) Nothing
 
 -- |
 -- Create an non name-spaced name with the given local name

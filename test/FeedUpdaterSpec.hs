@@ -1,40 +1,56 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- | Tests for FeedUpdater
 module Main
   ( main
   ) where
 
-import           Control.Arrow
-import           Control.Lens
+import Control.Arrow
+import Control.Lens
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.Map as Map
-import           Data.Maybe
-import           Data.Text (unpack, pack)
-import           Data.Time
-import           Data.Time.ISO8601 (parseISO8601)
-import           FeedUpdater
+import Data.Maybe
+import Data.Text (unpack, pack)
+import Data.Time
+import Data.Time.ISO8601 (parseISO8601)
+import FeedUpdater
 import qualified Mocks.FeedUpdater as M
-import           Test.Hspec
-import           Types
-import           Util
+import Test.Hspec
+import Types
+import Util
 
 main :: IO ()
 main = do
-  bytes <- BL.readFile "test/data/atom1.0.sample5.xml"
+  bytes1 <- BL.readFile "test/data/atom1.0.sample5.xml"
+  bytes2 <- BL.readFile "test/data/atom1.0.sample6.xml"
   now <- getCurrentTime
-  let state = UpdateState (Just now) initFeed initPosts []
-  (_,st) <- runUpdateM (envForUpdate "") state $ processFeed (bytes, M.modified)
-  let updatedState = st
+  let initState1 = UpdateState (Just now) initFeed initPosts []
+      initState2 = UpdateState (Just now) initFeed initPosts []
+  (_, state1) <-
+    runUpdateM (envForUpdate "") initState1 $ processFeed (bytes1, M.modified)
+  (_, state2) <-
+    runUpdateM (envForUpdate "") initState2 $ processFeed (bytes2, M.modified)
   hspec $
     describe "process feeds" $
-    do it "sets the last modified date" $ verifyModified updatedState
-       it "sets the last updated date" $ verifyUpdated updatedState now
-       it "sets the last post date" $ verifyLastPostDate updatedState
-       it "sets the post count" $ verifyLastPostCount updatedState
-       it "sets the feed uri" $ verifyFeedUri updatedState
-       it "sets the read status" $ verifyReadStatus updatedState
-       it "extracts all the new posts" $ verifyNewPostCount updatedState
-       it "formats all dates to ISO8601" $ verifyNewPostDates updatedState
-       it "resets the failed attempts to 0" $ verifyFailedAttempts updatedState
+    do it "sets the last modified date" $ verifyModified state1
+       it "sets the last updated date" $ verifyUpdated state1 now
+       it "sets the last post date" $ verifyLastPostDate state1
+       it "sets the post count" $ verifyLastPostCount state1
+       it "sets the feed uri" $ verifyFeedUri state1
+       it "sets the read status" $ verifyReadStatus state1
+       it "extracts all the new posts" $ verifyNewPostCount state1
+       it "formats all dates to ISO8601" $ verifyNewPostDates state1
+       it "resets the failed attempts to 0" $ verifyFailedAttempts state1
+       it "sets the feed link when populated" $ verifyLinkExisting state1
+       it "sets the feed link to uri when empty" $ verifyLinkEmpty state2
+
+verifyLinkEmpty :: UpdateState -> Expectation
+verifyLinkEmpty state =
+  state ^. updateFeed ^. to feedLink `shouldBe` Just (feedUri M.feed)
+
+verifyLinkExisting :: UpdateState -> Expectation
+verifyLinkExisting state =
+  state ^. updateFeed ^. to feedLink `shouldBe` feedLink M.feed
 
 verifyFailedAttempts :: UpdateState -> Expectation
 verifyFailedAttempts state =

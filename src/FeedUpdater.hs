@@ -1,4 +1,5 @@
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 -- |
 -- Updates a feed
@@ -34,6 +35,7 @@ import qualified Data.Map as Map
 import Data.Maybe
 import qualified Data.Set as Set
 import Data.Text (Text, empty, pack, unpack)
+import qualified Data.Text as T
 import Data.Text.Lazy (toStrict)
 import Data.Text.Lazy.Encoding (decodeUtf8)
 import Data.Time (UTCTime, getCurrentTime)
@@ -232,7 +234,7 @@ processFeed (bytes, modified) = do
     , feedLastPostDate = lastDate <|> feedLastPostDate origFeed
     , feedLastReadDate = formatJsDate <$> time
     , feedLastReadStatus = Just ReadSuccess
-    , feedLink = feedGuid feed <|> feedGuid origFeed <|> Just (feedUri origFeed)
+    , feedLink = checkLink (feedLink feed) <|> Just (feedUri origFeed)
     , feedPostCount = Map.size existing + length nextPosts
     , feedUri = feedUri origFeed
     }
@@ -241,6 +243,11 @@ processFeed (bytes, modified) = do
     sequenceT = fmap fst &&& fmap snd
     maxDate [] = Nothing
     maxDate xs = Just (maximum xs)
+    checkLink Nothing = Nothing
+    checkLink (Just x)
+      | T.null x = Nothing
+      | x == "/" = Nothing
+      | otherwise = Just x
 
 normalizePostDates :: UTCTime -> Post -> (Post, Maybe UTCTime)
 normalizePostDates now post =

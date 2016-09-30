@@ -23,7 +23,7 @@ feed =
       "The extensible, customizable, self-documenting real-time display editor."
   , feedFavicon = Just "https://www.redditstatic.com/icon.png/"
   , feedFormat = Just Atom1
-  , feedGuid = Just "/r/emacs/.rss"
+  , feedGuid = Just "/guid/r/emacs/.rss"
   , feedId = Just "566e6d8b13415194b8df8024"
   , feedImage =
     Just
@@ -40,7 +40,7 @@ feed =
   , feedLastPostDate = Just "2016-09-11T16:36:34.000Z"
   , feedLastReadDate = Just "2016-09-11T16:45:59.567Z"
   , feedLastReadStatus = Just ReadSuccess
-  , feedLink = Just "/r/emacs/.rss"
+  , feedLink = Just "https://www.reddit.com/r/emacs/alt"
   , feedPostCount = 20
   , feedTitle = "M-x emacs-reddit"
   , feedUri = "https://www.reddit.com/r/emacs/.rss"

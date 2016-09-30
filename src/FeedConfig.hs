@@ -54,4 +54,5 @@ feedProcessors =
   , ("https://medium.freecodecamp.com/feed", css "article main")
   , ("https://strongloop.com/feed/", css ".entry-content")
   , ("https://webresourcesdepot.com/feed/", css "article.post")
+  , ("https://zenhack.net/rss.xml", css "article")
   ]

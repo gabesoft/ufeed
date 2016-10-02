@@ -55,7 +55,7 @@ findPost cursor =
   post
   { postAuthor = get findAuthor
   , postDate = get findUpdated
-  , postDescription = get findContent
+  , postDescription = get findContent <|> get findSummary
   , postGuid = fromJust $ get findId
   , postLink = fromJust link
   , postPubdate = get findPublished

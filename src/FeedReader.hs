@@ -12,11 +12,15 @@ import Data.Maybe (fromMaybe, isJust)
 import Data.Text as T (Text, empty)
 import Data.Text.Encoding (decodeLatin1, decodeUtf8, encodeUtf8)
 import Network.Connection
+import Network.HTTP.Client (managerResponseTimeout)
 import Network.HTTP.Client.TLS
 import Network.HTTP.Media
 import Network.HTTP.Types.Header
 import Network.Wreq
 import Types
+
+timeout :: Int
+timeout = 45000000
 
 -- |
 -- Fetch a feed and all its posts that are newer than
@@ -41,7 +45,7 @@ fetchPost uri = try $ extractBody <$> get uri
 
 fetchFeed' :: String -> LastModified -> IO (BL.ByteString, LastModified)
 fetchFeed' uri modified = do
-  res <- getWith (setTlsSettings $ modifiedHeaders defaults modified) uri
+  res <- getWith (setManagerSettings $ modifiedHeaders defaults modified) uri
   let et = res ^? responseHeader hETag
       lm = res ^? responseHeader hLastModified
   return (extractBody res, LastModified (decodeUtf8 <$> et) (decodeUtf8 <$> lm))
@@ -71,8 +75,13 @@ addUserAgent opts =
   [ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.89 Safari/537.36"
   ]
 
-setTlsSettings :: Options -> Options
-setTlsSettings opts = opts & manager .~ Left tlsSettings
+setManagerSettings :: Options -> Options
+setManagerSettings opts =
+  opts & manager .~
+  Left
+    (tlsSettings
+     { managerResponseTimeout = Just timeout
+     })
 
 -- |
 -- Disable certificate checking

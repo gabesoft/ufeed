@@ -32,3 +32,5 @@ update: build
 serve: export RUN_ENV = development
 serve: build
 	stack exec ufeed-server -- 8008 "http://localhost:8006" +RTS -N
+
+.PHONY: release test loc clean

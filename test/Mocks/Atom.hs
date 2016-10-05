@@ -84,7 +84,7 @@ posts =
   [ [ nullPost
       { postAuthor = Nothing
       , postDate = Just "2003-12-13T18:30:02Z"
-      , postDescription = Nothing
+      , postDescription = Just "Some text."
       , postGuid = "urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a"
       , postLink = "http://example.org/2003/12/13/atom03"
       , postPubdate = Nothing

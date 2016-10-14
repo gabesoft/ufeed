@@ -52,9 +52,12 @@ flags: {}
 # Extra package databases containing global packages
 extra-package-dbs: []
 
+nix:
+  enable: true
+  packages: [ bzip2, pkgconfig, zeromq, zlib ]
 
 # Control whether we use the GHC we find on the path
-system-ghc: false
+system-ghc: true
 # 
 # Require a specific version of stack, using version ranges
 # require-stack-version: -any # Default

@@ -14,6 +14,11 @@ nix-shell:
 setup:
 	stack setup
 
+build-nix: export NIX_PATH=$(HOME)/.nix-defexpr/channels
+build-nix:
+	nix-build
+	ls -lA ./result/bin
+
 build: setup
 	stack build
 

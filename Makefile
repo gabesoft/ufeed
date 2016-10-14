@@ -11,13 +11,17 @@ nix-shell: export NIX_PATH=$(HOME)/.nix-defexpr/channels
 nix-shell:
 	nix-shell -p zlib bzip2
 
-setup:
-	stack setup
-
-build-nix: export NIX_PATH=$(HOME)/.nix-defexpr/channels
-build-nix:
+nix-build: export NIX_PATH=$(HOME)/.nix-defexpr/channels
+nix-build:
 	nix-build
 	ls -lA ./result/bin
+
+nix-gen: export NIX_PATH=$(HOME)/.nix-defexpr/channels
+nix-gen:
+	cabal2nix . > ufeed.nix
+
+setup:
+	stack setup
 
 build: setup
 	stack build

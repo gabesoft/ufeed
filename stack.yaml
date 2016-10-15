@@ -54,7 +54,7 @@ extra-package-dbs: []
 
 nix:
   enable: true
-  packages: [ bzip2, pkgconfig, zeromq, zlib ]
+  packages: [ bzip2, pkgconfig, pkgconfig, zlib ]
 
 # Control whether we use the GHC we find on the path
 system-ghc: true

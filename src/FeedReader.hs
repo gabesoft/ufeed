@@ -26,29 +26,32 @@ timeout = 45000000
 -- Fetch a feed and all its posts that are newer than
 -- the specified last modified information
 fetchFeed
-  :: String
-  -> LastModified
-  -> IO (Either SomeException (BL.ByteString, LastModified))
+    :: String
+    -> LastModified
+    -> IO (Either SomeException (BL.ByteString, LastModified))
 fetchFeed uri modified = try (fetchFeed' uri modified)
 
 -- |
 -- Add the last modified headers to the default options
-modifiedHeaders :: Options -> LastModified -> Options
+modifiedHeaders
+    :: Options -> LastModified -> Options
 modifiedHeaders opts modified = foldr step opts (fs <*> [modified])
   where
     fs = [(,) hIfNoneMatch . etag, (,) hIfModifiedSince . lastModified]
-    step (h, v) d = d & header h .~ [(encodeUtf8 . fromMaybe empty) v]
+    step (h,v) d = d & header h .~ [(encodeUtf8 . fromMaybe empty) v]
 
 -- | Fetch the html of a feed entry
-fetchPost :: String -> IO (Either SomeException BL.ByteString)
+fetchPost
+    :: String -> IO (Either SomeException BL.ByteString)
 fetchPost uri = try $ extractBody <$> get uri
 
 fetchFeed' :: String -> LastModified -> IO (BL.ByteString, LastModified)
 fetchFeed' uri modified = do
-  res <- getWith (setManagerSettings $ modifiedHeaders defaults modified) uri
-  let et = res ^? responseHeader hETag
-      lm = res ^? responseHeader hLastModified
-  return (extractBody res, LastModified (decodeUtf8 <$> et) (decodeUtf8 <$> lm))
+    res <- getWith (setManagerSettings $ modifiedHeaders defaults modified) uri
+    let et = res ^? responseHeader hETag
+        lm = res ^? responseHeader hLastModified
+    return
+        (extractBody res, LastModified (decodeUtf8 <$> et) (decodeUtf8 <$> lm))
 
 extractBody :: Response BL.ByteString -> BL.ByteString
 extractBody res
@@ -71,17 +74,16 @@ isLatin1 (Just contentType) = isJust (join $ matchQuality accept <$> quality)
 
 addUserAgent :: Options -> Options
 addUserAgent opts =
-  opts & header hUserAgent .~
-  [ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.89 Safari/537.36"
-  ]
+    opts & header hUserAgent .~
+    [ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.89 Safari/537.36"]
 
 setManagerSettings :: Options -> Options
 setManagerSettings opts =
-  opts & manager .~
-  Left
-    (tlsSettings
-     { managerResponseTimeout = Just timeout
-     })
+    opts & manager .~
+    Left
+        (tlsSettings
+         { managerResponseTimeout = Just timeout
+         })
 
 -- |
 -- Disable certificate checking

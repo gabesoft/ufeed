@@ -1,5 +1,8 @@
-
 TIX := $(shell find . -name "*.tix")
+BIN := $(CURDIR)/result/bin
+API_SERVER = http://localhost:8006
+SERVER_ARGS = 8008 "$(API_SERVER)" +RTS -N
+UPDATE_ARGS =  "$(API_SERVER)" +RTS -N
 
 repl:
 	stack ghci --ghc-options "-package ghci-pretty"
@@ -43,10 +46,14 @@ test-only:
 	stack build --test hapro:$$test
 
 update: build
-	stack exec ufeed-updater -- "http://localhost:8006" +RTS -N
+	stack exec ufeed-updater -- $(UPDATE_ARGS)
 
 serve: export RUN_ENV = development
 serve: build
-	stack exec ufeed-server -- 8008 "http://localhost:8006" +RTS -N
+	stack exec ufeed-server -- $(SERVER_ARGS)
+
+nix-serve: export RUN_ENV = development
+nix-serve: nix-build
+	$(BIN)/ufeed-server $(SERVER_ARGS)
 
 .PHONY: release test loc clean

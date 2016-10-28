@@ -19,8 +19,8 @@ nix-build:
 	nix-build
 	ls -lA ./result/bin
 
-nix-gen: export NIX_PATH=$(HOME)/.nix-defexpr/channels
-nix-gen:
+nix-package: export NIX_PATH=$(HOME)/.nix-defexpr/channels
+nix-package:
 	cabal2nix . > ufeed.nix
 
 setup:

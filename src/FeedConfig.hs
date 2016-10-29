@@ -40,7 +40,7 @@ feedProcessors =
   , ("https://bartoszmilewski.com/feed/", css ".post-content")
   , ("https://benfrain.com/feed", css "article")
   , ("https://blog.openshift.com/feed/", css "main")
-  , ("https://m.signalvnoise.com/feed", css "main article")
+  , ("https://m.signalvnoise.com/feed", css ".postArticle-content")
   , ("https://medium.com/feed/@MrJamesFisher", css "article main")
   , ("https://medium.com/feed/@abhinavchhikara", css "article main")
   , ("https://medium.com/feed/@azerbike", css "article main")

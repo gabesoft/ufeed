@@ -52,7 +52,7 @@ feedProcessors =
   , ("https://medium.com/feed/@kevindeasis", css "article main")
   , ("https://medium.com/feed/@markoxvee", css "article main")
   , ("https://medium.com/feed/@tjholowaychuk", css "article main")
-  , ("https://medium.freecodecamp.com/feed", css "article main")
+  , ("https://medium.freecodecamp.com/feed", css ".postArticle-content")
   , ("https://strongloop.com/feed/", css ".entry-content")
   , ("https://webresourcesdepot.com/feed/", css "article.post")
   , ("https://zenhack.net/rss.xml", css "article")

@@ -47,6 +47,7 @@ feedProcessors =
   , ("https://medium.com/feed/@bantic", css mediumSelector)
   , ("https://medium.com/feed/@dustin", css mediumSelector)
   , ("https://medium.com/feed/@jasonlong", css mediumSelector)
+  , ("https://medium.com/feed/@chetcorcos", css mediumSelector)
   , ("https://medium.com/feed/@joshblack", css mediumSelector)
   , ("https://medium.com/feed/@jtpaasch", css mediumSelector)
   , ("https://medium.com/feed/@kevindeasis", css mediumSelector)
@@ -59,4 +60,4 @@ feedProcessors =
   ]
 
 mediumSelector :: String
-mediumSelector = ".postArticle-content";
+mediumSelector = ".postArticle-content"

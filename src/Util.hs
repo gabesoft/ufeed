@@ -6,7 +6,7 @@ import Control.Exception
 import Data.Text (Text, pack, unpack)
 import Data.Time
 import Data.Time.ISO8601
-import Network.HTTP.Client (HttpException(..))
+import Network.HTTP.Client
 import Network.HTTP.Types
        (status200, status201, status304, status400, status403, status404,
         statusCode, Status)
@@ -37,5 +37,5 @@ notFoundError = errorHasStatus status404
 errorHasStatus :: Status -> SomeException -> Bool
 errorHasStatus st err =
   case (fromException err :: Maybe HttpException) of
-    Just (StatusCodeException status _ _) -> status == st
+    Just (HttpExceptionRequest _ (StatusCodeException r _)) -> responseStatus r == st
     _ -> False

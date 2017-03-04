@@ -12,7 +12,7 @@ import Data.Maybe (fromMaybe, isJust)
 import Data.Text as T (Text, empty)
 import Data.Text.Encoding (decodeLatin1, decodeUtf8, encodeUtf8)
 import Network.Connection
-import Network.HTTP.Client (managerResponseTimeout)
+import Network.HTTP.Client (managerResponseTimeout, responseTimeoutMicro)
 import Network.HTTP.Client.TLS
 import Network.HTTP.Media
 import Network.HTTP.Types.Header
@@ -82,7 +82,7 @@ setManagerSettings opts =
     opts & manager .~
     Left
         (tlsSettings
-         { managerResponseTimeout = Just timeout
+         { managerResponseTimeout = responseTimeoutMicro timeout
          })
 
 -- |

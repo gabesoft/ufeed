@@ -3,12 +3,12 @@
 module Main where
 
 import qualified Api
-import qualified Data.Text as T
-import qualified Data.List as L
 import Control.Concurrent
 import Control.Exception
 import Control.Monad
+import qualified Data.List as L
 import Data.Text (unpack, pack)
+import qualified Data.Text as T
 import Data.Time
 import FeedUpdater
 import System.Environment (getArgs)
@@ -52,7 +52,7 @@ updateFeeds host = do
 
 updateMultipleFeeds :: String -> IO ()
 updateMultipleFeeds host = do
-  results <- Api.fetchFeeds host 0
+  results <- Api.fetchFeeds host
   case results of
     Left e -> do
       putStrLn "Failed to fetch feeds"

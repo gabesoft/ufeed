@@ -1,11 +1,18 @@
 TIX := $(shell find . -name "*.tix")
 BIN := $(CURDIR)/result/bin
+UFEED_PORT = 8008
+
 API_SERVER = http://localhost:8006
-SERVER_ARGS = 8008 "$(API_SERVER)" +RTS -N
+API_SERVER_KAPI = http://localhost:8001
+
+SERVER_ARGS = "$(UFEED_PORT)" "$(API_SERVER)" +RTS -N
 UPDATE_ARGS =  "$(API_SERVER)" +RTS -N
 
+SERVER_ARGS_KAPI = "$(UFEED_PORT)" "$(API_SERVER_KAPI)" +RTS -N
+UPDATE_ARGS_KAPI =  "$(API_SERVER_KAPI)" +RTS -N
+
 repl:
-	stack ghci --ghc-options "-package ghci-pretty"
+	stack ghci --main-is ufeed:exe:ufeed-server
 
 repl-nix: export NIX_PATH=$(HOME)/.nix-defexpr/channels
 repl-nix: repl
@@ -48,9 +55,16 @@ test-only:
 update: build
 	stack exec ufeed-updater -- $(UPDATE_ARGS)
 
+update-kapi: build
+	stack exec ufeed-updater -- $(UPDATE_ARGS_KAPI)
+
 serve: export RUN_ENV = development
 serve: build
 	stack exec ufeed-server -- $(SERVER_ARGS)
+
+serve-kapi: export RUN_ENV = development
+serve-kapi: build
+	stack exec ufeed-server -- $(SERVER_ARGS_KAPI)
 
 nix-serve: export RUN_ENV = development
 nix-serve: nix-build

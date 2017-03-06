@@ -56,9 +56,12 @@ sampleFeeds =
 sampleHost :: String
 sampleHost = "http://localhost:8006"
 
+kapiHost :: String
+kapiHost = "http://localhost:8001"
+
 runUpdate :: Text -> IO (Either SomeException (Feed, [Post]))
 runUpdate url = do
-  maybeFeed <- Api.fetchFeedByUri sampleHost url
+  maybeFeed <- Api.fetchFeedByUri kapiHost url
   case maybeFeed of
     Left e -> return (Left e)
-    Right feed -> update (envForUpdate sampleHost) feed
+    Right feed -> update (envForUpdate kapiHost) feed

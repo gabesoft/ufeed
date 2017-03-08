@@ -138,7 +138,7 @@ fetchFeeds' :: ApiHost -> IO [Feed]
 fetchFeeds' host = (^. responseBody) <$> (getWith opts url >>= asJSON)
   where
     url = host <> "/xandar/feeds"
-    opts = defaults & param "perPage" .~ [pack $ show maxResultsSize]
+    opts = defaults & param "per_page" .~ [pack $ show maxResultsSize]
 
 fetchPosts' :: ApiHost -> Text -> IO [Post]
 fetchPosts' host feedId = (^. responseBody) <$> (getWith opts url >>= asJSON)

@@ -59,6 +59,7 @@ feedProcessors =
   , ("https://subfictional.com/feed/", css "main")
   , ("https://webresourcesdepot.com/feed/", css "article.post")
   , ("https://zenhack.net/rss.xml", css "article")
+  , ("http://ergoemacs.org/emacs/blog.xml", css ".main_38046")
   ]
 
 mediumSelector :: String

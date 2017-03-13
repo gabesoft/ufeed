@@ -2,11 +2,11 @@ TIX := $(shell find . -name "*.tix")
 BIN := $(CURDIR)/result/bin
 UFEED_PORT = 8008
 
-API_SERVER = http://localhost:8006
+API_SERVER_DASK = http://localhost:8006
 API_SERVER_KAPI = http://localhost:8001
 
-SERVER_ARGS = "$(UFEED_PORT)" "$(API_SERVER)" +RTS -N
-UPDATE_ARGS =  "$(API_SERVER)" +RTS -N
+SERVER_ARGS_DASK = "$(UFEED_PORT)" "$(API_SERVER_DASK)" +RTS -N
+UPDATE_ARGS_DASK =  "$(API_SERVER_DASK)" +RTS -N
 
 SERVER_ARGS_KAPI = "$(UFEED_PORT)" "$(API_SERVER_KAPI)" +RTS -N
 UPDATE_ARGS_KAPI =  "$(API_SERVER_KAPI)" +RTS -N
@@ -52,22 +52,22 @@ test:
 test-only:
 	stack build --test hapro:$$test
 
-update: build
-	stack exec ufeed-updater -- $(UPDATE_ARGS)
+update-dask: build
+	stack exec ufeed-updater -- $(UPDATE_ARGS_DASK)
 
-update-kapi: build
+update: build
 	stack exec ufeed-updater -- $(UPDATE_ARGS_KAPI)
+
+serve-dask: export RUN_ENV = development
+serve-dask: build
+	stack exec ufeed-server -- $(SERVER_ARGS_DASK)
 
 serve: export RUN_ENV = development
 serve: build
-	stack exec ufeed-server -- $(SERVER_ARGS)
-
-serve-kapi: export RUN_ENV = development
-serve-kapi: build
 	stack exec ufeed-server -- $(SERVER_ARGS_KAPI)
 
 nix-serve: export RUN_ENV = development
 nix-serve: nix-build
-	$(BIN)/ufeed-server $(SERVER_ARGS)
+	$(BIN)/ufeed-server $(SERVER_ARGS_KAPI)
 
 .PHONY: release test loc clean

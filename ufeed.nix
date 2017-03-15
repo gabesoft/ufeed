@@ -26,6 +26,7 @@ mkDerivation {
     base bytestring containers hspec iso8601-time lens raw-strings-qq
     text time xml-conduit
   ];
+  doHaddock = false;
   homepage = "https://github.com/gabesoft/ufeed#readme";
   description = "Initial project template from stack";
   license = stdenv.lib.licenses.bsd3;

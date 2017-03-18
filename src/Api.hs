@@ -119,7 +119,7 @@ fetchSubscriptions' host feedId =
   where
     url = host <> "/xandar/subscriptions"
     fields = param "include" .~ ["feedId"]
-    query = param "where" .~ ["(feedId eq " <> feedId <> ")"]
+    query = param "where" .~ ["(feedId eq " <> feedId <> ") and (disabled eq false)"]
     opts = defaults & query & fields
 
 fetchFeed' :: ApiHost -> Text -> IO Feed

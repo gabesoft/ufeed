@@ -48,7 +48,7 @@ main = do
   case args of
     p:h:_ -> do
       let port = read p
-      let development = maybe False (== "development") runEnv
+      let development = (== Just "development") runEnv
       let requestLog =
             if development
               then logStdoutDev

@@ -141,13 +141,13 @@ instance FromJSON Feed where
     feedFormat <- o .:? "format"
     feedGenerator <- o .:? "generator"
     feedGuid <- o .:? "guid"
-    feedId <- (o .:? "_id" <|> o .:? "id")
+    feedId <- o .:? "_id" <|> o .:? "id"
     feedImage <- o .:? "image"
     feedLanguage <- o .:? "language"
     feedLastPostDate <- o .:? "lastPostDate"
     feedLastReadDate <- o .:? "lastReadDate"
     feedLastReadStatus <- o .:? "lastReadStatus"
-    feedLink <- o .: "link"
+    feedLink <- o .:? "link"
     feedPostCount <- o .: "postCount"
     feedTitle <- o .: "title"
     feedUri <- o .: "uri"
@@ -186,7 +186,7 @@ instance FromJSON Post where
     postDescription <- o .:? "description"
     postFeedId <- o .:? "feedId"
     postGuid <- fromMaybe empty <$> (o .:? "guid")
-    postId <- (o .:? "_id" <|> o .:? "id")
+    postId <- o .:? "_id" <|> o .:? "id"
     postImage <- o .:? "image"
     postInlineStatus <- o .:? "inlineStatus"
     postLink <- fromMaybe empty <$> (o .:? "link")

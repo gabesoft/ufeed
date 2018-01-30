@@ -126,6 +126,7 @@ test-suite sanitizer
                      , ufeed
                      , hspec
                      , raw-strings-qq
+                     , text >= 1.2
                      , xml-conduit
   other-modules:       Mocks.Sanitizer
                      , TestHelper

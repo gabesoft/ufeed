@@ -11,8 +11,7 @@ main :: IO ()
 main =
   hspec $
   describe "cleans up html" $
-  do it "removes iframes" $ verify iframeInput iframeExpected
-     it "removes script tags" $ verify scriptInput scriptExpected
+  do it "removes script tags" $ verify scriptInput scriptExpected
      it "removes stylesheets" $ verify stylesheetInput stylesheetExpected
      it "removes style tags" $ verify styleInput styleExpected
      it "fixes image urls" $ verify imageInput imageExpected

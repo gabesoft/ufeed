@@ -1,4 +1,4 @@
--- | Html sanitizer
+-- ^ HTML sanitizer
 module Sanitizer
   ( sanitize
   , removeScriptTags
@@ -12,7 +12,7 @@ import FeedConfig
 import qualified Text.HTML.TagSoup.Tree as T
 import Text.XML.HXT.Core
 
--- |
+-- ^
 -- Perform some cleanup on an html text fragment. The cleanup includes
 -- removing script and style tags, making all urls absolute, etc.
 -- Both the feed url and the post base url are required parameters.
@@ -63,7 +63,7 @@ removeEntities
 removeEntities =
   removeByTag "script" >>>
   removeByTag "style" >>>
-  removeByTag "iframe" >>> removeStyleLinks >>> removeEmptyLinks >>> removeShare
+  removeStyleLinks >>> removeEmptyLinks >>> removeShare
 
 removeShare
   :: ArrowXml a

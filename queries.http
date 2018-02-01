@@ -1,0 +1,9 @@
+
+#
+:host = http://127.0.0.1:8008
+
+# Get docs
+GET :host/documentation
+
+# Fetch a feed
+GET :host/feeds?uri=http://feeds.feedburner.com/CssTricks

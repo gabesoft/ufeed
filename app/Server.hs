@@ -127,5 +127,5 @@ $doctype 5
   <body>
     <h4>Feed reader
     <h5>Fetch a feed and it's posts, store and index it, and return it as json
-    <p>/feeds?uri="feed-uri"
+    <p>GET /feeds?uri="feed-uri"
 |]

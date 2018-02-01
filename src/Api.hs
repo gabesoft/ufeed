@@ -29,6 +29,18 @@ instance Exception SearchException
 maxResultsSize :: Int
 maxResultsSize = 1048576
 
+feedsPath :: String
+feedsPath = "/feeds"
+
+postsPath :: String
+postsPath = "/posts"
+
+userPostsPath :: String
+userPostsPath = "/user-posts"
+
+subscriptionsPath :: String
+subscriptionsPath = "/subscriptions"
+
 -- ^
 -- Get all subscriptions for a feed
 fetchSubscriptions :: ApiHost
@@ -90,14 +102,14 @@ fetchFeedByUri host uri = do
 -- ^
 -- Save a new feed
 postFeed :: ApiHost -> Feed -> IO Feed
-postFeed host = saveFeed' post (host ++ "/xandar/feeds")
+postFeed host = saveFeed' post (host ++ feedsPath)
 
 -- ^
 -- Update an existing feed
 patchFeed :: ApiHost -> Feed -> IO Feed
 patchFeed host feed = saveFeed' (customPayloadMethod "PATCH") url feed
   where
-    url = host <> "/xandar/feeds/" <> (unpack . fromJust) (feedId feed)
+    url = host <> feedsPath <> "/" <> (unpack . fromJust) (feedId feed)
 
 saveFeed' :: (String -> Value -> IO (Response ByteString))
           -> String
@@ -111,13 +123,13 @@ savePosts' host posts = do
   saved <- (^. responseBody) <$> (post url (toJSON posts) >>= asJSON)
   return $ filter (isJust . postId) saved
   where
-    url = host <> "/xandar/posts"
+    url = host <> postsPath
 
 fetchSubscriptions' :: ApiHost -> Text -> IO [FeedSubscription]
 fetchSubscriptions' host feedId =
   (^. responseBody) <$> (getWith opts url >>= asJSON)
   where
-    url = host <> "/xandar/subscriptions"
+    url = host <> subscriptionsPath
     fields = param "include" .~ ["feedId"]
     query = param "where" .~ ["(feedId eq " <> feedId <> ") and (disabled eq false)"]
     opts = defaults & query & fields
@@ -125,25 +137,25 @@ fetchSubscriptions' host feedId =
 fetchFeed' :: ApiHost -> Text -> IO Feed
 fetchFeed' host feedId = (^. responseBody) <$> (get url >>= asJSON)
   where
-    url = host <> "/xandar/feeds/" <> unpack feedId
+    url = host <> feedsPath <> "/" <> unpack feedId
 
 fetchFeedByUri' :: ApiHost -> Text -> IO [Feed]
 fetchFeedByUri' host uri = (^. responseBody) <$> (getWith opts url >>= asJSON)
   where
-    url = host <> "/xandar/feeds"
+    url = host <> feedsPath
     query = param "where" .~ ["(uri eq '" <> uri <> "')"]
     opts = defaults & query
 
 fetchFeeds' :: ApiHost -> IO [Feed]
 fetchFeeds' host = (^. responseBody) <$> (getWith opts url >>= asJSON)
   where
-    url = host <> "/xandar/feeds"
+    url = host <> feedsPath
     opts = defaults & param "per_page" .~ [pack $ show maxResultsSize]
 
 fetchPosts' :: ApiHost -> Text -> IO [Post]
 fetchPosts' host feedId = (^. responseBody) <$> (getWith opts url >>= asJSON)
   where
-    url = host <> "/xandar/posts"
+    url = host <> postsPath
     fields = param "include" .~ ["guid", "date", "link"]
     perPage = param "per_page" .~ [pack $ show maxResultsSize]
     query = param "where" .~ ["(feedId eq " <> feedId <> ")"]
@@ -152,7 +164,7 @@ fetchPosts' host feedId = (^. responseBody) <$> (getWith opts url >>= asJSON)
 indexPosts' :: ApiHost -> [Post] -> Bool -> FeedSubscription -> IO ()
 indexPosts' host posts readFlag subscription = void $ post url (toJSON args)
   where
-    url = host <> "/xandar/user-posts"
+    url = host <> userPostsPath
     ids = fromJust . postId <$> posts
     subId = subscriptionId subscription
     args = UserPost subId readFlag <$> ids
